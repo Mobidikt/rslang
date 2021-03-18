@@ -5,7 +5,6 @@ import { Outlet } from 'react-router-dom'
 const { Content } = Layout
 
 const DefaultLayout: React.FC = () => {
-
   return (
     <Layout className="default-layout">
       <Content className="app-content">
