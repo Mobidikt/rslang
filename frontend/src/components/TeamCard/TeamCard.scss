@@ -1,0 +1,10 @@
+.developer {
+    display: flex;
+    &__photo {
+        border-radius: 50%;
+        height: 205px ;
+        width: 205px;
+        object-fit: cover;
+        margin-right: 30px;
+    }
+}
