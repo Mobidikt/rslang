@@ -1,0 +1,11 @@
+.team {
+    padding: 100px 0;
+    &__wrapper{
+        width: 85%;
+        margin: 0 auto;
+    }
+    &__title {
+        margin: 0 0 70px;
+        text-align: center;
+    }
+}
