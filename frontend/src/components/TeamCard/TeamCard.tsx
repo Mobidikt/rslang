@@ -1,21 +1,20 @@
 import React from 'react'
 import './TeamCard.scss'
+import { TeamCardProps } from './TeamCardType'
 
-const info =
-  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
-
-const TeamCard: React.FC = () => {
+const TeamCard: React.FC<TeamCardProps> = ({ member }) => {
   return (
     <article className="developer">
-      <img
-        className="developer__photo"
-        src="https://dogcatdog.ru/wp-content/uploads/e/8/6/e866fd3696194ac57409ea72eb8a7b66.jpe"
-        alt="#"
-      />
+      <img className="developer__photo" src={member.photo} alt={member.name} />
       <div className="developer__info">
-        <h3 className="developer__name">Name</h3>
-        <p className="developer__profession">Web-developer</p>
-        <p className="developer__info">{info}</p>
+        <div className="developer__bar">
+          <h3 className="developer__name">{member.name}</h3>
+          <a target="_blank" rel="noopener noreferrer" href={member.git}>
+            <i className="developer__link_git" />
+          </a>
+        </div>
+        <p className="developer__profession">{member.profession}</p>
+        <p className="developer__info">{member.info}</p>
       </div>
     </article>
   )

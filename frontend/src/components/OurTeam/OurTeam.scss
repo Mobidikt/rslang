@@ -1,11 +1,23 @@
 .team {
     padding: 100px 0;
     &__wrapper{
-        width: 85%;
+        width: 90%;
         margin: 0 auto;
     }
     &__title {
         margin: 0 0 70px;
         text-align: center;
     }
+    &__developers{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
 }
+@media (max-width: 876px) {
+    .team {
+        &__developers{
+            flex-direction: column;
+        }
+    }
+  }
