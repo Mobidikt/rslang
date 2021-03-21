@@ -1,11 +1,12 @@
 import React from 'react'
+import Header from '../../components/Header/Header'
 import OurTeam from '../../components/OurTeam/OurTeam'
 import './Main.scss'
 
 const Main: React.FC = () => {
   return (
     <div className="main">
-      <h1>Learn an English</h1>
+      <Header />
       <OurTeam />
     </div>
   )
