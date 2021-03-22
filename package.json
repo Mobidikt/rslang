@@ -1,0 +1,23 @@
+{
+  "name": "rslang",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "concurrently \"cd ./backend && npm run start:dev\" \"cd ./frontend && npm run start\"",
+    "install": "concurrently \"cd ./backend && npm install\" \"cd ./frontend && npm install\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mobidikt/rslang.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Mobidikt/rslang/issues"
+  },
+  "homepage": "https://github.com/Mobidikt/rslang#readme",
+  "devDependencies": {
+    "concurrently": "^6.0.0"
+  }
+}
