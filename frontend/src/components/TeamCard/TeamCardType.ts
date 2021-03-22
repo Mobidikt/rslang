@@ -5,5 +5,5 @@ export type TeamCardProps = {
     profession: string,
     info: string,
     git: string,
-  }
+  },
 }
