@@ -27,15 +27,15 @@ const routes: PartialRouteObject[] = [
       {
         path: '/rslang/dictionary',
         element: <DictionaryPage />,
-      },      
+      },
       {
         path: '/rslang/settings',
         element: <SettingsPage />,
-      },      
+      },
       {
         path: '/rslang/statistics',
         element: <StatisticsPage />,
-      },      
+      },
       {
         path: '/rslang/tutorial',
         element: <TutorialPage />,
