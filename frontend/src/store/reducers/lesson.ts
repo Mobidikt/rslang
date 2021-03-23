@@ -56,6 +56,29 @@ const reducer = (state: LessonState = initialState, action: LessonAction): Lesso
       }
     }
 
+    case LessonActionTypes.REQUESTED_WORD: {
+      return {
+        ...state,
+        isLoading: true,
+      }
+    }
+
+    case LessonActionTypes.REQUESTED_WORD_SUCCESSED: {
+      return {
+        ...state,
+        isLoading: false,
+        currentWord: action.payload,
+      }
+    }
+
+    case LessonActionTypes.REQUESTED_WORD_FAILED: {
+      return {
+        ...state,
+        isLoading: false,
+        error: action.payload,
+      }
+    }
+
     default:
       return state
   }

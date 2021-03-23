@@ -9,7 +9,8 @@ import StatisticsPage from '../pages/Statistics/Statistics'
 import SettingsPage from '../pages/Settings/Settings'
 import DictionaryPage from '../pages/Dictionary/Dictionary'
 import TutorialPage from '../pages/Tutorial/Tutorial'
-import WordPage from '../pages/Words/Words'
+import WordsPage from '../pages/Words/Words'
+import WordPage from '../pages/Word/Word'
 
 const routes: PartialRouteObject[] = [
   {
@@ -21,19 +22,19 @@ const routes: PartialRouteObject[] = [
         element: <MainPage />,
       },
       {
-        path: '/rslang/games',
+        path: '/games',
         element: <GamesPage />,
       },
       {
-        path: '/rslang/dictionary',
+        path: '/dictionary',
         element: <DictionaryPage />,
       },
       {
-        path: '/rslang/settings',
+        path: '/settings',
         element: <SettingsPage />,
       },
       {
-        path: '/rslang/statistics',
+        path: '/statistics',
         element: <StatisticsPage />,
       },
       {
@@ -42,6 +43,10 @@ const routes: PartialRouteObject[] = [
       },
       {
         path: '/tutorial/:groupId',
+        element: <WordsPage />,
+      },
+      {
+        path: '/tutorial/:groupId/:id',
         element: <WordPage />,
       },
       {

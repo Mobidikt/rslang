@@ -37,6 +37,10 @@ export enum LessonActionTypes {
   REQUESTED_WORDS = 'LESSON/REQUESTED_WORDS',
   REQUESTED_WORDS_SUCCESSED = 'LESSON/REQUESTED_WORDS_SUCCESSED',
   REQUESTED_WORDS_FAILED = 'LESSON/REQUESTED_WORDS_FAILED',
+  FETCH_WORD = 'LESSON/FETCH_WORD',
+  REQUESTED_WORD = 'LESSON/REQUESTED_WORD',
+  REQUESTED_WORD_SUCCESSED = 'LESSON/REQUESTED_WORD_SUCCESSED',
+  REQUESTED_WORD_FAILED = 'LESSON/REQUESTED_WORD_FAILED',
 }
 
 export type SetCurrentPageAction = {
@@ -68,6 +72,25 @@ export type RequestedWordsFailedAction = {
   payload: string,
 }
 
+export type FetchWordAction = {
+  type: LessonActionTypes.FETCH_WORD,
+  payload: string,
+}
+
+export type RequestedWordAction = {
+  type: LessonActionTypes.REQUESTED_WORD,
+}
+
+export type RequestedWordSuccessedAction = {
+  type: LessonActionTypes.REQUESTED_WORD_SUCCESSED,
+  payload: WordType,
+}
+
+export type RequestedWordFailedAction = {
+  type: LessonActionTypes.REQUESTED_WORD_FAILED,
+  payload: string,
+}
+
 export type LessonAction =
   | SetCurrentPageAction
   | SetCurrentGroupAction
@@ -75,3 +98,7 @@ export type LessonAction =
   | RequestedWordsAction
   | RequestedWordsSuccessedAction
   | RequestedWordsFailedAction
+  | FetchWordAction
+  | RequestedWordAction
+  | RequestedWordSuccessedAction
+  | RequestedWordFailedAction

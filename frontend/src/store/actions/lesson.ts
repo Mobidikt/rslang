@@ -29,6 +29,25 @@ const requestedWordsFailed = (error: string): LessonAction => ({
   payload: error,
 })
 
+const fetchWord = (id: string): LessonAction => ({
+  type: LessonActionTypes.FETCH_WORD,
+  payload: id,
+})
+
+const requestedWord = (): LessonAction => ({
+  type: LessonActionTypes.REQUESTED_WORD,
+})
+
+const requestedWordSuccessed = (word: WordType): LessonAction => ({
+  type: LessonActionTypes.REQUESTED_WORD_SUCCESSED,
+  payload: word,
+})
+
+const requestedWordFailed = (error: string): LessonAction => ({
+  type: LessonActionTypes.REQUESTED_WORD_FAILED,
+  payload: error,
+})
+
 export default {
   setCurrentPage,
   setCurrentGroup,
@@ -36,4 +55,8 @@ export default {
   requestedWords,
   requestedWordsSuccessed,
   requestedWordsFailed,
+  fetchWord,
+  requestedWord,
+  requestedWordSuccessed,
+  requestedWordFailed,
 }
