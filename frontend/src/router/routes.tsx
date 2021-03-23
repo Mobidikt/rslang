@@ -10,6 +10,10 @@ import SettingsPage from '../pages/Settings/Settings'
 import DictionaryPage from '../pages/Dictionary/Dictionary'
 import TutorialPage from '../pages/Tutorial/Tutorial'
 import WordPage from '../pages/Words/Words'
+import SprintGamePage from '../pages/SprintGamePage/SprintGamePage'
+import SavannaGamePage from '../pages/SavannaGamePage/SavannaGamePage'
+import OurGamePage from '../pages/OurGamePage/OurGamePage'
+import CallGamePage from '../pages/CallGamePage/CallGamePage'
 
 const routes: PartialRouteObject[] = [
   {
@@ -17,23 +21,39 @@ const routes: PartialRouteObject[] = [
     element: <DefaultLayout />,
     children: [
       {
-        path: '/rslang',
+        path: '/',
         element: <MainPage />,
       },
       {
-        path: '/rslang/games',
+        path: '/games',
         element: <GamesPage />,
       },
       {
-        path: '/rslang/dictionary',
+        path: '/games/sprint',
+        element: <SprintGamePage />,
+      },
+      {
+        path: '/games/savanna',
+        element: <SavannaGamePage />,
+      },
+      {
+        path: '/games/our-game',
+        element: <OurGamePage />,
+      },
+      {
+        path: '/games/call',
+        element: <CallGamePage />,
+      },
+      {
+        path: '/dictionary',
         element: <DictionaryPage />,
       },
       {
-        path: '/rslang/settings',
+        path: '/settings',
         element: <SettingsPage />,
       },
       {
-        path: '/rslang/statistics',
+        path: '/statistics',
         element: <StatisticsPage />,
       },
       {
@@ -43,10 +63,6 @@ const routes: PartialRouteObject[] = [
       {
         path: '/tutorial/:groupId',
         element: <WordPage />,
-      },
-      {
-        path: '/',
-        element: <Navigate to="/rslang" />,
       },
     ],
   },
