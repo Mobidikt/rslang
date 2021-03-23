@@ -1,11 +1,11 @@
 import { LessonAction, LessonActionTypes, WordType } from '../types/lesson'
 
-const setCurrenctPage = (page: number): LessonAction => ({
+const setCurrentPage = (page: number): LessonAction => ({
   type: LessonActionTypes.SET_CURRENT_PAGE,
   payload: page,
 })
 
-const setCurrenctGroup = (group: number): LessonAction => ({
+const setCurrentGroup = (group: number): LessonAction => ({
   type: LessonActionTypes.SET_CURRENT_GROUP,
   payload: group,
 })
@@ -30,8 +30,8 @@ const requestedWordsFailed = (error: string): LessonAction => ({
 })
 
 export default {
-  setCurrenctPage,
-  setCurrenctGroup,
+  setCurrentPage,
+  setCurrentGroup,
   fetchWords,
   requestedWords,
   requestedWordsSuccessed,

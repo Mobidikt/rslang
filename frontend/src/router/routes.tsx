@@ -9,7 +9,7 @@ import StatisticsPage from '../pages/Statistics/Statistics'
 import SettingsPage from '../pages/Settings/Settings'
 import DictionaryPage from '../pages/Dictionary/Dictionary'
 import TutorialPage from '../pages/Tutorial/Tutorial'
-import WordPage from '../pages/Word/Word'
+import WordPage from '../pages/Words/Words'
 
 const routes: PartialRouteObject[] = [
   {

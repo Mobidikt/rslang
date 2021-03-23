@@ -21,10 +21,10 @@ type LessonType = {
 }
 
 export interface LessonState {
-  words: Array<WordType> | null;
+  words: Array<WordType>;
   lessons: Array<LessonType>;
   currentGroup: number | null;
-  currentPage: number | null;
+  currentPage: number;
   currentWord: WordType | null;
   isLoading: boolean;
   error: string | null;

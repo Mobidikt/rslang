@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Card } from 'antd'
 import './LessonCard.scss'
 import { useNavigate } from 'react-router-dom'
