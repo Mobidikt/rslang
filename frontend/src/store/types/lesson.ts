@@ -15,9 +15,14 @@ export type WordType = {
   textExampleTranslate: string,
 }
 
+type LessonType = {
+  title: string,
+  color: string,
+}
+
 export interface LessonState {
   words: Array<WordType> | null;
-  countLessons: number;
+  lessons: Array<LessonType>;
   currentGroup: number | null;
   currentPage: number | null;
   currentWord: WordType | null;

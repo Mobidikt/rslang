@@ -37,11 +37,11 @@ const routes: PartialRouteObject[] = [
         element: <StatisticsPage />,
       },
       {
-        path: '/rslang/tutorial',
+        path: '/tutorial',
         element: <TutorialPage />,
       },
       {
-        path: '/rslang/tutorial/:id',
+        path: '/tutorial/:groupId',
         element: <WordPage />,
       },
       {

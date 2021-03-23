@@ -1,0 +1,11 @@
+.lesson__card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-basis: 25%;
+  height: 170px ;
+  margin: 5px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 20px;
+}

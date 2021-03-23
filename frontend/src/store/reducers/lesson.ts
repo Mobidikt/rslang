@@ -2,7 +2,14 @@ import { LessonAction, LessonState, LessonActionTypes } from '../types/lesson'
 
 const initialState: LessonState = {
   words: null,
-  countLessons: 6,
+  lessons: [
+    { title: 'lesson 1', color: '#E9FF70' },
+    { title: 'lesson 2', color: '#FFD670' },
+    { title: 'lesson 3', color: '#FF9770' },
+    { title: 'lesson 4', color: '#FF70A6' },
+    { title: 'lesson 5', color: '#70D6FF' },
+    { title: 'lesson 6', color: '#C1FF9B' },
+  ],
   currentGroup: null,
   currentPage: null,
   currentWord: null,
