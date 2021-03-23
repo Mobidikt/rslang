@@ -1,0 +1,40 @@
+.settings {
+  padding: 100px 0;
+  h1 {
+    text-align: center;
+    color: #483d8b;
+    font-weight: bold;
+  }
+  &__inner {
+    display: flex;
+    justify-content: center;
+  }
+  &__box {
+    &:first-child {
+      margin-right: 40px;
+    }
+    h3 {
+      color: #939ba5;
+      font-weight: bold;
+    }
+    &_checkbox {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .settings {
+    &__inner {
+      flex-direction: column;
+    }
+    &__box {
+      &:first-child {
+        margin: 0 auto;
+      }
+      width: 300px;
+      margin: 0 auto;
+    }
+  }
+}
