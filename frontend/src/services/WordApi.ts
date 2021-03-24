@@ -24,7 +24,31 @@ const getById = async (id: string) => {
   return data
 }
 
+const save = async (userId: string, wordId: string) => {
+  const data = await axios.post(`${config.API_URL}/users/${userId}/words/${wordId}`, {
+    difficulty: 'learned',
+  })
+  return data
+}
+
+const remove = async (userId: string, wordId: string) => {
+  const data = await axios.put(`${config.API_URL}/users/${userId}/words/${wordId}`, {
+    difficulty: 'deleted',
+  })
+  return data
+}
+
+const update = async (userId: string, wordId: string, difficulty: 'learned' | 'difficult') => {
+  const data = await axios.put(`${config.API_URL}/users/${userId}/words/${wordId}`, {
+    difficulty,
+  })
+  return data
+}
+
 export default {
   getByGroupAndPage,
   getById,
+  save,
+  remove,
+  update,
 }
