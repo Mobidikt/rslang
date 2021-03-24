@@ -1,12 +1,17 @@
 import React from 'react'
+import Footer from '../../components/Footer/Footer'
+import HeaderMain from '../../components/HeaderMain/HeaderMain'
+import Lead from '../../components/Lead/Lead'
 import OurTeam from '../../components/OurTeam/OurTeam'
 import './Main.scss'
 
 const Main: React.FC = () => {
   return (
     <div className="main">
-      <h1>Learn an English</h1>
+      <HeaderMain />
+      <Lead />
       <OurTeam />
+      <Footer />
     </div>
   )
 }

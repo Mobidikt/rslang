@@ -31,7 +31,7 @@ const Bar: React.FC = () => {
           key="/"
           icon={<FileTextOutlined />}
           onClick={() => {
-            navigate('/')
+            navigate('/welcome')
             setSelectedSection('Rslang')
           }}
         >
