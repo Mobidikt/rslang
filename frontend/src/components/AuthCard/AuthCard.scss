@@ -1,0 +1,17 @@
+.modal {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  button {
+    padding: 0;
+    margin-left: 4px;
+  }
+}

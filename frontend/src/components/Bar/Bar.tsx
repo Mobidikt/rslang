@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { Layout, Menu, Typography } from 'antd'
-import { useLocation, useNavigate, useParams } from 'react-router'
+import { Layout, Menu } from 'antd'
+import { useLocation, useNavigate } from 'react-router'
 import {
   FileTextOutlined,
   SettingOutlined,
@@ -8,10 +8,11 @@ import {
   DribbbleOutlined,
   WalletOutlined,
 } from '@ant-design/icons'
+import './Bar.scss'
 
 const { Sider } = Layout
 
-const Bar = () => {
+const Bar: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false)
   const location = useLocation().pathname
   const navigate = useNavigate()
@@ -22,7 +23,7 @@ const Bar = () => {
   return (
     <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
       <div className="logo" />
-      <Menu theme="dark" defaultSelectedKeys={[`${location}`]} mode="inline">
+      <Menu className="menu" defaultSelectedKeys={[`${location}`]} mode="inline">
         <Menu.Item
           className="bar__link"
           key="/"
@@ -32,6 +33,7 @@ const Bar = () => {
           Rslang
         </Menu.Item>
         <Menu.Item
+          className="bar__link"
           key="/tutorial"
           icon={<FileTextOutlined />}
           onClick={() => navigate('/tutorial')}
@@ -39,23 +41,35 @@ const Bar = () => {
           Tutorial
         </Menu.Item>
         <Menu.Item
+          className="bar__link"
           key="/dictionary"
           icon={<WalletOutlined />}
           onClick={() => navigate('/dictionary')}
         >
           Dictionary
         </Menu.Item>
-        <Menu.Item key="/games" icon={<DribbbleOutlined />} onClick={() => navigate('/games')}>
+        <Menu.Item
+          className="bar__link"
+          key="/games"
+          icon={<DribbbleOutlined />}
+          onClick={() => navigate('/games')}
+        >
           Games
         </Menu.Item>
         <Menu.Item
+          className="bar__link"
           key="/statistics"
           icon={<BarChartOutlined />}
           onClick={() => navigate('/statistics')}
         >
           Statistics
         </Menu.Item>
-        <Menu.Item key="/settings" icon={<SettingOutlined />} onClick={() => navigate('/settings')}>
+        <Menu.Item
+          className="bar__link"
+          key="/settings"
+          icon={<SettingOutlined />}
+          onClick={() => navigate('/settings')}
+        >
           Settings
         </Menu.Item>
       </Menu>

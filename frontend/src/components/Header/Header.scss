@@ -1,0 +1,24 @@
+.header {
+  // background: white;
+  background: #23262c;
+  color: white;
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 20px;
+  align-items: center;
+}
+
+.header__sectionName {
+  color: white !important;
+  margin: 0;
+  font-size: 28px !important;
+}
+
+.logout {
+  margin-left: 10px;
+}
+
+.btn {
+  border-radius: 10px;
+}

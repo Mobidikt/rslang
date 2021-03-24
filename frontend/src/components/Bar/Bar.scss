@@ -1,14 +1,33 @@
 .bar__link{
-    font-family: 'Nunito';
-    font-style: normal;
-    font-weight: normal;
-    font-size: 36px;
-    line-height: 49px;
-    display: flex;
-    align-items: center;
-    text-align: center;
-    letter-spacing: 0.02em;
+    // font-family: 'Nunito';
+    // font-style: normal;
+    // font-weight: normal;
+    // font-size: 36px;
+    // line-height: 49px;
+    // display: flex;
+    // align-items: center;
+    // text-align: center;
+    // letter-spacing: 0.02em;
+    color: white;
 }
 .ant-menu-item-selected {
-    font-size: 36px;
+    background: #1890ff !important;
+}
+
+.logo {
+    margin-top: 60px;
+}
+
+.ant-layout-sider-children {
+    background: #282C34;
+}
+
+.ant-layout-sider-trigger {
+    background: #282C34;
+}
+
+.menu {
+    background: #282C34;
+    width: 99%;
+    border-right: none;
 }
