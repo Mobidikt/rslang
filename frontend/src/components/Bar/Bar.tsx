@@ -9,11 +9,13 @@ import {
   WalletOutlined,
 } from '@ant-design/icons'
 import './Bar.scss'
+import useActions from '../../hooks/useActions'
 
 const { Sider } = Layout
 
 const Bar: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false)
+  const { setSelectedSection } = useActions()
   const location = useLocation().pathname
   const navigate = useNavigate()
   const onCollapse = () => {
@@ -28,7 +30,10 @@ const Bar: React.FC = () => {
           className="bar__link"
           key="/"
           icon={<FileTextOutlined />}
-          onClick={() => navigate('/')}
+          onClick={() => {
+            navigate('/')
+            setSelectedSection('Rslang')
+          }}
         >
           Rslang
         </Menu.Item>
@@ -36,7 +41,10 @@ const Bar: React.FC = () => {
           className="bar__link"
           key="/tutorial"
           icon={<FileTextOutlined />}
-          onClick={() => navigate('/tutorial')}
+          onClick={() => {
+            navigate('/tutorial')
+            setSelectedSection('Tutorial')
+          }}
         >
           Tutorial
         </Menu.Item>
@@ -44,7 +52,10 @@ const Bar: React.FC = () => {
           className="bar__link"
           key="/dictionary"
           icon={<WalletOutlined />}
-          onClick={() => navigate('/dictionary')}
+          onClick={() => {
+            navigate('/dictionary')
+            setSelectedSection('Dictionary')
+          }}
         >
           Dictionary
         </Menu.Item>
@@ -52,7 +63,10 @@ const Bar: React.FC = () => {
           className="bar__link"
           key="/games"
           icon={<DribbbleOutlined />}
-          onClick={() => navigate('/games')}
+          onClick={() => {
+            navigate('/games')
+            setSelectedSection('Games')
+          }}
         >
           Games
         </Menu.Item>
@@ -60,7 +74,10 @@ const Bar: React.FC = () => {
           className="bar__link"
           key="/statistics"
           icon={<BarChartOutlined />}
-          onClick={() => navigate('/statistics')}
+          onClick={() => {
+            navigate('/statistics')
+            setSelectedSection('Statistics')
+          }}
         >
           Statistics
         </Menu.Item>
@@ -68,7 +85,10 @@ const Bar: React.FC = () => {
           className="bar__link"
           key="/settings"
           icon={<SettingOutlined />}
-          onClick={() => navigate('/settings')}
+          onClick={() => {
+            navigate('/settings')
+            setSelectedSection('Settings')
+          }}
         >
           Settings
         </Menu.Item>
