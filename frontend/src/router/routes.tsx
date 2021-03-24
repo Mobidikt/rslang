@@ -20,13 +20,13 @@ import CallGamePage from '../pages/CallGamePage/CallGamePage'
 
 const routes: PartialRouteObject[] = [
   {
+    path: '/welcome',
+    element: <MainPage />,
+  },
+  {
     path: '/',
     element: <DefaultLayout />,
     children: [
-      {
-        path: '/',
-        element: <MainPage />,
-      },
       {
         path: '/games',
         element: <GamesPage />,
@@ -70,6 +70,10 @@ const routes: PartialRouteObject[] = [
       {
         path: '/tutorial/:groupId/:id',
         element: <WordPage />,
+      },
+      {
+        path: '/',
+        element: <Navigate to="/welcome" />,
       },
     ],
   },
