@@ -1,7 +1,6 @@
 import React from 'react'
 import { Button } from 'antd'
 import './HeaderMain.scss'
-import { useNavigate } from 'react-router'
 import useActions from '../../hooks/useActions'
 import AuthCard from '../AuthCard/AuthCard'
 import useTypedSelector from '../../hooks/useTypedSelector'
@@ -9,8 +8,6 @@ import useTypedSelector from '../../hooks/useTypedSelector'
 const HeaderMain: React.FC = () => {
   const { setIsVisibleAuthCard, logout } = useActions()
   const { token, username } = useTypedSelector((state) => state.authReducer)
-  const { selectedSection } = useTypedSelector((state) => state.appReducer)
-  const navigate = useNavigate()
   return (
     <>
       <header className="header-main">
@@ -30,7 +27,6 @@ const HeaderMain: React.FC = () => {
           )}
         </div>
       </header>
-      <Button onClick={() => navigate('/tutorial')}>START NOW</Button>
       <AuthCard />
     </>
   )

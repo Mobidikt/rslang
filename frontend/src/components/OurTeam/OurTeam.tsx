@@ -5,7 +5,7 @@ import teams from '../../assets/info-team/info-team'
 
 const OurTeam: React.FC = () => {
   return (
-    <div className="team">
+    <section className="team">
       <div className="team__wrapper">
         <h2 className="team__title">Our team</h2>
         <div className="team__developers">
@@ -14,7 +14,7 @@ const OurTeam: React.FC = () => {
           ))}
         </div>
       </div>
-    </div>
+    </section>
   )
 }
 
