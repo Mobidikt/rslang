@@ -1,6 +1,5 @@
 import { WordType } from './lesson'
 
-
 export interface DictionaryState {
   userWords: Array<WordType>;
   userWordsMode: string;
