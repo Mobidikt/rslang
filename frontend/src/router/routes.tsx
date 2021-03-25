@@ -36,7 +36,7 @@ const routes: PartialRouteObject[] = [
         element: <SprintGamePage />,
       },
       {
-        path: '/games/savanna',
+        path: '/games/savannah',
         element: <SavannaGamePage />,
       },
       {

@@ -1,0 +1,19 @@
+.games {
+    margin-top: 50px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+}
+  .games__card {
+    cursor: pointer;
+    width: 240px;
+    margin: 20px;
+    background: transparent;
+    text-align: center;
+  
+    &:hover {
+      transform: scale(1.1);
+      transition: all 0.9s;
+    }
+}
