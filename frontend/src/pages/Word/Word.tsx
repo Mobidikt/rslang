@@ -9,8 +9,16 @@ import './Word.scss'
 
 const Word: React.FC = () => {
   const { groupId, id } = useParams()
-  const { fetchWord } = useActions()
-  const { currentWord, isLoading } = useTypedSelector((state) => state.lessonReducer)
+  const { fetchWord, addWord, setCurrentWordIsDifficult } = useActions()
+  const { currentWord, isLoading, currentWordIsDifficult } = useTypedSelector(
+    (state) => state.lessonReducer,
+  )
+  const { userId } = useTypedSelector((state) => state.authReducer)
+  const { difficultWords, userWords } = useTypedSelector((state) => state.dictionaryReducer)
+
+  const isInUserWords = (wordId: string) => {
+    return !!userWords.find((el) => el._id === wordId)
+  }
 
   const textMeaningRef = useRef<HTMLParagraphElement>(null)
   const textExampleRef = useRef<HTMLParagraphElement>(null)
@@ -19,6 +27,11 @@ const Word: React.FC = () => {
     fetchWord(id)
     // eslint-disable-next-line
   }, [id])
+
+  useEffect(() => {
+    setCurrentWordIsDifficult(!!difficultWords.find((el) => el._id === id))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [difficultWords])
 
   useEffect(() => {
     if (textExampleRef.current) {
@@ -30,6 +43,16 @@ const Word: React.FC = () => {
     }
   }, [currentWord])
 
+  const addWordToDictionary = () => {
+    if (currentWord) {
+      if (isInUserWords(id)) {
+        console.log('update')
+      } else {
+        addWord(userId || '', id, currentWord, 'difficult')
+      }
+    }
+  }
+
   const playSound = (path: string) => {
     const audio = new Audio(`${config.API_URL}/${path}`)
     audio
@@ -38,10 +61,8 @@ const Word: React.FC = () => {
       .catch((err) => console.log(err))
   }
 
-  if (isLoading) return <Spin />
-
-  return (
-    <div className="word">
+  const WordJSX = (
+    <>
       <Link to={`/tutorial/${groupId}`}>
         <Button className="back_btn" shape="circle" icon={<ArrowLeftOutlined />} />
       </Link>
@@ -88,13 +109,19 @@ const Word: React.FC = () => {
         </div>
       </div>
       <div className="word-buttons">
-        <Button type="primary" className="word-buttons__btn">
-          Добавить в сложные
+        <Button
+          type="primary"
+          size="large"
+          className="word-buttons__btn"
+          onClick={addWordToDictionary}
+        >
+          {currentWordIsDifficult ? 'Убрать из сложных' : 'Добавить в сложные'}
         </Button>
-        <Button type="primary">Удалить</Button>
       </div>
-    </div>
+    </>
   )
+
+  return <div className="word">{isLoading ? <Spin size="large" /> : WordJSX}</div>
 }
 
 export default Word

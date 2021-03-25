@@ -1,5 +1,6 @@
 import axios from 'axios'
 import config from '../config'
+import { WordAgregationType } from '../store/types/dictionary'
 import { WordType } from '../store/types/lesson'
 
 type GetByGroupAndPageResponseType = {
@@ -10,6 +11,16 @@ type GetByGroupAndPageResponseType = {
 type GetByIdResponseType = {
   data: WordType,
   status: number,
+}
+
+export type SaveResponseType = {
+  id: string,
+  difficulty: string,
+  wordId: string,
+}
+
+interface GetUserWordResponse {
+  paginatedResults: Array<WordAgregationType>;
 }
 
 const getByGroupAndPage = async (groupId: number, pageNumber: number) => {
@@ -24,21 +35,32 @@ const getById = async (id: string) => {
   return data
 }
 
-const save = async (userId: string, wordId: string) => {
-  const data = await axios.post(`${config.API_URL}/users/${userId}/words/${wordId}`, {
-    difficulty: 'learned',
-  })
-  return data
+async function getUserWords(userId: string): Promise<WordAgregationType[]> {
+  const { data } = await axios.get<GetUserWordResponse[]>(
+    `${config.API_URL}/users/${userId}/aggregatedWords?wordsPerPage=3600&filter={"userWord":{"$exists": true}}`,
+  )
+  return data[0].paginatedResults
 }
 
-const remove = async (userId: string, wordId: string) => {
-  const data = await axios.put(`${config.API_URL}/users/${userId}/words/${wordId}`, {
-    difficulty: 'deleted',
-  })
-  return data
+const save = async (
+  userId: string,
+  wordId: string,
+  mode: 'difficult' | 'learned',
+): Promise<SaveResponseType> => {
+  const data = await axios.post<SaveResponseType>(
+    `${config.API_URL}/users/${userId}/words/${wordId}`,
+    {
+      difficulty: mode,
+    },
+  )
+  return data.data
 }
 
-const update = async (userId: string, wordId: string, difficulty: 'learned' | 'difficult') => {
+const update = async (
+  userId: string,
+  wordId: string,
+  difficulty: 'learned' | 'difficult' | 'deleted',
+) => {
   const data = await axios.put(`${config.API_URL}/users/${userId}/words/${wordId}`, {
     difficulty,
   })
@@ -49,6 +71,6 @@ export default {
   getByGroupAndPage,
   getById,
   save,
-  remove,
   update,
+  getUserWords,
 }

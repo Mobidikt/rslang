@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react'
-import { useParams } from 'react-router'
+import { useParams, Link } from 'react-router-dom'
+import { Button } from 'antd'
+import { ArrowLeftOutlined } from '@ant-design/icons'
 import WordsList from '../../components/WordsList/WordsList'
 import useActions from '../../hooks/useActions'
 import useTypedSelector from '../../hooks/useTypedSelector'
@@ -18,7 +20,12 @@ const Word: React.FC = () => {
 
   return (
     <div className="words">
-      <WordsList />
+      <Link to="/tutorial">
+        <Button className="back_btn" shape="circle" icon={<ArrowLeftOutlined />} />
+      </Link>
+      <div className="words-container">
+        <WordsList />
+      </div>
     </div>
   )
 }
