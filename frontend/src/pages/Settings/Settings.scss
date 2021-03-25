@@ -24,6 +24,12 @@
   }
 }
 
+.ant-checkbox-wrapper {
+  &.ant-checkbox-wrapper {
+    margin: 0;
+  }
+}
+
 @media (max-width: 600px) {
   .settings {
     &__inner {
