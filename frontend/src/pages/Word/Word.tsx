@@ -6,11 +6,13 @@ import config from '../../config'
 import useActions from '../../hooks/useActions'
 import useTypedSelector from '../../hooks/useTypedSelector'
 import './Word.scss'
+import WordApi from '../../services/WordApi'
 
 const Word: React.FC = () => {
   const { groupId, id } = useParams()
   const { fetchWord } = useActions()
   const { currentWord, isLoading } = useTypedSelector((state) => state.lessonReducer)
+  const { userId } = useTypedSelector((state) => state.authReducer)
 
   const textMeaningRef = useRef<HTMLParagraphElement>(null)
   const textExampleRef = useRef<HTMLParagraphElement>(null)
@@ -30,6 +32,11 @@ const Word: React.FC = () => {
     }
   }, [currentWord])
 
+  const addWordToDictionary = async () => {
+    const newWordInDictionary = await WordApi.saveToDifficult(userId || '', id)
+    console.log(newWordInDictionary)
+  }
+
   const playSound = (path: string) => {
     const audio = new Audio(`${config.API_URL}/${path}`)
     audio
@@ -38,10 +45,8 @@ const Word: React.FC = () => {
       .catch((err) => console.log(err))
   }
 
-  if (isLoading) return <Spin />
-
-  return (
-    <div className="word">
+  const WordJSX = (
+    <>
       <Link to={`/tutorial/${groupId}`}>
         <Button className="back_btn" shape="circle" icon={<ArrowLeftOutlined />} />
       </Link>
@@ -88,13 +93,15 @@ const Word: React.FC = () => {
         </div>
       </div>
       <div className="word-buttons">
-        <Button type="primary" className="word-buttons__btn">
+        <Button type="primary" className="word-buttons__btn" onClick={addWordToDictionary}>
           Добавить в сложные
         </Button>
         <Button type="primary">Удалить</Button>
       </div>
-    </div>
+    </>
   )
+
+  return <div className="word">{isLoading ? <Spin size="large" /> : WordJSX}</div>
 }
 
 export default Word

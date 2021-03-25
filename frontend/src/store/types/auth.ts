@@ -10,6 +10,7 @@ export interface AuthState {
   isRegistrated: boolean;
   email: string | null;
   isVisibleProfile: boolean;
+  userId: string | null;
 }
 
 export enum AuthActionTypes {
@@ -39,7 +40,7 @@ export interface RequestedLoginAction {
 
 export interface RequestedLoginSucceededAction {
   type: AuthActionTypes.REQUESTED_LOGIN_SUCCEEDED;
-  payload: { token: string, photo: string, email: string, username: string };
+  payload: { token: string, photo: string, email: string, username: string, userId: string };
 }
 
 export interface RequestedLoginFailedAction {

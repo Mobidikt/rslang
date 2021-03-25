@@ -5,6 +5,7 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import './index.scss'
 import store from './store'
 import App from './App'
+import './axios'
 
 ReactDOM.render(
   <React.StrictMode>

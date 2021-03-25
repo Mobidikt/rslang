@@ -1,7 +1,9 @@
-.words-container {
-  margin-top: 50px;
-  width: 80%;
+.words-cards {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.word-list {
+  margin-bottom: 20px;
 }

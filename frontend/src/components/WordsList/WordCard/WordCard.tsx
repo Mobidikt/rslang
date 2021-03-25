@@ -2,6 +2,7 @@ import { Card } from 'antd'
 import React from 'react'
 import { useNavigate } from 'react-router'
 import { WordType } from '../../../store/types/lesson'
+
 import './WordCard.scss'
 
 type WordCardType = {

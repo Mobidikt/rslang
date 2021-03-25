@@ -38,9 +38,10 @@ const requestedLoginSucceeded = (
   photo: string,
   email: string,
   username: string,
+  userId: string,
 ): RequestedLoginSucceededAction => ({
   type: AuthActionTypes.REQUESTED_LOGIN_SUCCEEDED,
-  payload: { token, photo, email, username },
+  payload: { token, photo, email, username, userId },
 })
 
 const requestedLoginFailed = (errorMessage: string): RequestedLoginFailedAction => ({

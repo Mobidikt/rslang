@@ -12,6 +12,7 @@ const initialState: AuthState = {
   isVisibleProfile: false,
   isRegistrated: false,
   email: localStorage.getItem('email') || null,
+  userId: localStorage.getItem('userId') || null,
 }
 
 const reducer = (state = initialState, action: AuthAction): AuthState => {
@@ -24,18 +25,20 @@ const reducer = (state = initialState, action: AuthAction): AuthState => {
     }
 
     case AuthActionTypes.REQUESTED_LOGIN_SUCCEEDED: {
-      const { token, photo, email, username } = action.payload
+      const { token, photo, email, username, userId } = action.payload
       localStorage.setItem('token', token)
       if (action.payload.photo) {
         localStorage.setItem('photo', photo)
       }
       localStorage.setItem('email', email)
       localStorage.setItem('username', username)
+      localStorage.setItem('userId', userId)
       return {
         ...state,
         token: action.payload.token,
         userPhoto: action.payload.photo,
         email: action.payload.email,
+        userId: action.payload.userId,
         username: action.payload.username,
         isLoading: false,
       }
@@ -96,6 +99,7 @@ const reducer = (state = initialState, action: AuthAction): AuthState => {
       localStorage.removeItem('email')
       localStorage.removeItem('photo')
       localStorage.removeItem('username')
+      localStorage.removeItem('userId')
       return {
         ...state,
         userPhoto: null,

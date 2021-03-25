@@ -24,7 +24,7 @@ const WordsList: React.FC = () => {
     </>
   )
 
-  return <div className="words-container">{isLoading ? <Spin /> : ListJSX}</div>
+  return <div className="words-cards">{isLoading ? <Spin size="large" /> : ListJSX}</div>
 }
 
 export default WordsList
