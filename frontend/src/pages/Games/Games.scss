@@ -1,0 +1,19 @@
+.games {
+  margin-top: 130px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sprint__card {
+  cursor: pointer;
+  width: 240px;
+  margin: 20px;
+  background: transparent;
+  text-align: center;
+
+  &:hover {
+    transform: scale(1.1);
+    transition: all 0.9s;
+  }
+}

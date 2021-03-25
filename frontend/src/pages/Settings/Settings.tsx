@@ -26,16 +26,16 @@ const Settings: React.FC = () => {
         <div className="settings__box">
           <h3>BUTTON DISPLAY SETTINGS</h3>
           <div className="settings__box_checkbox">
-            <Checkbox onChange={checkboxHandler} name="difficult_button" checked={settings.difficult_button}>"Difficult" button</Checkbox>
-            <Checkbox onChange={checkboxHandler} name="delete_button" checked={settings.delete_button}>"Delete" button</Checkbox>
+            <Checkbox onChange={checkboxHandler} name="difficult_button" className="checkbox" checked={settings.difficult_button}>"Difficult" button</Checkbox>
+            <Checkbox onChange={checkboxHandler} name="delete_button" className="checkbox" checked={settings.delete_button}>"Delete" button</Checkbox>
           </div>
 
         </div>
         <div className="settings__box">
           <h3>DISPLAY SETTINGS</h3>
           <div className="settings__box_checkbox">
-            <Checkbox onChange={checkboxHandler} name="word_translation" checked={settings.word_translation}>Word translation</Checkbox>
-            <Checkbox onChange={checkboxHandler} name="sentence_translation" checked={settings.sentence_translation}>Sentence translation with learning word</Checkbox>
+            <Checkbox onChange={checkboxHandler} name="word_translation" className="checkbox" checked={settings.word_translation}>Word translation</Checkbox>
+            <Checkbox onChange={checkboxHandler} name="sentence_translation"  className="checkbox" checked={settings.sentence_translation}>Sentence translation with learning word</Checkbox>
           </div>
         </div>
       </div>
