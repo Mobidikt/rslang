@@ -7,7 +7,7 @@ import Pagination from './Pagination/Pagination'
 
 const WordsList: React.FC = () => {
   const { words, isLoading } = useTypedSelector((state) => state.lessonReducer)
-
+  const { difficultWords } = useTypedSelector((state) => state.dictionaryReducer)
   const ListJSX = (
     <>
       <List
@@ -16,7 +16,11 @@ const WordsList: React.FC = () => {
         dataSource={words}
         renderItem={(word) => (
           <List.Item>
-            <WordCard key={word.id} word={word} />
+            <WordCard
+              key={word.id}
+              word={word}
+              isDifficult={!!difficultWords.find((el) => el._id === word.id)}
+            />
           </List.Item>
         )}
       />

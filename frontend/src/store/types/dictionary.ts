@@ -1,3 +1,5 @@
+import { WordType } from './lesson'
+
 export type WordAgregationType = {
   _id: string,
   group: number,
@@ -24,7 +26,7 @@ export interface DictionaryState {
   difficultWords: Array<WordAgregationType>;
   learnedWords: Array<WordAgregationType>;
   userWordsMode: string;
-  isLoading: boolean;
+  isLoadingDictionary: boolean;
   error: string | null;
 }
 
@@ -34,6 +36,10 @@ export enum DictionaryActionTypes {
   REQUESTED_USER_WORDS = 'DICTIONARY/REQUESTED_USER_WORDS',
   REQUESTED_USER_WORDS_SUCCESSED = 'DICTIONARY/REQUESTED_USER_WORDS_SUCCESSED',
   REQUESTED_USER_WORDS_FAILED = 'DICTIONARY/REQUESTED_USER_WORDS_FAILED',
+  ADD_WORD = 'DICTIONARY/ADD_WORD',
+  REQUESTED_ADD_WORD = 'DICTIONARY/REQUESTED_ADD_WORD',
+  REQUESTED_ADD_WORD_SUCCESSED = 'DICTIONARY/REQUESTED_ADD_WORD_SUCCESSED',
+  REQUESTED_ADD_WORD_FAILED = 'DICTIONARY/REQUESTED_ADD_WORD_FAILED',
 }
 
 export interface FetchUserWordsAction {
@@ -60,8 +66,31 @@ interface RequestedUserWordsFailedAction {
   payload: string;
 }
 
+export interface AddWordAction {
+  type: DictionaryActionTypes.ADD_WORD;
+  payload: { userId: string, wordId: string, word: WordType, difficulty: 'difficult' | 'learned' };
+}
+
+interface RequestedAddWordAction {
+  type: DictionaryActionTypes.REQUESTED_ADD_WORD;
+}
+
+interface RequestedAddWordSuccessedAction {
+  type: DictionaryActionTypes.REQUESTED_ADD_WORD_SUCCESSED;
+  payload: WordAgregationType;
+}
+
+interface RequestedAddWordFailedAction {
+  type: DictionaryActionTypes.REQUESTED_ADD_WORD_FAILED;
+  payload: string;
+}
+
 export type DictionaryAction =
   | FetchUserWordsAction
   | RequestedUserWordsAction
   | RequestedUserWordsSuccessedAction
   | RequestedUserWordsFailedAction
+  | AddWordAction
+  | RequestedAddWordAction
+  | RequestedAddWordSuccessedAction
+  | RequestedAddWordFailedAction

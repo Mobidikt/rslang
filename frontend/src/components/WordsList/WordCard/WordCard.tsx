@@ -7,14 +7,15 @@ import './WordCard.scss'
 
 type WordCardType = {
   word: WordType,
+  isDifficult: boolean,
 }
 
-const WordCard: React.FC<WordCardType> = ({ word }) => {
+const WordCard: React.FC<WordCardType> = ({ word, isDifficult }) => {
   const navigate = useNavigate()
   return (
     <Card
       className="word__card"
-      title={word.word}
+      title={`${word.word}${isDifficult ? ' (hard)' : ''}`}
       hoverable
       onClick={() => navigate(`/tutorial/${word.group}/${word.id}`)}
     >

@@ -28,6 +28,7 @@
         "linebreak-style": 0,
         "semi": "off",
         "@typescript-eslint/semi": ["off"],
-        "react/prop-types": 0
+        "react/prop-types": 0,
+        "no-underscore-dangle": "off"
     }
 }

@@ -6,7 +6,7 @@ const initialState: DictionaryState = {
   difficultWords: [],
   learnedWords: [],
   userWordsMode: 'learned',
-  isLoading: false,
+  isLoadingDictionary: false,
   error: null,
 }
 
@@ -18,14 +18,14 @@ const reducer = (
     case DictionaryActionTypes.REQUESTED_USER_WORDS: {
       return {
         ...state,
-        isLoading: true,
+        isLoadingDictionary: true,
       }
     }
 
     case DictionaryActionTypes.REQUESTED_USER_WORDS_SUCCESSED: {
       return {
         ...state,
-        isLoading: false,
+        isLoadingDictionary: false,
         userWords: action.payload.userWords,
         deletedWords: action.payload.deletedWords,
         difficultWords: action.payload.difficultWords,
@@ -36,10 +36,37 @@ const reducer = (
     case DictionaryActionTypes.REQUESTED_USER_WORDS_FAILED: {
       return {
         ...state,
-        isLoading: false,
+        isLoadingDictionary: false,
         error: action.payload,
       }
     }
+
+    case DictionaryActionTypes.REQUESTED_ADD_WORD: {
+      return {
+        ...state,
+        isLoadingDictionary: true,
+      }
+    }
+
+    case DictionaryActionTypes.REQUESTED_ADD_WORD_SUCCESSED: {
+      const newWord = action.payload
+      return {
+        ...state,
+        isLoadingDictionary: false,
+        learnedWords: [...state.learnedWords, newWord],
+        difficultWords: [...state.difficultWords, newWord],
+        userWords: [...state.userWords, newWord],
+      }
+    }
+
+    case DictionaryActionTypes.REQUESTED_ADD_WORD_FAILED: {
+      return {
+        ...state,
+        isLoadingDictionary: false,
+        error: action.payload,
+      }
+    }
+
     default:
       return state
   }

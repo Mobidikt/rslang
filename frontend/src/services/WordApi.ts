@@ -13,6 +13,12 @@ type GetByIdResponseType = {
   status: number,
 }
 
+export type SaveResponseType = {
+  id: string,
+  difficulty: string,
+  wordId: string,
+}
+
 interface GetUserWordResponse {
   paginatedResults: Array<WordAgregationType>;
 }
@@ -36,21 +42,25 @@ async function getUserWords(userId: string): Promise<WordAgregationType[]> {
   return data[0].paginatedResults
 }
 
-const saveToDifficult = async (userId: string, wordId: string) => {
-  const data = await axios.post(`${config.API_URL}/users/${userId}/words/${wordId}`, {
-    difficulty: 'difficult',
-  })
-  return data
+const save = async (
+  userId: string,
+  wordId: string,
+  mode: 'difficult' | 'learned',
+): Promise<SaveResponseType> => {
+  const data = await axios.post<SaveResponseType>(
+    `${config.API_URL}/users/${userId}/words/${wordId}`,
+    {
+      difficulty: mode,
+    },
+  )
+  return data.data
 }
 
-const remove = async (userId: string, wordId: string) => {
-  const data = await axios.put(`${config.API_URL}/users/${userId}/words/${wordId}`, {
-    difficulty: 'deleted',
-  })
-  return data
-}
-
-const update = async (userId: string, wordId: string, difficulty: 'learned' | 'difficult') => {
+const update = async (
+  userId: string,
+  wordId: string,
+  difficulty: 'learned' | 'difficult' | 'deleted',
+) => {
   const data = await axios.put(`${config.API_URL}/users/${userId}/words/${wordId}`, {
     difficulty,
   })
@@ -60,8 +70,7 @@ const update = async (userId: string, wordId: string, difficulty: 'learned' | 'd
 export default {
   getByGroupAndPage,
   getById,
-  saveToDifficult,
-  remove,
+  save,
   update,
   getUserWords,
 }

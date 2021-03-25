@@ -13,6 +13,7 @@ const initialState: LessonState = {
   currentGroup: null,
   currentPage: 0,
   currentWord: null,
+  currentWordIsDifficult: false,
   isLoading: false,
   error: null,
 }
@@ -76,6 +77,13 @@ const reducer = (state: LessonState = initialState, action: LessonAction): Lesso
         ...state,
         isLoading: false,
         error: action.payload,
+      }
+    }
+
+    case LessonActionTypes.SET_CURRENT_WORD_IS_DIFFICULT: {
+      return {
+        ...state,
+        currentWordIsDifficult: action.payload,
       }
     }
 
