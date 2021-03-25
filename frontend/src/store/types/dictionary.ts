@@ -40,6 +40,12 @@ export enum DictionaryActionTypes {
   REQUESTED_ADD_WORD = 'DICTIONARY/REQUESTED_ADD_WORD',
   REQUESTED_ADD_WORD_SUCCESSED = 'DICTIONARY/REQUESTED_ADD_WORD_SUCCESSED',
   REQUESTED_ADD_WORD_FAILED = 'DICTIONARY/REQUESTED_ADD_WORD_FAILED',
+  GROUP_WORDS = 'DICTIONARY/GROUP_WORDS',
+}
+
+export interface GroupWordsAction {
+  type: DictionaryActionTypes.GROUP_WORDS;
+  payload: Array<WordAgregationType>;
 }
 
 export interface FetchUserWordsAction {
@@ -53,12 +59,7 @@ interface RequestedUserWordsAction {
 
 interface RequestedUserWordsSuccessedAction {
   type: DictionaryActionTypes.REQUESTED_USER_WORDS_SUCCESSED;
-  payload: {
-    userWords: Array<WordAgregationType>,
-    deletedWords: Array<WordAgregationType>,
-    difficultWords: Array<WordAgregationType>,
-    learnedWords: Array<WordAgregationType>,
-  };
+  payload: Array<WordAgregationType>;
 }
 
 interface RequestedUserWordsFailedAction {
@@ -94,3 +95,4 @@ export type DictionaryAction =
   | RequestedAddWordAction
   | RequestedAddWordSuccessedAction
   | RequestedAddWordFailedAction
+  | GroupWordsAction

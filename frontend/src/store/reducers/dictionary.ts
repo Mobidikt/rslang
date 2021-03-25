@@ -26,10 +26,7 @@ const reducer = (
       return {
         ...state,
         isLoadingDictionary: false,
-        userWords: action.payload.userWords,
-        deletedWords: action.payload.deletedWords,
-        difficultWords: action.payload.difficultWords,
-        learnedWords: action.payload.learnedWords,
+        userWords: action.payload,
       }
     }
 
@@ -64,6 +61,22 @@ const reducer = (
         ...state,
         isLoadingDictionary: false,
         error: action.payload,
+      }
+    }
+
+    case DictionaryActionTypes.GROUP_WORDS: {
+      const words = action.payload
+
+      const deletedWords = words.filter((word) => word.userWord.difficulty === 'deleted')
+      const difficultWords = words.filter((word) => word.userWord.difficulty === 'difficult')
+      const learnedWords = words.filter(
+        (word) => word.userWord.difficulty === 'learned' || 'difficult',
+      )
+      return {
+        ...state,
+        deletedWords,
+        difficultWords,
+        learnedWords,
       }
     }
 

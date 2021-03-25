@@ -15,13 +15,8 @@ function* fetchUserWords(action: FetchUserWordsAction) {
   try {
     yield put(actions.requstedUserWords())
     const words: WordAgregationType[] = yield call(WordApi.getUserWords, userId)
-    const deletedWords = words.filter((word) => word.userWord.difficulty === 'deleted')
-    const difficultWords = words.filter((word) => word.userWord.difficulty === 'difficult')
-    const learnedWords = words.filter(
-      (word) => word.userWord.difficulty === 'learning' || 'difficult',
-    )
-
-    yield put(actions.requstedUserWordsSuccessed(words, deletedWords, difficultWords, learnedWords))
+    yield put(actions.requstedUserWordsSuccessed(words))
+    yield put(actions.groupWords(words))
   } catch (e) {
     yield put(actions.requstedUserWordsFailed(e))
   }
