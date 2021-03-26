@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { Spin, Button, Input } from 'antd'
+import { Spin, Button, Input, message } from 'antd'
 import { SoundOutlined, ArrowLeftOutlined } from '@ant-design/icons'
 import config from '../../config'
 import useActions from '../../hooks/useActions'
@@ -44,13 +44,18 @@ const Word: React.FC = () => {
   }, [currentWord])
 
   const addWordToDictionary = () => {
-    if (currentWord) {
-      if (isInUserWords(id)) {
-        const difficulty = currentWordIsDifficult ? 'learned' : 'difficult'
-        updateUserWord(userId || '', id, currentWord, difficulty)
-      } else {
-        addWord(userId || '', id, currentWord, 'difficult')
+    if (userId) {
+      if (currentWord) {
+        if (isInUserWords(id)) {
+          const difficulty = currentWordIsDifficult ? 'learned' : 'difficult'
+          updateUserWord(userId, id, currentWord, difficulty)
+        } else {
+          addWord(userId, id, currentWord, 'difficult')
+        }
       }
+    } else {
+      // eslint-disable-next-line
+      message.warning('Эта функция доступна только авторизованным пользователям')
     }
   }
 
