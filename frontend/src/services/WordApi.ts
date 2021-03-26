@@ -19,6 +19,12 @@ export type SaveResponseType = {
   wordId: string,
 }
 
+type UpdateResponseType = {
+  id: string,
+  difficulty: string,
+  wordId: string,
+}
+
 interface GetUserWordResponse {
   paginatedResults: Array<WordAgregationType>;
 }
@@ -60,10 +66,13 @@ const update = async (
   userId: string,
   wordId: string,
   difficulty: 'learned' | 'difficult' | 'deleted',
-) => {
-  const data = await axios.put(`${config.API_URL}/users/${userId}/words/${wordId}`, {
-    difficulty,
-  })
+): Promise<UpdateResponseType> => {
+  const { data } = await axios.put<UpdateResponseType>(
+    `${config.API_URL}/users/${userId}/words/${wordId}`,
+    {
+      difficulty,
+    },
+  )
   return data
 }
 

@@ -9,7 +9,7 @@ import './Word.scss'
 
 const Word: React.FC = () => {
   const { groupId, id } = useParams()
-  const { fetchWord, addWord, setCurrentWordIsDifficult } = useActions()
+  const { fetchWord, addWord, setCurrentWordIsDifficult, updateUserWord } = useActions()
   const { currentWord, isLoading, currentWordIsDifficult } = useTypedSelector(
     (state) => state.lessonReducer,
   )
@@ -46,7 +46,8 @@ const Word: React.FC = () => {
   const addWordToDictionary = () => {
     if (currentWord) {
       if (isInUserWords(id)) {
-        console.log('update')
+        const difficulty = currentWordIsDifficult ? 'learned' : 'difficult'
+        updateUserWord(userId || '', id, currentWord, difficulty)
       } else {
         addWord(userId || '', id, currentWord, 'difficult')
       }

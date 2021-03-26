@@ -5,6 +5,7 @@ import {
   DictionaryActionTypes,
   WordAgregationType,
   AddWordAction,
+  UpdateUserWordAction,
 } from '../types/dictionary'
 import actions from '../actions/dictionary'
 import WordApi from '../../services/WordApi'
@@ -34,7 +35,21 @@ function* addWord(action: AddWordAction) {
   }
 }
 
+function* updateUserWord(action: UpdateUserWordAction) {
+  const { wordId, userId, word, difficulty } = action.payload
+  try {
+    yield put(actions.requestedUpdateUserWord())
+    yield call(() => WordApi.update(userId, wordId, difficulty))
+    const updaterWord = { ...word, _id: word.id, userWord: { difficulty } }
+    yield put(actions.requestedUpdateUserWordSuccessed(updaterWord))
+    yield put(actions.groupWords())
+  } catch (e) {
+    yield put(actions.requestedUpddateUserWordFailed(e))
+  }
+}
+
 export default function* watchDictionary() {
   yield takeEvery(DictionaryActionTypes.FETCH_USER_WORDS, fetchUserWords)
   yield takeEvery(DictionaryActionTypes.ADD_WORD, addWord)
+  yield takeEvery(DictionaryActionTypes.UPDATE_USER_WORD, updateUserWord)
 }

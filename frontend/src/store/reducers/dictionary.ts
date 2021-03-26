@@ -65,13 +65,23 @@ const reducer = (
     }
 
     case DictionaryActionTypes.GROUP_WORDS: {
-      const words = action.payload
+      let deletedWords
+      let difficultWords
+      let learnedWords
 
-      const deletedWords = words.filter((word) => word.userWord.difficulty === 'deleted')
-      const difficultWords = words.filter((word) => word.userWord.difficulty === 'difficult')
-      const learnedWords = words.filter(
-        (word) => word.userWord.difficulty === 'learned' || 'difficult',
-      )
+      if (action.payload.length !== 0) {
+        const words = action.payload
+        deletedWords = words.filter((word) => word.userWord.difficulty === 'deleted')
+        difficultWords = words.filter((word) => word.userWord.difficulty === 'difficult')
+        learnedWords = words.filter((word) => word.userWord.difficulty === 'learned' || 'difficult')
+      } else {
+        deletedWords = state.userWords.filter((word) => word.userWord.difficulty === 'deleted')
+        difficultWords = state.userWords.filter((word) => word.userWord.difficulty === 'difficult')
+        learnedWords = state.userWords.filter(
+          (word) => word.userWord.difficulty === 'learned' || 'difficult',
+        )
+      }
+
       return {
         ...state,
         deletedWords,
@@ -87,6 +97,33 @@ const reducer = (
         deletedWords: [],
         difficultWords: [],
         learnedWords: [],
+      }
+    }
+
+    case DictionaryActionTypes.REQUESTED_UPDATE_USER_WORD: {
+      return {
+        ...state,
+        isLoadingDictionary: true,
+      }
+    }
+
+    case DictionaryActionTypes.REQUESTED_UPDATE_USER_WORD_SUCCESSED: {
+      const updatedUserWord = action.payload
+      const updatedUserWords = state.userWords.map((word) =>
+        word._id === updatedUserWord._id ? updatedUserWord : word,
+      )
+      return {
+        ...state,
+        isLoadingDictionary: false,
+        userWords: updatedUserWords,
+      }
+    }
+
+    case DictionaryActionTypes.REQUESTED_UPDATE_USER_WORD_FAILED: {
+      return {
+        ...state,
+        isLoadingDictionary: false,
+        error: action.payload,
       }
     }
 

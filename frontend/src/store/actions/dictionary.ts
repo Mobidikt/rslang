@@ -44,13 +44,37 @@ const requestedAddWordFailed = (e: string): DictionaryAction => ({
   payload: e,
 })
 
-const groupWords = (words: Array<WordAgregationType>): DictionaryAction => ({
+const groupWords = (words: Array<WordAgregationType> = []): DictionaryAction => ({
   type: DictionaryActionTypes.GROUP_WORDS,
   payload: words,
 })
 
 const clearUserWords = (): DictionaryAction => ({
   type: DictionaryActionTypes.CLEAR_USER_WORDS,
+})
+
+const updateUserWord = (
+  userId: string,
+  wordId: string,
+  word: WordType,
+  difficulty: 'difficult' | 'learned' | 'deleted',
+): DictionaryAction => ({
+  type: DictionaryActionTypes.UPDATE_USER_WORD,
+  payload: { userId, wordId, word, difficulty },
+})
+
+const requestedUpdateUserWord = (): DictionaryAction => ({
+  type: DictionaryActionTypes.REQUESTED_UPDATE_USER_WORD,
+})
+
+const requestedUpdateUserWordSuccessed = (userWord: WordAgregationType): DictionaryAction => ({
+  type: DictionaryActionTypes.REQUESTED_UPDATE_USER_WORD_SUCCESSED,
+  payload: userWord,
+})
+
+const requestedUpddateUserWordFailed = (e: string): DictionaryAction => ({
+  type: DictionaryActionTypes.REQUESTED_USER_WORDS_FAILED,
+  payload: e,
 })
 
 export default {
@@ -64,4 +88,8 @@ export default {
   requestedAddWordFailed,
   groupWords,
   clearUserWords,
+  updateUserWord,
+  requestedUpdateUserWord,
+  requestedUpdateUserWordSuccessed,
+  requestedUpddateUserWordFailed,
 }

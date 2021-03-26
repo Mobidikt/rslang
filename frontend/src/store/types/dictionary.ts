@@ -42,6 +42,10 @@ export enum DictionaryActionTypes {
   REQUESTED_ADD_WORD_FAILED = 'DICTIONARY/REQUESTED_ADD_WORD_FAILED',
   GROUP_WORDS = 'DICTIONARY/GROUP_WORDS',
   CLEAR_USER_WORDS = 'DICTIONARY/CLEAR_USER_WORDS',
+  UPDATE_USER_WORD = 'DICTIONARY/UPDATE_USER_WORD',
+  REQUESTED_UPDATE_USER_WORD = 'DICTIONARY/REQUESTED_UPDATE_USER_WORD',
+  REQUESTED_UPDATE_USER_WORD_SUCCESSED = 'DICTIONARY/REQUESTED_UPDATE_USER_WORD_SUCCESSED',
+  REQUESTED_UPDATE_USER_WORD_FAILED = 'DICTIONARY/REQUESTED_UPDATE_USER_WORD_FAILED',
 }
 
 interface ClearUserWordsAction {
@@ -91,6 +95,30 @@ interface RequestedAddWordFailedAction {
   payload: string;
 }
 
+export interface UpdateUserWordAction {
+  type: DictionaryActionTypes.UPDATE_USER_WORD;
+  payload: {
+    userId: string,
+    wordId: string,
+    word: WordType,
+    difficulty: 'difficult' | 'learned' | 'deleted',
+  };
+}
+
+interface RequestedUpdateUserWordAction {
+  type: DictionaryActionTypes.REQUESTED_UPDATE_USER_WORD;
+}
+
+interface RequestedUpdateUserWordSuccessedAction {
+  type: DictionaryActionTypes.REQUESTED_UPDATE_USER_WORD_SUCCESSED;
+  payload: WordAgregationType;
+}
+
+interface RequestedUpdateUserWordFailedAction {
+  type: DictionaryActionTypes.REQUESTED_UPDATE_USER_WORD_FAILED;
+  payload: string;
+}
+
 export type DictionaryAction =
   | FetchUserWordsAction
   | RequestedUserWordsAction
@@ -102,3 +130,7 @@ export type DictionaryAction =
   | RequestedAddWordFailedAction
   | GroupWordsAction
   | ClearUserWordsAction
+  | RequestedUpdateUserWordAction
+  | RequestedUpdateUserWordFailedAction
+  | RequestedUpdateUserWordSuccessedAction
+  | UpdateUserWordAction
