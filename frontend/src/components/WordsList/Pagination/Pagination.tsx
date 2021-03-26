@@ -30,7 +30,7 @@ const Pagination: React.FC = () => {
         shape="circle"
         onClick={nextPageClickHandler}
         icon={<RightOutlined />}
-        disabled={currentPage === 19}
+        disabled={currentPage === 29}
       />
     </div>
   )

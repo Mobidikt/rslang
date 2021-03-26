@@ -1,5 +1,15 @@
 import { LessonAction, LessonState, LessonActionTypes } from '../types/lesson'
 
+const getCurrentPageFromLocalStorage = (): number => {
+  const currentPage = localStorage.getItem('currentPage')
+
+  if (currentPage) {
+    return typeof +currentPage === 'number' ? +currentPage : 0
+  }
+
+  return 0
+}
+
 const initialState: LessonState = {
   words: [],
   lessons: [
@@ -11,7 +21,7 @@ const initialState: LessonState = {
     { title: 'lesson 6', color: '#C1FF9B' },
   ],
   currentGroup: null,
-  currentPage: 0,
+  currentPage: getCurrentPageFromLocalStorage(),
   currentWord: null,
   currentWordIsDifficult: false,
   isLoading: false,
@@ -28,6 +38,7 @@ const reducer = (state: LessonState = initialState, action: LessonAction): Lesso
     }
 
     case LessonActionTypes.SET_CURRENT_PAGE: {
+      localStorage.setItem('currentPage', JSON.stringify(action.payload))
       return {
         ...state,
         currentPage: action.payload,
