@@ -23,8 +23,6 @@ function* login(action: FetchLoginAction) {
     yield put(authActions.setIsVisibleAuthCard())
     yield put(authActions.clearErros())
   } catch (error) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const { data } = error.response
     yield put(authActions.requestedLoginFailed('Вы ввели неверные данные'))
   }
 }
@@ -41,7 +39,6 @@ function* register(action: FetchRegistrationAction) {
   } catch (error) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const { data } = error.response
-    console.log(error.response)
     yield put(authActions.requestedRegistrationFailed(data))
   }
 }

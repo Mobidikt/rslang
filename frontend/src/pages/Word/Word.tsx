@@ -5,6 +5,7 @@ import { SoundOutlined, ArrowLeftOutlined } from '@ant-design/icons'
 import config from '../../config'
 import useActions from '../../hooks/useActions'
 import useTypedSelector from '../../hooks/useTypedSelector'
+import playSound from '../../utils/playSound'
 import './Word.scss'
 
 const Word: React.FC = () => {
@@ -57,14 +58,6 @@ const Word: React.FC = () => {
       // eslint-disable-next-line
       message.warning('Эта функция доступна только авторизованным пользователям')
     }
-  }
-
-  const playSound = (path: string) => {
-    const audio = new Audio(`${config.API_URL}/${path}`)
-    audio
-      .play()
-      .then(() => {})
-      .catch((err) => console.log(err))
   }
 
   const WordJSX = (

@@ -18,6 +18,10 @@ import SavannaGamePage from '../pages/SavannaGamePage/SavannaGamePage'
 import OurGamePage from '../pages/OurGamePage/OurGamePage'
 import CallGamePage from '../pages/CallGamePage/CallGamePage'
 
+const DictionaryCurrentModePage = lazy(
+  () => import('../pages/DictionaryCurrentMode/DictionaryCurrentMode'),
+)
+
 const routes: PartialRouteObject[] = [
   {
     path: '/welcome',
@@ -50,6 +54,10 @@ const routes: PartialRouteObject[] = [
       {
         path: '/dictionary',
         element: <DictionaryPage />,
+      },
+      {
+        path: '/dictionary/:mode',
+        element: <DictionaryCurrentModePage />,
       },
       {
         path: '/settings',

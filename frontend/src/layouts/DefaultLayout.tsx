@@ -15,7 +15,6 @@ const DefaultLayout: React.FC = () => {
   const { fetchUserWords } = useActions()
 
   useEffect(() => {
-    console.log('Gello')
     if (userId) {
       fetchUserWords(userId)
     }

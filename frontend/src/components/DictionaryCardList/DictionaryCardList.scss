@@ -1,14 +1,12 @@
-.dictionary {
-  margin-top: 100px;
+.dictionaryCardList {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
 }
 
-
-.dictionary__card {
+.dictionaryCardList__card {
   cursor: pointer;
-  width: 240px;
+  width: 330px;
   margin: 20px;
   background: transparent;
   text-align: center;
