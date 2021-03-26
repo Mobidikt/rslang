@@ -21,7 +21,7 @@ const Word: React.FC = () => {
   return (
     <div className="words">
       <Link to="/tutorial">
-        <Button className="back_btn" shape="circle" icon={<ArrowLeftOutlined />} />
+        <Button size="large" className="back_btn" shape="circle" icon={<ArrowLeftOutlined />} />
       </Link>
       <div className="words-container">
         <WordsList />

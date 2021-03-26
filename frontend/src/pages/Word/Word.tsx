@@ -63,7 +63,7 @@ const Word: React.FC = () => {
   const WordJSX = (
     <>
       <Link to={`/tutorial/${groupId}`}>
-        <Button className="back_btn" shape="circle" icon={<ArrowLeftOutlined />} />
+        <Button className="back_btn" size="large" shape="circle" icon={<ArrowLeftOutlined />} />
       </Link>
       <div className="word-info">
         <div className="word-info-wrapper">
