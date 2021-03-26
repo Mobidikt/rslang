@@ -106,6 +106,7 @@ const reducer = (state = initialState, action: AuthAction): AuthState => {
         token: null,
         email: null,
         username: null,
+        userId: null,
       }
     }
 
