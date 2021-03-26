@@ -73,13 +73,11 @@ const reducer = (
         const words = action.payload
         deletedWords = words.filter((word) => word.userWord.difficulty === 'deleted')
         difficultWords = words.filter((word) => word.userWord.difficulty === 'difficult')
-        learnedWords = words.filter((word) => word.userWord.difficulty === 'learned' || 'difficult')
+        learnedWords = words.filter((word) => word.userWord.difficulty !== 'deleted')
       } else {
         deletedWords = state.userWords.filter((word) => word.userWord.difficulty === 'deleted')
         difficultWords = state.userWords.filter((word) => word.userWord.difficulty === 'difficult')
-        learnedWords = state.userWords.filter(
-          (word) => word.userWord.difficulty === 'learned' || 'difficult',
-        )
+        learnedWords = state.userWords.filter((word) => word.userWord.difficulty !== 'deleted')
       }
 
       return {
