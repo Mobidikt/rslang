@@ -49,6 +49,10 @@ const groupWords = (words: Array<WordAgregationType>): DictionaryAction => ({
   payload: words,
 })
 
+const clearUserWords = (): DictionaryAction => ({
+  type: DictionaryActionTypes.CLEAR_USER_WORDS,
+})
+
 export default {
   fetchUserWords,
   requstedUserWords,
@@ -59,4 +63,5 @@ export default {
   requestedAddWordSuccessed,
   requestedAddWordFailed,
   groupWords,
+  clearUserWords,
 }

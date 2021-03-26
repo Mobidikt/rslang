@@ -41,6 +41,11 @@ export enum DictionaryActionTypes {
   REQUESTED_ADD_WORD_SUCCESSED = 'DICTIONARY/REQUESTED_ADD_WORD_SUCCESSED',
   REQUESTED_ADD_WORD_FAILED = 'DICTIONARY/REQUESTED_ADD_WORD_FAILED',
   GROUP_WORDS = 'DICTIONARY/GROUP_WORDS',
+  CLEAR_USER_WORDS = 'DICTIONARY/CLEAR_USER_WORDS',
+}
+
+interface ClearUserWordsAction {
+  type: DictionaryActionTypes.CLEAR_USER_WORDS;
 }
 
 export interface GroupWordsAction {
@@ -96,3 +101,4 @@ export type DictionaryAction =
   | RequestedAddWordSuccessedAction
   | RequestedAddWordFailedAction
   | GroupWordsAction
+  | ClearUserWordsAction

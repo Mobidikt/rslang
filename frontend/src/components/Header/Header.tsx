@@ -6,9 +6,15 @@ import AuthCard from '../AuthCard/AuthCard'
 import useTypedSelector from '../../hooks/useTypedSelector'
 
 const Header: React.FC = () => {
-  const { setIsVisibleAuthCard, logout } = useActions()
+  const { setIsVisibleAuthCard, logout, clearUserWords } = useActions()
   const { token, username } = useTypedSelector((state) => state.authReducer)
   const { selectedSection } = useTypedSelector((state) => state.appReducer)
+
+  const logoutUserClick = () => {
+    clearUserWords()
+    logout()
+  }
+
   return (
     <>
       <header className="header">
@@ -16,7 +22,7 @@ const Header: React.FC = () => {
         {token ? (
           <div>
             <span>{username}</span>
-            <Button className="btn logout" onClick={logout}>
+            <Button className="btn logout" onClick={logoutUserClick}>
               Выйти
             </Button>
           </div>

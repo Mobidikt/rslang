@@ -80,6 +80,16 @@ const reducer = (
       }
     }
 
+    case DictionaryActionTypes.CLEAR_USER_WORDS: {
+      return {
+        ...state,
+        userWords: [],
+        deletedWords: [],
+        difficultWords: [],
+        learnedWords: [],
+      }
+    }
+
     default:
       return state
   }
