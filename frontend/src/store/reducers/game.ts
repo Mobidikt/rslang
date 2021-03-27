@@ -1,7 +1,7 @@
 import { GameState, GameAction, GameActionTypes } from '../types/game'
 
 const initialState: GameState = {
-  level: 0,
+  level: 1,
 }
 
 const reducer = (state: GameState = initialState, action: GameAction): GameState => {

@@ -9,7 +9,7 @@ import './Settings.scss'
 const SettingsGame: React.FC = () => {
   const { level } = useTypedSelector((state) => state.gameReducer)
   const { setLevelGame } = useActions()
-  const Setting = () => {
+  const setting = () => {
     return (
       <Menu className="game-settings__menu">
         {settingsGame.map((item) => (
@@ -27,7 +27,7 @@ const SettingsGame: React.FC = () => {
 
   return (
     <Space direction="vertical" className="game-settings">
-      <Dropdown overlay={Setting} placement="topCenter" className="game-settings__drop">
+      <Dropdown overlay={setting} placement="topCenter" className="game-settings__drop">
         <Button className="game-settings__btn" icon={<SettingOutlined />} />
       </Dropdown>
     </Space>
