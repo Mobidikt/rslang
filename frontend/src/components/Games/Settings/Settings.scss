@@ -1,0 +1,38 @@
+.game-settings{
+  position: absolute;
+  right: 3%;
+  bottom: 7%;
+  background-color: transparent;
+  &__btn {
+    background-color: transparent;
+    border-radius: 50%;
+    height: 55px;
+    width: 55px;
+    &:hover, &:active, &:focus {
+      background-color: transparent;
+    }
+  }
+}
+.game-settings__menu{
+  background-color: transparent;
+  border: none;
+  width: 30px;
+  margin: 0 auto;
+}
+.game-settings__item{
+  border-radius: 50%;
+  margin-bottom: 15px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid white;
+  &:hover, &:active {
+    color: #40a9ff;
+    background-color: transparent;
+    border-color: #40a9ff;
+  }
+}
+.game-settings__active{
+  background-color: white;
+}
