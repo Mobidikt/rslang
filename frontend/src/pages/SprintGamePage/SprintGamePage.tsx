@@ -3,23 +3,26 @@ import React, {useCallback, useEffect, useState} from 'react'
 import './SprintGamePage.scss'
 // @ts-ignore
 import useInterval from '../../hooks/useInterval'
+import wordApi from '../../services/WordApi'
 import { FullScreen, useFullScreenHandle } from 'react-full-screen'
 import Button from 'antd/es/button/button'
-import { InputNumber } from 'antd'
 import { ArrowLeftOutlined, ArrowRightOutlined, FullscreenExitOutlined, FullscreenOutlined } from '@ant-design/icons/lib'
 import Icon from '@ant-design/icons'
 import { ReactComponent as volumeOnIcon } from '../../assets/icons/volume-on.svg'
 import { ReactComponent as volumeOffIcon } from '../../assets/icons/no-sound.svg'
+import SettingsGame from '../../components/Games/Settings/Settings'
+import useTypedSelector from '../../hooks/useTypedSelector'
 
 
 
 const SprintGame: React.FC = () => {
+  const { level } = useTypedSelector((state) => state.gameReducer)
   const [startGame, setStartGame] = useState(false)
   const [soundOn, setSoundOn] = useState(true)
   const [timeSeconds, setTimerSeconds] = useState(60)
   const [circleDashArray, setCircleDashArray] = useState("283")
-  const [gameLevel, setGameLevel] =useState(1)
   const [fullScreen, setFullScreen] = useState(false)
+  const [words, setWords] = useState<any>()
 
   const handleFullScreen = useFullScreenHandle();
 
@@ -38,15 +41,19 @@ const SprintGame: React.FC = () => {
     ).toFixed(0)} 283`)
   }
 
-  const handleLevelChange = (level: number) => {
-    setGameLevel(level)
-  }
-
-  const escFunction = useCallback((event) => {
+  const escFunction = useCallback(() => {
     if (!document.fullscreenElement) {
       setFullScreen(false)
     }
   }, []);
+
+  useEffect( () => {
+    wordApi.getByGroupAndPage(level-1, 1)
+      .then(res => {
+        console.log(res.data)
+        setWords(res.data)
+      })
+  }, [level])
 
 
   useInterval(() => {
@@ -134,10 +141,7 @@ const SprintGame: React.FC = () => {
           <p>After the start of the game, you will see word and translation.<br/> You need to choose is it right or wrong.</p>
           <p>1. Use mouse to choose.</p>
           <p>2. Use the keys Left and Right.</p>
-          <div className="sprint-game-rules__level">
-            <label htmlFor="level-number" className="level-label">Choose Game Level</label>
-            <InputNumber id="level-number" min={1} max={6} defaultValue={1} onChange={handleLevelChange} keyboard={false} size="large"/>
-          </div>
+          <SettingsGame />
           <Button type="primary" className="sprint-game-rules__btn" onClick={() => setStartGame(true) }>START</Button>
         </div>
       }
