@@ -31,6 +31,12 @@
         background: #bb6b56;
       }
     }
+
+    &__level {
+      display: flex;
+      align-items: center;
+      font-size: 28px;
+    }
   }
 
   &-start {
@@ -69,6 +75,16 @@
       justify-content: space-around;
       margin-bottom: 20px;
     }
+  }
+}
+
+.level-label {
+  margin-right: 10px;
+}
+
+.ant-input-number {
+  &.level-number {
+    width: 70px;
   }
 }
 
@@ -118,6 +134,21 @@
   svg {
     width: 42px;
     height: 42px;
+    &:hover {
+      width: 44px;
+      height: 44px;
+    }
+  }
+}
+
+.full-screen-icon {
+  svg {
+    width: 30px;
+    height: 30px;
+    &:hover {
+      width: 32px;
+      height: 32px;
+    }
   }
 }
 
