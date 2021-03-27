@@ -18,3 +18,18 @@
 .btn {
   border-radius: 10px;
 }
+.nav{
+  min-width: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  &__item{
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    outline: none;
+    &:hover {
+      color: #40a9ff;
+    }
+  }
+}
