@@ -6,9 +6,10 @@ type TitleTypes = {
   title: string,
   description: string[],
   settings: string[],
+  startGame: () => void,
 }
 
-const Title: React.FC<TitleTypes> = ({ title, description, settings }: TitleTypes) => {
+const Title: React.FC<TitleTypes> = ({ title, description, settings, startGame }: TitleTypes) => {
   return (
     <div className="title-game">
       <h2 className="title-game__title">{title}</h2>
@@ -16,7 +17,7 @@ const Title: React.FC<TitleTypes> = ({ title, description, settings }: TitleType
       <p className="title-game__text">{description[1]}</p>
       <p className="title-game__text">{settings[0]}</p>
       <p className="title-game__text">{settings[1]}</p>
-      <Button type="primary" danger className="title-game__btn" onClick={() => console.log(1)}>
+      <Button type="primary" danger className="title-game__btn" onClick={startGame}>
         START
       </Button>
     </div>
