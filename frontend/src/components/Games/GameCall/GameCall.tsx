@@ -15,6 +15,8 @@ import randomArr from '../utils/randomArr'
 import playSound from '../../../utils/playSound'
 import SettingsGame from '../Settings/Settings'
 import { WordType } from '../../../store/types/lesson'
+import { playSoundError, playSoundSuccess } from '../utils/soundEffect'
+
 const GameCall: React.FC = () => {
   const { level } = useTypedSelector((state) => state.gameReducer)
   const [game, setGame] = useState(false)
@@ -104,18 +106,12 @@ const GameCall: React.FC = () => {
     if (currentWord) playSound(currentWord.audio)
   }, [currentWord])
 
-  const playSoundError = (): void => {
-    const audio = new Audio('../../../assets/sounds/error.mp3')
-    audio
-      .play()
-      .then(() => {})
-      .catch(() => {})
-  }
   const checkWord = useCallback(
     (word: WordType) => {
       setIndexWord((prev) => prev + 1)
       if (currentWord)
         if (currentWord.word === word.word) {
+          playSoundSuccess()
           setSuccessWords([...successWords, currentWord])
         } else {
           playSoundError()
@@ -143,8 +139,8 @@ const GameCall: React.FC = () => {
     [arrGameWord, gameWords],
   )
   useEffect(() => {
-    if (currentWord && game) setTimeout(() => playWord(), 300)
-  }, [currentWord, game, playWord])
+    if (currentWord && game) setTimeout(() => playSound(currentWord.audio), 300)
+  }, [currentWord])
   const renderCurrentWord = useCallback(
     (index: number) => {
       setCurrentWord(gameWords[index])
