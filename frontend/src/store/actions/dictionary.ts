@@ -77,6 +77,29 @@ const requestedUpddateUserWordFailed = (e: string): DictionaryAction => ({
   payload: e,
 })
 
+const deleteUserWord = (
+  wordId: string,
+  userWords: Array<WordAgregationType>,
+  userId: string,
+): DictionaryAction => ({
+  type: DictionaryActionTypes.DELETE_USER_WORD,
+  payload: { wordId, userWords, userId },
+})
+
+const requestedDeleteWord = (): DictionaryAction => ({
+  type: DictionaryActionTypes.REQUESTED_DELETE_USER_WORD,
+})
+
+const requestedDeleteWordSuccessed = (userWords: Array<WordAgregationType>): DictionaryAction => ({
+  type: DictionaryActionTypes.REQUESTED_DELETE_USER_WORD_SUCCESSED,
+  payload: userWords,
+})
+
+const requestedDeleteWordFailed = (e: string): DictionaryAction => ({
+  type: DictionaryActionTypes.REQUESTED_DELETE_USER_WORD_FAILED,
+  payload: e,
+})
+
 export default {
   fetchUserWords,
   requstedUserWords,
@@ -92,4 +115,8 @@ export default {
   requestedUpdateUserWord,
   requestedUpdateUserWordSuccessed,
   requestedUpddateUserWordFailed,
+  deleteUserWord,
+  requestedDeleteWord,
+  requestedDeleteWordSuccessed,
+  requestedDeleteWordFailed,
 }

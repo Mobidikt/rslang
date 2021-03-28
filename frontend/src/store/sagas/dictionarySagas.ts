@@ -6,6 +6,7 @@ import {
   WordAgregationType,
   AddWordAction,
   UpdateUserWordAction,
+  DeleteUserWordAction,
 } from '../types/dictionary'
 import actions from '../actions/dictionary'
 import WordApi from '../../services/WordApi'
@@ -49,8 +50,22 @@ function* updateUserWord(action: UpdateUserWordAction) {
   }
 }
 
+function* deleteUserWord(action: DeleteUserWordAction) {
+  const { wordId, userId, userWords } = action.payload
+  try {
+    yield put(actions.requestedDeleteWord())
+    yield call(() => WordApi.remove(userId, wordId))
+    const wordsWithoutDeletedWord = userWords.filter((word) => word._id !== wordId)
+    yield put(actions.requestedDeleteWordSuccessed(wordsWithoutDeletedWord))
+    yield put(actions.groupWords())
+  } catch (e) {
+    yield put(actions.requestedDeleteWordFailed(e))
+  }
+}
+
 export default function* watchDictionary() {
   yield takeEvery(DictionaryActionTypes.FETCH_USER_WORDS, fetchUserWords)
   yield takeEvery(DictionaryActionTypes.ADD_WORD, addWord)
   yield takeEvery(DictionaryActionTypes.UPDATE_USER_WORD, updateUserWord)
+  yield takeEvery(DictionaryActionTypes.DELETE_USER_WORD, deleteUserWord)
 }

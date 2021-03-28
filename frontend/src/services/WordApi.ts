@@ -76,10 +76,16 @@ const update = async (
   return data
 }
 
+const remove = async (userId: string, wordId: string) => {
+  const data = await axios.delete(`${config.API_URL}/users/${userId}/words/${wordId}`)
+  return data
+}
+
 export default {
   getByGroupAndPage,
   getById,
   save,
   update,
   getUserWords,
+  remove,
 }

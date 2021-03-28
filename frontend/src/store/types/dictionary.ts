@@ -46,6 +46,10 @@ export enum DictionaryActionTypes {
   REQUESTED_UPDATE_USER_WORD = 'DICTIONARY/REQUESTED_UPDATE_USER_WORD',
   REQUESTED_UPDATE_USER_WORD_SUCCESSED = 'DICTIONARY/REQUESTED_UPDATE_USER_WORD_SUCCESSED',
   REQUESTED_UPDATE_USER_WORD_FAILED = 'DICTIONARY/REQUESTED_UPDATE_USER_WORD_FAILED',
+  DELETE_USER_WORD = 'DICTIONARY/DELETE_USER_WORD',
+  REQUESTED_DELETE_USER_WORD = 'DICTIONARY/REQUESTED_DELETE_USER_WORD',
+  REQUESTED_DELETE_USER_WORD_SUCCESSED = 'DICTIONARY/REQUESTED_DELETE_USER_WORD_SUCCESSED',
+  REQUESTED_DELETE_USER_WORD_FAILED = 'DICTIONARY/REQUESTED_DELETE_USER_WORD_FAILED',
 }
 
 interface ClearUserWordsAction {
@@ -119,6 +123,25 @@ interface RequestedUpdateUserWordFailedAction {
   payload: string;
 }
 
+export interface DeleteUserWordAction {
+  type: DictionaryActionTypes.DELETE_USER_WORD;
+  payload: { wordId: string, userWords: Array<WordAgregationType>, userId: string };
+}
+
+interface RequestedDeleteWordAction {
+  type: DictionaryActionTypes.REQUESTED_DELETE_USER_WORD;
+}
+
+interface RequestedDeleteWordSuccessedAction {
+  type: DictionaryActionTypes.REQUESTED_DELETE_USER_WORD_SUCCESSED;
+  payload: Array<WordAgregationType>;
+}
+
+interface RequestedDeleteWordFailedAction {
+  type: DictionaryActionTypes.REQUESTED_DELETE_USER_WORD_FAILED;
+  payload: string;
+}
+
 export type DictionaryAction =
   | FetchUserWordsAction
   | RequestedUserWordsAction
@@ -134,3 +157,7 @@ export type DictionaryAction =
   | RequestedUpdateUserWordFailedAction
   | RequestedUpdateUserWordSuccessedAction
   | UpdateUserWordAction
+  | DeleteUserWordAction
+  | RequestedDeleteWordAction
+  | RequestedDeleteWordSuccessedAction
+  | RequestedDeleteWordFailedAction

@@ -125,6 +125,30 @@ const reducer = (
       }
     }
 
+    case DictionaryActionTypes.REQUESTED_DELETE_USER_WORD: {
+      return {
+        ...state,
+        isLoadingDictionary: true,
+      }
+    }
+
+    case DictionaryActionTypes.REQUESTED_DELETE_USER_WORD_SUCCESSED: {
+      const userWords = action.payload
+      return {
+        ...state,
+        isLoadingDictionary: false,
+        userWords,
+      }
+    }
+
+    case DictionaryActionTypes.REQUESTED_DELETE_USER_WORD_FAILED: {
+      return {
+        ...state,
+        isLoadingDictionary: false,
+        error: action.payload,
+      }
+    }
+
     default:
       return state
   }

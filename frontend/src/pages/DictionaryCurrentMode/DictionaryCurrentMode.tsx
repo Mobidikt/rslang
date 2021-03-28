@@ -26,10 +26,11 @@ const DictionaryCurrentMode: React.FC = () => {
     // eslint-disable-next-line no-nested-ternary
     mode === 'deleted' ? 'deletedWords' : mode === 'learned' ? 'learnedWords' : 'difficultWords'
 
+  const { userWords } = useTypedSelector((state) => state.dictionaryReducer)
   const words = useTypedSelector((state) => state.dictionaryReducer[currentModeWords])
   const { userId } = useTypedSelector((state) => state.authReducer)
 
-  const { setSelectedSection, updateUserWord } = useActions()
+  const { setSelectedSection, updateUserWord, deleteUserWord } = useActions()
 
   useEffect(() => {
     setSelectedSection(`Dictionary - ${mode} words`)
@@ -143,7 +144,7 @@ const DictionaryCurrentMode: React.FC = () => {
                 <Popconfirm
                   title="Вы уверены что хотите удалить это слово?"
                   placement="topRight"
-                  onConfirm={() => console.log}
+                  onConfirm={() => deleteUserWord(word._id, userWords, userId || '')}
                   okText="Да"
                   cancelText="Нет"
                 >
