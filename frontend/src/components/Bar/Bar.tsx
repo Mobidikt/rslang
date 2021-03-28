@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Layout, Menu } from 'antd'
 import { useLocation, useNavigate } from 'react-router'
-import {
+import Icon, {
   FileTextOutlined,
   SettingOutlined,
   BarChartOutlined,
@@ -10,6 +10,7 @@ import {
 } from '@ant-design/icons'
 import './Bar.scss'
 import useActions from '../../hooks/useActions'
+import logo from '../../assets/icons/RSLang.png'
 
 const { Sider } = Layout
 
@@ -24,19 +25,16 @@ const Bar: React.FC = () => {
 
   return (
     <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
-      <div className="logo" />
       <Menu className="menu" defaultSelectedKeys={[`${location}`]} mode="inline">
         <Menu.Item
           className="bar__link"
           key="/"
-          icon={<FileTextOutlined />}
+          icon={<img src={logo} alt="logo" />}
           onClick={() => {
             navigate('/welcome')
             setSelectedSection('Rslang')
           }}
-        >
-          Rslang
-        </Menu.Item>
+        />
         <Menu.Item
           className="bar__link"
           key="/tutorial"

@@ -3,6 +3,7 @@
     justify-content: center;
     align-items: center;
     height: 100%;
+    position: relative;
 }
 :not(:root):fullscreen::backdrop {
     background: url(../../../assets/image/gameCallBg.png) no-repeat;
@@ -24,16 +25,17 @@
 }
 .game__btn{
     background: #FF9770;
-      border: none;
-      box-shadow: 3px 3px 5px rgba(29, 22, 22, 0.15);
-      border-radius: 8px;
-      color: #161616;
-      width: 144px;
-      height: 56px;
-      margin-top: 55px;
-      &:hover {
-        background: #bb6b56;
-      }
+    border: none;
+    box-shadow: 3px 3px 5px rgba(29, 22, 22, 0.15);
+    border-radius: 8px;
+    color: #161616;
+    min-width: 140px;
+    padding: 5px;
+    height: 56px;
+    margin-top: 55px;
+    &:hover {
+      background: #bb6b56;
+    }
 }
 .call__btn_play-sound {
     border-radius: 50%;
