@@ -27,7 +27,7 @@ const Bar: React.FC = () => {
     <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
       <Menu className="menu" defaultSelectedKeys={[`${location}`]} mode="inline">
         <Menu.Item
-          className="bar__link"
+          className="bar__link logo"
           key="/"
           icon={<img src={logo} alt="logo" />}
           onClick={() => {

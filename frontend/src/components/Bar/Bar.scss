@@ -14,9 +14,6 @@
     background: #1890ff !important;
 }
 
-.logo {
-    margin-top: 60px;
-}
 
 .ant-layout-sider-children {
     background: #282C34;
@@ -27,7 +24,22 @@
 }
 
 .menu {
+    margin-top: 8px;
     background: #282C34;
     width: 99%;
     border-right: none;
+}
+
+.logo {
+    text-align: center;
+    padding: 0 !important;
+
+    img {
+        // width: 70px;
+    }
+
+    &:hover {
+        transform: scale(1.2);
+        transition: all 0.5s;
+    }
 }
