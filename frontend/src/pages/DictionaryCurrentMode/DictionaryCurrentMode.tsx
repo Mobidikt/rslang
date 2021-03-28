@@ -14,6 +14,7 @@ import './DictionaryCurrentMode.scss'
 import useActions from '../../hooks/useActions'
 import { WordAgregationType } from '../../store/types/dictionary'
 import getImgUrl from '../../utils/getImageUrl'
+import { WordType } from '../../store/types/lesson'
 
 const DictionaryCurrentMode: React.FC = () => {
   const { mode } = useParams()
@@ -26,8 +27,9 @@ const DictionaryCurrentMode: React.FC = () => {
     mode === 'deleted' ? 'deletedWords' : mode === 'learned' ? 'learnedWords' : 'difficultWords'
 
   const words = useTypedSelector((state) => state.dictionaryReducer[currentModeWords])
+  const { userId } = useTypedSelector((state) => state.authReducer)
 
-  const { setSelectedSection } = useActions()
+  const { setSelectedSection, updateUserWord } = useActions()
 
   useEffect(() => {
     setSelectedSection(`Dictionary - ${mode} words`)
@@ -51,6 +53,23 @@ const DictionaryCurrentMode: React.FC = () => {
 
   const hideModal = () => {
     setIsModalVisible(false)
+  }
+
+  const handleChangeStatusWord = (
+    word: WordAgregationType,
+    difficulty: 'deleted' | 'learned' | 'difficult',
+  ) => {
+    if (userId) {
+      const wordTypeWord: WordType = {
+        ...word,
+        id: word._id,
+      }
+      updateUserWord(userId, word._id, wordTypeWord, difficulty)
+    }
+  }
+
+  const wordIsDifficult = (difficulty: string): boolean => {
+    return difficulty === 'difficult'
   }
 
   return (
@@ -84,19 +103,42 @@ const DictionaryCurrentMode: React.FC = () => {
               </Tooltip>,
 
               mode === 'learned' ? (
-                <Button>Добавить в сложные</Button>
-              ) : (
-                <Button>Убрать из сложных</Button>
-              ),
+                <Button
+                  onClick={() =>
+                    handleChangeStatusWord(
+                      word,
+                      wordIsDifficult(word.userWord.difficulty) ? 'learned' : 'difficult',
+                    )
+                  }
+                >
+                  {wordIsDifficult(word.userWord.difficulty)
+                    ? 'Убрать из сложных'
+                    : 'Добавить в сложные'}
+                </Button>
+              ) : null,
 
+              mode === 'difficult' ? (
+                <Button onClick={() => handleChangeStatusWord(word, 'learned')}>
+                  Убрать из сложных
+                </Button>
+              ) : null,
               mode === 'deleted' ? (
                 <Tooltip title="Восстановить">
-                  <Button shape="round" icon={<HistoryOutlined />} />
+                  <Button
+                    onClick={() => handleChangeStatusWord(word, 'learned')}
+                    shape="round"
+                    icon={<HistoryOutlined />}
+                  />
                 </Tooltip>
               ) : null,
 
               mode === 'difficult' || mode === 'learned' ? (
-                <Button shape="round" danger icon={<DeleteOutlined />} />
+                <Button
+                  onClick={() => handleChangeStatusWord(word, 'deleted')}
+                  shape="round"
+                  danger
+                  icon={<DeleteOutlined />}
+                />
               ) : (
                 <Popconfirm
                   title="Вы уверены что хотите удалить это слово?"

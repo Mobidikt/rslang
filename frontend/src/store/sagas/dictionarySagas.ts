@@ -41,6 +41,7 @@ function* updateUserWord(action: UpdateUserWordAction) {
     yield put(actions.requestedUpdateUserWord())
     yield call(() => WordApi.update(userId, wordId, difficulty))
     const updaterWord = { ...word, _id: word.id, userWord: { difficulty } }
+
     yield put(actions.requestedUpdateUserWordSuccessed(updaterWord))
     yield put(actions.groupWords())
   } catch (e) {
