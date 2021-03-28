@@ -24,7 +24,7 @@ const GameCall: React.FC = () => {
   const [fullScreen, setFullScreen] = useState(false)
   const [words, setWords] = useState<WordType[]>([])
   const [gameWords, setGameWords] = useState<WordType[]>([])
-  const [arrGameWord, setArrGameWord] = useState<WordType[]>([])
+  const [arrAnswerWords, setArrAnswerWords] = useState<WordType[]>([])
   const [currentWord, setCurrentWord] = useState<WordType>()
   const [answerWords, setAnswerWords] = useState<WordType[]>([])
   const [successWords, setSuccessWords] = useState<WordType[]>([])
@@ -92,7 +92,7 @@ const GameCall: React.FC = () => {
       const arr = randomArr(words, 100)
       const arrGame = arr.splice(0, countWords)
       setGameWords(arrGame)
-      setArrGameWord(arr)
+      setArrAnswerWords(arr)
     }
   }, [words])
   useEffect(() => {
@@ -129,39 +129,25 @@ const GameCall: React.FC = () => {
     (index: number) => {
       let wordsAnswer: WordType[] = []
       wordsAnswer.push(gameWords[index])
-      wordsAnswer.push(arrGameWord[index * 4])
-      wordsAnswer.push(arrGameWord[index * 4 + 1])
-      wordsAnswer.push(arrGameWord[index * 4 + 2])
-      wordsAnswer.push(arrGameWord[index * 4 + 3])
+      wordsAnswer = [...wordsAnswer, arrAnswerWords[index * 4], arrAnswerWords[index * 4 + 1], arrAnswerWords[index * 4 + 2], arrAnswerWords[index * 4 + 3]]
       wordsAnswer = randomArr(wordsAnswer, 5)
       setAnswerWords(wordsAnswer)
     },
-    [arrGameWord, gameWords],
+    [arrAnswerWords, gameWords],
   )
   useEffect(() => {
-    if (currentWord && game) setTimeout(() => playSound(currentWord.audio), 300)
+    if (currentWord && game) setTimeout(() => playWord(), 300)
   }, [currentWord])
-  const renderCurrentWord = useCallback(
-    (index: number) => {
-      setCurrentWord(gameWords[index])
-    },
-    [gameWords],
-  )
-  useEffect(() => {
-    if (gameWords) {
-      renderCurrentWord(indexWord)
-      renderAnswerWords(indexWord)
-    }
-  }, [gameWords, indexWord, renderCurrentWord, renderAnswerWords])
 
   useEffect(() => {
     if (indexWord === countWords) {
       setGame(false)
     } else if (gameWords) {
-      renderCurrentWord(indexWord)
+      setCurrentWord(gameWords[indexWord])
       renderAnswerWords(indexWord)
     }
-  }, [indexWord, gameWords, renderAnswerWords, renderCurrentWord])
+  }, [gameWords, indexWord, renderAnswerWords])
+
   const startGame = () => {
     setGame(true)
     if (currentWord) setTimeout(() => playSound(currentWord.audio), 300)
