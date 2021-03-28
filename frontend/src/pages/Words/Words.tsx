@@ -20,9 +20,15 @@ const Word: React.FC = () => {
 
   return (
     <div className="words">
-      <Link to="/tutorial">
-        <Button size="large" className="back_btn" shape="circle" icon={<ArrowLeftOutlined />} />
-      </Link>
+      <div className="words-links">
+        <Link to="/tutorial">
+          <Button size="large" className="back_btn" shape="circle" icon={<ArrowLeftOutlined />} />
+        </Link>
+        <Link to={`/tutorial/${+groupId + 1}`}>
+          <Button size="large">{`lesson${+groupId + 2}`}</Button>
+        </Link>
+      </div>
+
       <div className="words-container">
         <WordsList />
       </div>
