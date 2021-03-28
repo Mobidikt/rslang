@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams, useNavigate, Link } from 'react-router-dom'
 import { Button } from 'antd'
 import { ArrowLeftOutlined } from '@ant-design/icons'
 import WordsList from '../../components/WordsList/WordsList'
@@ -46,7 +46,22 @@ const Word: React.FC = () => {
           shape="circle"
           icon={<ArrowLeftOutlined />}
         />
-        <div className="div">
+        <div className="words-games">
+          <h4>Изучить эти слова можно тут:</h4>
+          <Link to="/games/savannah">
+            <Button>Саванна</Button>
+          </Link>
+          <Link to="/games/sprint">
+            <Button>Спринт</Button>
+          </Link>
+          <Link to="/games/call">
+            <Button>Аудиовызов</Button>
+          </Link>
+          <Link to="/games/our-game">
+            <Button>Наша игра</Button>
+          </Link>
+        </div>
+        <div className="words-navigation">
           <Button onClick={handlePrevGroup} disabled={+groupId === 0} size="large">
             Предыдущая группа
           </Button>

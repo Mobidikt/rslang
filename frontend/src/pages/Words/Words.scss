@@ -10,9 +10,53 @@
   &-links {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    
+    h4 {
+      margin-bottom: 0;
+      margin-right: 5px;
+    }
 
     button {
       border-radius: 10px;
     }
+  }
+
+  &-games {
+    display: flex;
+    align-items: center;
+
+    button {
+      margin-right: 5px;
+      width: 105px;
+    }
+  }
+
+}
+
+
+@media (max-width: 930px) {
+  .words {
+    &-links {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 20px;
+
+      // h4 {
+      //   display: none;
+      // }
+     
+    }
+
+    &-games {
+      display: flex;
+      flex-direction: column;
+    }
+
+   
   }
 }
