@@ -1,170 +1,184 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import './GameCall.scss'
 import { FullScreen, useFullScreenHandle } from 'react-full-screen'
 import Button from 'antd/es/button/button'
-import Icon, {
-  ArrowLeftOutlined,
-  ArrowRightOutlined,
-  FullscreenExitOutlined,
-  FullscreenOutlined,
-} from '@ant-design/icons'
-import useInterval from '../../../hooks/useInterval'
+import Icon, { FullscreenExitOutlined, FullscreenOutlined } from '@ant-design/icons'
+import './GameCall.scss'
+import wordApi from '../../../services/WordApi'
+import useTypedSelector from '../../../hooks/useTypedSelector'
 import { ReactComponent as volumeOnIcon } from '../../../assets/icons/volume-on.svg'
 import { ReactComponent as volumeOffIcon } from '../../../assets/icons/no-sound.svg'
 import Title from '../Title/Title'
-
+import { GAMES_INFO } from '../utils/gamesInfo'
+import randomArr from '../utils/randomArr'
+import playSound from '../../../utils/playSound'
+/* eslint-disable */
+// @ts-ignore
 const GameCall: React.FC = () => {
+  const { level } = useTypedSelector((state) => state.gameReducer)
   const [startGame, setStartGame] = useState(false)
   const [soundOn, setSoundOn] = useState(true)
-  const [timeSeconds, setTimerSeconds] = useState(60)
-  const [circleDashArray, setCircleDashArray] = useState('283')
-  const [gameLevel, setGameLevel] = useState(1)
   const [fullScreen, setFullScreen] = useState(false)
+  const [words, setWords] = useState<any>()
+  const [gameWords, setGameWords] = useState<any>()
+  const [arrGameWord, setArrGameWord] = useState<any>()
+  const [currentWord, setCurrentWord ] = useState<any>()
+  const [answerWords, setAnswerWords ] = useState<any>()
 
   const handleFullScreen = useFullScreenHandle()
 
-  const FULL_DASH_ARRAY = 283
-  const TIME_LIMIT = 60
-
-  const calculateTimeFraction = (timeLeft: number) => {
-    const rawTimeFraction = timeLeft / TIME_LIMIT
-    const res = rawTimeFraction - (1 / TIME_LIMIT) * (1 - rawTimeFraction)
-    return res
-  }
-
-  const setCircle = (timeLeft: number) => {
-    setCircleDashArray(`${(calculateTimeFraction(timeLeft) * FULL_DASH_ARRAY).toFixed(0)} '283'`)
-  }
-
-  const handleLevelChange = (level: number) => {
-    setGameLevel(level)
-  }
-
-  const escFunction = useCallback((event) => {
+  const escFunction = useCallback(() => {
     if (!document.fullscreenElement) {
       setFullScreen(false)
     }
   }, [])
 
-  useInterval(() => {
-    if (startGame) {
-      setTimerSeconds((time) => {
-        const timeLeft = time - 1
-        setCircle(timeLeft)
-        return timeLeft
-      })
-    }
-  }, 1000)
-
+  /**
+   * Загружаем все слова из категории
+   */
   useEffect(() => {
-    if (timeSeconds === 0) {
-      setTimerSeconds(60)
+    let result: any = []
+    wordApi.getByGroupAndPage(level - 1, 0).then((res) => {
+      result = res.data
+      wordApi.getByGroupAndPage(level - 1, 1).then((res) => {
+        result = result.concat(res.data)
+        wordApi.getByGroupAndPage(level - 1, 2).then((res) => {
+          result = result.concat(res.data)
+          wordApi.getByGroupAndPage(level - 1, 3).then((res) => {
+            result = result.concat(res.data)
+            wordApi.getByGroupAndPage(level - 1, 4).then((res) => {
+              result = result.concat(res.data)
+              wordApi.getByGroupAndPage(level - 1, 5).then((res) => {
+                result = result.concat(res.data)
+                setWords(result)
+              })
+            })
+          })
+        })
+      })
+    })
+  }, [level])
+  useEffect(() => {
+    if (words) {
+      console.log(words)
+      let arr = randomArr(words, 100)
+      let arrGame = arr.splice(0, 20)
+      setGameWords(arrGame)
+      setArrGameWord(arr)
     }
-  }, [timeSeconds])
-
+  }, [words])  
   useEffect(() => {
     document.addEventListener('fullscreenchange', escFunction)
     return () => {
       document.removeEventListener('fullscreenchange', escFunction, false)
     }
   }, [fullScreen, escFunction])
+  
+  const playWord = () => {
+    playSound(currentWord.audio)
+    playSoundError()
+  }
+
+  const playSoundError = (): void => {
+    const audio = new Audio('../../../assets/sounds/error.mp3')
+    audio
+      .play()
+      .then(() => {})
+      .catch(() => {})
+  }
+  const checkWord = (word: any) => {
+    if (currentWord.word === word.word) {
+      return console.log('ура')
+    }
+    return console.log('err')
+  }
+
+
+  const renderAnswerWords = (index: number) => {
+    let answerWords: any = []
+    answerWords.push(gameWords[index])
+    answerWords.push(arrGameWord[index*2])
+    answerWords.push(arrGameWord[index*2+1])
+    answerWords.push(arrGameWord[index*2+2])
+    answerWords.push(arrGameWord[index*2+3])
+    answerWords = randomArr(answerWords, 5)
+    setAnswerWords(answerWords)
+  }
+
+  useEffect(() => {
+  const renderCurrentWord = (index: number) => {
+    setCurrentWord(gameWords[index])
+  }
+  if (gameWords) {
+    console.log('test')
+    renderCurrentWord(0)
+    renderAnswerWords(0)
+  }
+  },[gameWords])
+
+console.log(answerWords)
+
 
   return (
-    <>
-      {startGame ? (
-        <div className="sprint-game-start">
-          <FullScreen handle={handleFullScreen}>
-            <div className="sprint-game-start__inner">
-              <div className="sprint-game-start__settings">
-                <div className="timer">
-                  <div className="timer__number">{timeSeconds}</div>
-                  <svg
-                    className="base-timer__svg"
-                    viewBox="0 0 100 100"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <g className="base-timer__circle">
-                      <circle className="base-timer__path-elapsed" cx="50" cy="50" r="45" />
-                      <path
-                        id="base-timer-path-remaining"
-                        strokeDasharray={circleDashArray}
-                        className="base-timer__path-remaining"
-                        d="
-                        M 50, 50
-                        m -45, 0
-                        a 45,45 0 1,0 90,0
-                        a 45,45 0 1,0 -90,0
-                      "
-                      />
-                    </g>
-                  </svg>
-                </div>
-
-                <div className="sound">
-                  <Button
-                    type="text"
-                    className="btn-sound"
-                    icon={
-                      <Icon
-                        className="sound-icon"
-                        component={soundOn ? volumeOnIcon : volumeOffIcon}
-                      />
-                    }
-                    onClick={() => setSoundOn((prev) => !prev)}
-                  />
-                </div>
-                <div className="full-screen">
-                  <Button
-                    type="text"
-                    className="btn-full-screen"
-                    onClick={() => setFullScreen(!fullScreen)}
-                    icon={
-                      fullScreen ? (
-                        <FullscreenExitOutlined
-                          className="full-screen-icon"
-                          onClick={handleFullScreen.exit}
-                        />
-                      ) : (
-                        <FullscreenOutlined
-                          className="full-screen-icon"
-                          onClick={handleFullScreen.enter}
-                        />
-                      )
-                    }
-                  />
-                </div>
-              </div>
-              <div className="sprint-game-start__words">
-                <p>Cheetah - Гепард</p>
-              </div>
-              <div className="sprint-game-start__buttons">
-                <div className="button-wrapper">
-                  <ArrowLeftOutlined className="arrow-icon" />
-                  <Button type="primary" className="sprint-btn">
-                    RIGHT
-                  </Button>
-                </div>
-                <div className="button-wrapper">
-                  <Button type="primary" className="sprint-btn">
-                    WRONG
-                  </Button>
-                  <ArrowRightOutlined className="arrow-icon" />
-                </div>
-              </div>
+    <FullScreen handle={handleFullScreen} className="fullscreen-call">
+      <>
+        {startGame ? (
+          <div className="call">
+            <Button
+              className="call__btn_play-sound"
+              icon={
+                <Icon className="sound-icon" component={soundOn ? volumeOnIcon : volumeOffIcon} />
+              }
+              onClick={playWord}
+            />
+            <div className="">
+              <Button
+                type="text"
+                className="btn-sound"
+                icon={
+                  <Icon className="sound-icon" component={soundOn ? volumeOnIcon : volumeOffIcon} />
+                }
+                onClick={() => setSoundOn((prev) => !prev)}
+              />
+              <Button
+                type="text"
+                className="btn-full-screen"
+                onClick={() => setFullScreen(!fullScreen)}
+                icon={
+                  fullScreen ? (
+                    <FullscreenExitOutlined
+                      className="full-screen-icon"
+                      onClick={handleFullScreen.exit}
+                    />
+                  ) : (
+                    <FullscreenOutlined
+                      className="full-screen-icon"
+                      onClick={handleFullScreen.enter}
+                    />
+                  )
+                }
+              />
             </div>
-          </FullScreen>
-        </div>
-      ) : (
-        <Title
-          title="Аудиовызов"
-          description={[
-            'Мини-игра «Аудиовызов» - это тренировка, развивающая навыки речи и перевода.',
-            'Вы слышите слово и видите 5 вариантов перевода. Выбрать правильный ответ можно двумя способами:',
-          ]}
-          settings={['1. Кликните по нему мышью.', '2. Используйте клавиши 1, 2, 3, 4, 5.']}
-        />
-      )}
-    </>
+            <div className="call__wrapper-btn">
+              {answerWords?.map((word: any) => (
+                <Button type="primary" className="game__btn" key={word.word} onClick={()=>checkWord(word)}>
+                  {word.wordTranslate}
+                </Button>
+              ))}
+            </div>
+            <Button type="primary" className="game__btn">
+              Пропустить
+            </Button>
+          </div>
+        ) : (
+          <Title
+            title={GAMES_INFO.call.title}
+            description={GAMES_INFO.call.description}
+            settings={GAMES_INFO.call.settings}
+            startGame={() => setStartGame(true)}
+          />
+        )}
+      </>
+    </FullScreen>
   )
 }
 

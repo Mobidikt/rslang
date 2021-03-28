@@ -1,0 +1,42 @@
+.fullscreen-call {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+:not(:root):fullscreen::backdrop {
+    background: url(../../../assets/image/gameCallBg.png) no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+.call{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.call__wrapper-btn {
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    width: 90%;
+}
+.game__btn{
+    background: #FF9770;
+      border: none;
+      box-shadow: 3px 3px 5px rgba(29, 22, 22, 0.15);
+      border-radius: 8px;
+      color: #161616;
+      width: 144px;
+      height: 56px;
+      margin-top: 55px;
+      &:hover {
+        background: #bb6b56;
+      }
+}
+.call__btn_play-sound {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+}

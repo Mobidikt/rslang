@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React from 'react'
 import { Menu, Dropdown, Button, Space } from 'antd'
 import { SettingOutlined } from '@ant-design/icons'
 import useTypedSelector from '../../../hooks/useTypedSelector'
