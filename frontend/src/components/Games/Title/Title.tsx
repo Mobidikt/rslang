@@ -13,10 +13,16 @@ const Title: React.FC<TitleTypes> = ({ title, description, settings, startGame }
   return (
     <div className="title-game">
       <h2 className="title-game__title">{title}</h2>
-      <p className="title-game__text">{description[0]}</p>
-      <p className="title-game__text">{description[1]}</p>
-      <p className="title-game__text">{settings[0]}</p>
-      <p className="title-game__text">{settings[1]}</p>
+      {description.map((item) => (
+        <p className="title-game__text" key={item}>
+          {item}
+        </p>
+      ))}
+      {settings.map((setting) => (
+        <p className="title-game__text" key={setting}>
+          {setting}
+        </p>
+      ))}
       <Button type="primary" danger className="title-game__btn" onClick={startGame}>
         START
       </Button>

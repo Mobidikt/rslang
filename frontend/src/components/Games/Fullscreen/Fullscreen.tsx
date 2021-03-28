@@ -9,22 +9,22 @@ const FullscreenBtn: React.FC = () => {
 
   return (
     <Button
-      type="text"
-      className="btn-full-screen"
-      onClick={() => setFullScreen(!fullScreen)}
-      icon={
-        fullScreen ? (
-          <FullscreenExitOutlined
-            className="full-screen-icon"
-            onClick={handleFullScreen.exit}
-          />
-        ) : (
-          <FullscreenOutlined
-            className="full-screen-icon"
-            onClick={handleFullScreen.enter}
-          />
-        )
-      }
+    //   type="text"
+    //   className="btn-full-screen"
+    //   onClick={() => setFullScreen(!fullScreen)}
+    //   icon={
+    //     fullScreen ? (
+    //       <FullscreenExitOutlined
+    //         className="full-screen-icon"
+    //         onClick={handleFullScreen.exit}
+    //       />
+    //     ) : (
+    //       <FullscreenOutlined
+    //         className="full-screen-icon"
+    //         onClick={handleFullScreen.enter}
+    //       />
+    //     )
+    //   }
     />
   )
 }
