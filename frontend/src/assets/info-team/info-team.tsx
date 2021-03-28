@@ -1,4 +1,5 @@
 import KirillPhoto from '../image/kirill.jpg'
+import AnzhelaPhoto from '../image/anzhela.jpg'
 
 const infoTeam: {
   name: string,
@@ -25,8 +26,8 @@ const infoTeam: {
   },
   {
     name: 'Anzhela Abitova',
-    photo: 'https://i.pinimg.com/originals/54/c6/68/54c6680d3a14edf2c20c654b4970fbec.jpg',
-    profession: 'Web-developer',
+    photo: AnzhelaPhoto,
+    profession: 'Web-developer, Web-designer',
     info:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
     git: 'https://github.com/anzhelaAbitova',
