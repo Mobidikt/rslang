@@ -15,10 +15,11 @@ type LessonCardType = {
 const LessonCard: React.FC<LessonCardType> = ({ lesson }) => {
   const { title, bgColor, idx } = lesson
   const navigate = useNavigate()
-  const { setCurrentPage } = useActions()
+  const { setCurrentPage, setSelectedSection } = useActions()
   const handleNavigate = () => {
     setCurrentPage(0)
     navigate(`/tutorial/${idx}`)
+    setSelectedSection(`Lessons - Lesson ${idx + 1}`)
   }
   return (
     <Card
