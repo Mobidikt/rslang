@@ -9,6 +9,7 @@ import { ReactComponent as volumeOnIcon } from '../../../assets/icons/volume-on.
 import { ReactComponent as volumeOffIcon } from '../../../assets/icons/no-sound.svg'
 import Title from '../Title/Title'
 import { GAMES_INFO } from '../utils/gamesInfo'
+import randomArr from '../utils/randomArr'
 import playSound from '../../../utils/playSound'
 /* eslint-disable */
 // @ts-ignore
@@ -18,7 +19,10 @@ const GameCall: React.FC = () => {
   const [soundOn, setSoundOn] = useState(true)
   const [fullScreen, setFullScreen] = useState(false)
   const [words, setWords] = useState<any>()
+  const [gameWords, setGameWords] = useState<any>()
+  const [arrGameWord, setArrGameWord] = useState<any>()
   const [currentWord, setCurrentWord ] = useState<any>()
+  const [answerWords, setAnswerWords ] = useState<any>()
 
   const handleFullScreen = useFullScreenHandle()
 
@@ -28,12 +32,40 @@ const GameCall: React.FC = () => {
     }
   }, [])
 
+  /**
+   * Загружаем все слова из категории
+   */
   useEffect(() => {
-    wordApi.getByGroup(level - 1).then((res) => {
-      setWords(res.data)
+    let result: any = []
+    wordApi.getByGroupAndPage(level - 1, 0).then((res) => {
+      result = res.data
+      wordApi.getByGroupAndPage(level - 1, 1).then((res) => {
+        result = result.concat(res.data)
+        wordApi.getByGroupAndPage(level - 1, 2).then((res) => {
+          result = result.concat(res.data)
+          wordApi.getByGroupAndPage(level - 1, 3).then((res) => {
+            result = result.concat(res.data)
+            wordApi.getByGroupAndPage(level - 1, 4).then((res) => {
+              result = result.concat(res.data)
+              wordApi.getByGroupAndPage(level - 1, 5).then((res) => {
+                result = result.concat(res.data)
+                setWords(result)
+              })
+            })
+          })
+        })
+      })
     })
   }, [level])
-  
+  useEffect(() => {
+    if (words) {
+      console.log(words)
+      let arr = randomArr(words, 100)
+      let arrGame = arr.splice(0, 20)
+      setGameWords(arrGame)
+      setArrGameWord(arr)
+    }
+  }, [words])  
   useEffect(() => {
     document.addEventListener('fullscreenchange', escFunction)
     return () => {
@@ -42,8 +74,7 @@ const GameCall: React.FC = () => {
   }, [fullScreen, escFunction])
   
   const playWord = () => {
-    setCurrentWord(words[0])
-    playSound(words[0].audio)
+    playSound(currentWord.audio)
     playSoundError()
   }
 
@@ -55,11 +86,37 @@ const GameCall: React.FC = () => {
       .catch(() => {})
   }
   const checkWord = (word: any) => {
-    if (words[0].word === word.word) {
+    if (currentWord.word === word.word) {
       return console.log('ура')
     }
     return console.log('err')
   }
+
+
+  const renderAnswerWords = (index: number) => {
+    let answerWords: any = []
+    answerWords.push(gameWords[index])
+    answerWords.push(arrGameWord[index*2])
+    answerWords.push(arrGameWord[index*2+1])
+    answerWords.push(arrGameWord[index*2+2])
+    answerWords.push(arrGameWord[index*2+3])
+    answerWords = randomArr(answerWords, 5)
+    setAnswerWords(answerWords)
+  }
+
+  useEffect(() => {
+  const renderCurrentWord = (index: number) => {
+    setCurrentWord(gameWords[index])
+  }
+  if (gameWords) {
+    console.log('test')
+    renderCurrentWord(0)
+    renderAnswerWords(0)
+  }
+  },[gameWords])
+
+console.log(answerWords)
+
 
   return (
     <FullScreen handle={handleFullScreen} className="fullscreen-call">
@@ -102,9 +159,9 @@ const GameCall: React.FC = () => {
               />
             </div>
             <div className="call__wrapper-btn">
-              {words.map((word: any) => (
+              {answerWords?.map((word: any) => (
                 <Button type="primary" className="game__btn" key={word.word} onClick={()=>checkWord(word)}>
-                  {word.word}
+                  {word.wordTranslate}
                 </Button>
               ))}
             </div>
