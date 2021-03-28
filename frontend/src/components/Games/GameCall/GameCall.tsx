@@ -1,39 +1,65 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { FullScreen, useFullScreenHandle } from 'react-full-screen'
 import Button from 'antd/es/button/button'
-import Icon, {
-  ArrowLeftOutlined,
-  ArrowRightOutlined,
-  FileTextOutlined,
-  FullscreenExitOutlined,
-  FullscreenOutlined,
-} from '@ant-design/icons'
+import Icon, { FullscreenExitOutlined, FullscreenOutlined } from '@ant-design/icons'
 import './GameCall.scss'
+import wordApi from '../../../services/WordApi'
 import useTypedSelector from '../../../hooks/useTypedSelector'
 import { ReactComponent as volumeOnIcon } from '../../../assets/icons/volume-on.svg'
 import { ReactComponent as volumeOffIcon } from '../../../assets/icons/no-sound.svg'
 import Title from '../Title/Title'
-
+import { GAMES_INFO } from '../utils/gamesInfo'
+import playSound from '../../../utils/playSound'
+/* eslint-disable */
+// @ts-ignore
 const GameCall: React.FC = () => {
   const { level } = useTypedSelector((state) => state.gameReducer)
   const [startGame, setStartGame] = useState(false)
   const [soundOn, setSoundOn] = useState(true)
   const [fullScreen, setFullScreen] = useState(false)
+  const [words, setWords] = useState<any>()
+  const [currentWord, setCurrentWord ] = useState<any>()
 
   const handleFullScreen = useFullScreenHandle()
 
-  const escFunction = useCallback((event) => {
+  const escFunction = useCallback(() => {
     if (!document.fullscreenElement) {
       setFullScreen(false)
     }
   }, [])
 
   useEffect(() => {
+    wordApi.getByGroup(level - 1).then((res) => {
+      setWords(res.data)
+    })
+  }, [level])
+  
+  useEffect(() => {
     document.addEventListener('fullscreenchange', escFunction)
     return () => {
       document.removeEventListener('fullscreenchange', escFunction, false)
     }
   }, [fullScreen, escFunction])
+  
+  const playWord = () => {
+    setCurrentWord(words[0])
+    playSound(words[0].audio)
+    playSoundError()
+  }
+
+  const playSoundError = (): void => {
+    const audio = new Audio('../../../assets/sounds/error.mp3')
+    audio
+      .play()
+      .then(() => {})
+      .catch(() => {})
+  }
+  const checkWord = (word: any) => {
+    if (words[0].word === word.word) {
+      return console.log('ура')
+    }
+    return console.log('err')
+  }
 
   return (
     <FullScreen handle={handleFullScreen} className="fullscreen-call">
@@ -45,6 +71,7 @@ const GameCall: React.FC = () => {
               icon={
                 <Icon className="sound-icon" component={soundOn ? volumeOnIcon : volumeOffIcon} />
               }
+              onClick={playWord}
             />
             <div className="">
               <Button
@@ -75,21 +102,11 @@ const GameCall: React.FC = () => {
               />
             </div>
             <div className="call__wrapper-btn">
-              <Button type="primary" className="game__btn">
-                1
-              </Button>
-              <Button type="primary" className="game__btn">
-                2
-              </Button>
-              <Button type="primary" className="game__btn">
-                3
-              </Button>
-              <Button type="primary" className="game__btn">
-                4
-              </Button>
-              <Button type="primary" className="game__btn">
-                5
-              </Button>
+              {words.map((word: any) => (
+                <Button type="primary" className="game__btn" key={word.word} onClick={()=>checkWord(word)}>
+                  {word.word}
+                </Button>
+              ))}
             </div>
             <Button type="primary" className="game__btn">
               Пропустить
@@ -97,12 +114,9 @@ const GameCall: React.FC = () => {
           </div>
         ) : (
           <Title
-            title="Аудиовызов"
-            description={[
-              'Мини-игра «Аудиовызов» - это тренировка, развивающая навыки речи и перевода.',
-              'Вы слышите слово и видите 5 вариантов перевода. Выбрать правильный ответ можно двумя способами:',
-            ]}
-            settings={['1. Кликните по нему мышью.', '2. Используйте клавиши 1, 2, 3, 4, 5.']}
+            title={GAMES_INFO.call.title}
+            description={GAMES_INFO.call.description}
+            settings={GAMES_INFO.call.settings}
             startGame={() => setStartGame(true)}
           />
         )}

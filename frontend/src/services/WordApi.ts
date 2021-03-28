@@ -36,6 +36,13 @@ const getByGroupAndPage = async (groupId: number, pageNumber: number) => {
   return data
 }
 
+const getByGroup = async (groupId: number) => {
+  const data = await axios.get<GetByGroupAndPageResponseType>(
+    `${config.API_URL}/words?group=${groupId}`,
+  )
+  return data
+}
+
 const getById = async (id: string) => {
   const data = await axios.get<GetByIdResponseType>(`${config.API_URL}/words/${id}`)
   return data
@@ -78,6 +85,7 @@ const update = async (
 
 export default {
   getByGroupAndPage,
+  getByGroup,
   getById,
   save,
   update,
