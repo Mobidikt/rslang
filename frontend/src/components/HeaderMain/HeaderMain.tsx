@@ -4,6 +4,7 @@ import './HeaderMain.scss'
 import useActions from '../../hooks/useActions'
 import AuthCard from '../AuthCard/AuthCard'
 import useTypedSelector from '../../hooks/useTypedSelector'
+import logo from '../../assets/icons/RSLang.png'
 
 const HeaderMain: React.FC = () => {
   const { setIsVisibleAuthCard, logout } = useActions()
@@ -18,7 +19,7 @@ const HeaderMain: React.FC = () => {
     <>
       <header className="header-main">
         <div className="header-main__wrapper">
-          <img src="#" alt="logo" />
+          <img src={logo} alt="logo" />
           <nav className="nav">
             <button className="nav__item" type="button" onClick={() => scrollItem('team')}>
               About team
