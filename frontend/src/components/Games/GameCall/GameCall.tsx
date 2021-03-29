@@ -3,7 +3,6 @@ import { FullScreen, useFullScreenHandle } from 'react-full-screen'
 import Button from 'antd/es/button/button'
 import Icon, { FullscreenExitOutlined, FullscreenOutlined } from '@ant-design/icons'
 import './GameCall.scss'
-import wordApi from '../../../services/WordApi'
 import useTypedSelector from '../../../hooks/useTypedSelector'
 import { ReactComponent as volumeOnIcon } from '../../../assets/icons/volume-on.svg'
 import { ReactComponent as volumeOffIcon } from '../../../assets/icons/no-sound.svg'
@@ -14,6 +13,8 @@ import playSound from '../../../utils/playSound'
 import SettingsGame from '../Settings/Settings'
 import { WordType } from '../../../store/types/lesson'
 import getWordsForGame from '../../../utils/getWordsForGame'
+import renderArrAnswerWords from '../utils/renderArrAnswerWords'
+import { playSoundSuccess, playSoundError } from '../utils/soundEffect'
 
 const GameCall: React.FC = () => {
   const { level } = useTypedSelector((state) => state.gameReducer)
@@ -32,6 +33,7 @@ const GameCall: React.FC = () => {
 
   const handleFullScreen = useFullScreenHandle()
   const countWords = 5
+
   const escFunction = useCallback(() => {
     if (!document.fullscreenElement) {
       setFullScreen(false)
@@ -40,52 +42,38 @@ const GameCall: React.FC = () => {
 
   const startGame = () => {
     setGame(true)
-    if (currentWord) setTimeout(() => playSound(currentWord.audio), 300)
   }
-
-  const getWords = useCallback(async () => {
-    const wordsFromResponse = await getWordsForGame(level, 100)
-    console.log(wordsFromResponse)
-    setWords(wordsFromResponse)
-    setGame(false)
-    setIsloadingGame(false)
-  }, [level])
-
+  const initGame = () => {
+    getWordsForGame(level, countWords * 5)
+      .then((data) => {
+        const wordsFromResponse = data
+        setWords(wordsFromResponse)
+        setIsloadingGame(false)
+        setIndexWord(0)
+      })
+      .catch((err) => console.log(err))
+  }
   const renderAnswerWords = useCallback(
     (index: number) => {
       if (gameWords.length !== 0 && arrGameWord.length !== 0) {
-        let wordsAnswer: WordType[] = []
-        wordsAnswer.push(gameWords[index])
-        wordsAnswer.push(arrGameWord[index * 4])
-        wordsAnswer.push(arrGameWord[index * 4 + 1])
-        wordsAnswer.push(arrGameWord[index * 4 + 2])
-        wordsAnswer.push(arrGameWord[index * 4 + 3])
-
-        wordsAnswer = randomArr(wordsAnswer, 5, '')
-        setAnswerWords(wordsAnswer)
+        const wordsAnswer = renderArrAnswerWords(gameWords, arrGameWord, index)
+        setAnswerWords(randomArr(wordsAnswer, 5, ''))
       }
     },
     [arrGameWord, gameWords],
   )
 
   useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    getWords()
-  }, [getWords])
-
-  useEffect(() => {
-    if (indexWord === countWords) {
-      setGame(false)
-    } else if (gameWords) {
-      setCurrentWord(gameWords[indexWord])
-      renderAnswerWords(indexWord)
-    }
-  }, [gameWords, indexWord, renderAnswerWords])
+    setGame(false)
+    setIsloadingGame(true)
+    initGame()
+    // eslint-disable-next-line
+  }, [level])
 
   useEffect(() => {
     if (words) {
-      const arr = randomArr(words, 100, '')
-      const arrGame = arr.splice(0, countWords)
+      const arrGame = words.splice(0, countWords)
+      const arr = randomArr(words, countWords * 4, '')
       setGameWords(arrGame)
       setArrGameWord(arr)
     }
@@ -102,18 +90,12 @@ const GameCall: React.FC = () => {
     if (currentWord) playSound(currentWord.audio)
   }, [currentWord])
 
-  const playSoundError = (): void => {
-    const audio = new Audio('../../../assets/sounds/error.mp3')
-    audio
-      .play()
-      .then(() => {})
-      .catch(() => {})
-  }
   const checkWord = useCallback(
     (word: WordType) => {
       setIndexWord((prev) => prev + 1)
       if (currentWord)
         if (currentWord.word === word.word) {
+          playSoundSuccess()
           setSuccessWords([...successWords, currentWord])
         } else {
           playSoundError()
@@ -140,20 +122,13 @@ const GameCall: React.FC = () => {
   useEffect(() => {
     if (indexWord === countWords) {
       setGame(false)
+      initGame()
     } else if (gameWords) {
       renderCurrentWord(indexWord)
       renderAnswerWords(indexWord)
     }
+    // eslint-disable-next-line
   }, [gameWords, indexWord, renderCurrentWord, renderAnswerWords])
-
-  useEffect(() => {
-    if (indexWord === countWords) {
-      setGame(false)
-    } else if (gameWords) {
-      renderCurrentWord(indexWord)
-      renderAnswerWords(indexWord)
-    }
-  }, [indexWord, gameWords, renderAnswerWords, renderCurrentWord])
 
   return (
     <FullScreen handle={handleFullScreen} className="fullscreen-call">
