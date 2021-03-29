@@ -1,7 +1,7 @@
 import { WordType } from '../../../store/types/lesson'
 
 /* eslint-disable */
-const randomArr: (inputArray: WordType[], outputLength: number) => WordType[] = (inputArray, outputLength) => {
+const randomArr = (inputArray: WordType[], outputLength: number, blockWordId: string): WordType[] => {
   function shuffle(a: any) {
     let j
     let x
@@ -13,7 +13,7 @@ const randomArr: (inputArray: WordType[], outputLength: number) => WordType[] = 
     }
     return a
   }
-  const result = inputArray.filter((elem, index, array) => array.indexOf(elem) === index)
+  const result = inputArray.filter((elem, index, array) => array.indexOf(elem) === index).filter(elem => elem.id !== blockWordId)
   return shuffle(result).slice(0, outputLength)
 }
 
