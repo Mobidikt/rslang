@@ -3,8 +3,8 @@ import { WordType } from '../store/types/lesson'
 import store from '../store'
 import WordApi from '../services/WordApi'
 
-function getRandomFloat(min: number, max: number) {
-  return Math.random() * (max - min) + min
+export function getRandomFloat(min: number, max: number): number {
+  return Math.floor(Math.random() * (max - min) + min)
 }
 
 /* eslint-disable */
@@ -25,7 +25,7 @@ export function randomArr(inputArray: any[], outputLength: number) {
 }
 
 export default async function getWordsForGame(
-  difficulty: 0 | 1 | 2 | 3 | 4 | 5,
+  difficulty: number,
   countWords: number,
 ): Promise<Array<WordType>> {
   const state = store.getState()
@@ -38,14 +38,24 @@ export default async function getWordsForGame(
 
   if (fromCurrentGroup) {
     const currentGroup = state.lessonReducer.currentGroup || 1
-    for (let i = 0; i < countPage - 1; i += 1) {
-      const page = state.lessonReducer.currentPage + (i + 1)
-
-      // eslint-disable-next-line no-await-in-loop
-      const wordsFromResponse: Array<WordType> = await WordApi.getByGroupAndPage(currentGroup, page)
-      words = [...words].concat(wordsFromResponse)
+    if(state.lessonReducer.currentPage > 25){
+      for (let i = state.lessonReducer.currentPage; i > countPage - 1; i -= 1) {
+        const page = state.lessonReducer.currentPage - (i - 1)
+  
+        // eslint-disable-next-line no-await-in-loop
+        const wordsFromResponse: Array<WordType> = await WordApi.getByGroupAndPage(currentGroup, page)
+        words = words.concat(wordsFromResponse)
+      }
+    } else {
+      for (let i = 0; i < countPage - 1; i += 1) {
+        const page = state.lessonReducer.currentPage + (i + 1)
+  
+        // eslint-disable-next-line no-await-in-loop
+        const wordsFromResponse: Array<WordType> = await WordApi.getByGroupAndPage(currentGroup, page)
+        words = words.concat(wordsFromResponse)
+      }
     }
-    words = randomArr([state.lessonReducer.words, ...words], countWords)
+    words = state.lessonReducer.words.concat(randomArr([...words], countWords-20))
     return words
   }
 
@@ -61,7 +71,7 @@ export default async function getWordsForGame(
       difficulty,
       randomPage,
     )
-    words = [...words].concat(wordsFromResponse)
+    words = words.concat(wordsFromResponse)
   }
   return randomArr(words, countWords)
 }

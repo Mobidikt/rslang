@@ -14,5 +14,13 @@ export const GAMES_INFO = {
       'After the start of the game, you will see word and translation. You need to choose is it right or wrong.'
     ],
     settings: ['1. Use mouse to choose.', '2. Use the keys Left and Right.'],
-  }
+  },
+  savannah: {
+    title: 'Саванна',
+    description: [
+      'Мини-игра «Саванна» - это тренировка по переводу пассивного изученного словаря в активную стадию.',
+      'После запуска игры вы увидите падающее слово на английском (или русском, если режим игры RU-> EN) и четыре варианта перевода. Выбрать правильный ответ можно двумя способами:',
+    ],
+    settings: ['1. Кликните по нему мышью.', '2. Используйте клавиши 1, 2, 3, 4'],
+  },
 }

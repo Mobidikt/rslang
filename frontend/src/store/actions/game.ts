@@ -5,6 +5,11 @@ const setLevelGame = (level: number): GameAction => ({
   payload: level,
 })
 
+const setIsMute = (): GameAction => ({
+  type: GameActionTypes.SET_IS_MUTE,
+})
+
 export default {
   setLevelGame,
+  setIsMute,
 }
