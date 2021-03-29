@@ -1,5 +1,3 @@
-/* eslint-disable */
-// @ts-ignore
 import React, { useCallback, useEffect, useState } from 'react'
 import { FullScreen, useFullScreenHandle } from 'react-full-screen'
 import Button from 'antd/es/button/button'
@@ -16,6 +14,7 @@ import playSound from '../../../utils/playSound'
 import SettingsGame from '../Settings/Settings'
 import { WordType } from '../../../store/types/lesson'
 import getWordsForGame from '../../../utils/getWordsForGame'
+
 const GameCall: React.FC = () => {
   const { level } = useTypedSelector((state) => state.gameReducer)
   const [game, setGame] = useState(false)
@@ -46,10 +45,10 @@ const GameCall: React.FC = () => {
 
   const getWords = useCallback(async () => {
     const wordsFromResponse = await getWordsForGame(level, 100)
+    console.log(wordsFromResponse)
     setWords(wordsFromResponse)
     setGame(false)
     setIsloadingGame(false)
-    let result: any = []
   }, [level])
 
   const renderAnswerWords = useCallback(
