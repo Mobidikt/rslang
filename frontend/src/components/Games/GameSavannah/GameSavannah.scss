@@ -1,0 +1,57 @@
+.game-savannah {
+  width: 100%;
+  padding: 10px 20px;
+  &-header {
+
+    display: flex;
+    justify-content: space-between;
+
+    &-settings {
+      display: flex;
+      align-items: center;
+
+      button {
+        margin-right: 20px;
+      }
+    }
+  }
+
+
+  &-field {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    &-answers {
+      margin-top: 100px;
+      &__btn {
+        width: 100px;
+      }
+
+      &-results {
+        margin-top: 100px;
+        height: 30px;
+        border: 1px solid gray;
+        width: 500px;
+        display: flex;
+
+        &--true {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 50px;
+          background: green;
+        }
+
+        &--false {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 50px;
+          background: red;
+        }
+      }
+    }
+  }
+}

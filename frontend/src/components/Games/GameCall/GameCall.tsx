@@ -15,6 +15,7 @@ import randomArr from '../utils/randomArr'
 import playSound from '../../../utils/playSound'
 import SettingsGame from '../Settings/Settings'
 import { WordType } from '../../../store/types/lesson'
+import getWordsForGame from '../../../utils/getWordsForGame'
 const GameCall: React.FC = () => {
   const { level } = useTypedSelector((state) => state.gameReducer)
   const [game, setGame] = useState(false)
@@ -38,61 +39,59 @@ const GameCall: React.FC = () => {
     }
   }, [])
 
-  /**
-   * Загружаем все слова из категории
-   */
-  useEffect(() => {
+  const startGame = () => {
+    setGame(true)
+    if (currentWord) setTimeout(() => playSound(currentWord.audio), 300)
+  }
+
+  const getWords = useCallback(async () => {
+    const wordsFromResponse = await getWordsForGame(level, 100)
+    setWords(wordsFromResponse)
     setGame(false)
-    setIsloadingGame(true)
+    setIsloadingGame(false)
     let result: any = []
-    wordApi
-      .getByGroupAndPage(level - 1, 0)
-      .then((data) => {
-        result = data
-        wordApi
-          .getByGroupAndPage(level - 1, 1)
-          .then((res) => {
-            result = result.concat(res)
-            wordApi
-              .getByGroupAndPage(level - 1, 2)
-              .then((data2) => {
-                result = result.concat(data2)
-                wordApi
-                  .getByGroupAndPage(level - 1, 3)
-                  .then((data3) => {
-                    result = result.concat(data3)
-                    wordApi
-                      .getByGroupAndPage(level - 1, 4)
-                      .then((data4) => {
-                        result = result.concat(data4)
-                        wordApi
-                          .getByGroupAndPage(level - 1, 5)
-                          .then((data5) => {
-                            result = result.concat(data5)
-                            setWords(result)
-                            setIsloadingGame(false)
-                          })
-                          .catch((err) => console.log(err))
-                      })
-                      .catch((err) => console.log(err))
-                  })
-                  .catch((err) => console.log(err))
-              })
-              .catch((err) => console.log(err))
-          })
-          .catch((err) => console.log(err))
-      })
-      .catch((err) => console.log(err))
   }, [level])
+
+  const renderAnswerWords = useCallback(
+    (index: number) => {
+      if (gameWords.length !== 0 && arrGameWord.length !== 0) {
+        let wordsAnswer: WordType[] = []
+        wordsAnswer.push(gameWords[index])
+        wordsAnswer.push(arrGameWord[index * 4])
+        wordsAnswer.push(arrGameWord[index * 4 + 1])
+        wordsAnswer.push(arrGameWord[index * 4 + 2])
+        wordsAnswer.push(arrGameWord[index * 4 + 3])
+
+        wordsAnswer = randomArr(wordsAnswer, 5, '')
+        setAnswerWords(wordsAnswer)
+      }
+    },
+    [arrGameWord, gameWords],
+  )
+
+  useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    getWords()
+  }, [getWords])
+
+  useEffect(() => {
+    if (indexWord === countWords) {
+      setGame(false)
+    } else if (gameWords) {
+      setCurrentWord(gameWords[indexWord])
+      renderAnswerWords(indexWord)
+    }
+  }, [gameWords, indexWord, renderAnswerWords])
 
   useEffect(() => {
     if (words) {
-      const arr = randomArr(words, 100)
+      const arr = randomArr(words, 100, '')
       const arrGame = arr.splice(0, countWords)
       setGameWords(arrGame)
       setArrGameWord(arr)
     }
   }, [words])
+
   useEffect(() => {
     document.addEventListener('fullscreenchange', escFunction)
     return () => {
@@ -129,19 +128,6 @@ const GameCall: React.FC = () => {
     if (currentWord) setErrorWords([...errorWords, currentWord])
   }
 
-  const renderAnswerWords = useCallback(
-    (index: number) => {
-      let wordsAnswer: WordType[] = []
-      wordsAnswer.push(gameWords[index])
-      wordsAnswer.push(arrGameWord[index * 4])
-      wordsAnswer.push(arrGameWord[index * 4 + 1])
-      wordsAnswer.push(arrGameWord[index * 4 + 2])
-      wordsAnswer.push(arrGameWord[index * 4 + 3])
-      wordsAnswer = randomArr(wordsAnswer, 5)
-      setAnswerWords(wordsAnswer)
-    },
-    [arrGameWord, gameWords],
-  )
   useEffect(() => {
     if (currentWord && game) setTimeout(() => playWord(), 300)
   }, [currentWord, game, playWord])
@@ -151,6 +137,7 @@ const GameCall: React.FC = () => {
     },
     [gameWords],
   )
+
   useEffect(() => {
     if (gameWords) {
       renderCurrentWord(indexWord)
@@ -166,10 +153,7 @@ const GameCall: React.FC = () => {
       renderAnswerWords(indexWord)
     }
   }, [indexWord, gameWords, renderAnswerWords, renderCurrentWord])
-  const startGame = () => {
-    setGame(true)
-    if (currentWord) setTimeout(() => playSound(currentWord.audio), 300)
-  }
+
   return (
     <FullScreen handle={handleFullScreen} className="fullscreen-call">
       <>

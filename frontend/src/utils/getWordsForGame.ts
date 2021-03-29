@@ -3,8 +3,8 @@ import { WordType } from '../store/types/lesson'
 import store from '../store'
 import WordApi from '../services/WordApi'
 
-function getRandomFloat(min: number, max: number) {
-  return Math.random() * (max - min) + min
+export function getRandomFloat(min: number, max: number): number {
+  return Math.floor(Math.random() * (max - min) + min)
 }
 
 /* eslint-disable */
@@ -25,7 +25,7 @@ function randomArr(inputArray: any[], outputLength: number) {
 }
 
 export default async function getWordsForGame(
-  difficulty: 0 | 1 | 2 | 3 | 4 | 5,
+  difficulty: number,
   countWords: number,
 ): Promise<Array<WordType>> {
   const state = store.getState()

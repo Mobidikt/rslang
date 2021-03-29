@@ -35,6 +35,7 @@ const Title: React.FC<TitleTypes> = ({
         danger
         className="title-game__btn"
         onClick={startGame}
+        loading={loading}
         disabled={loading}
       >
         START

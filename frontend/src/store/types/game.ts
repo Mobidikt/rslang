@@ -1,9 +1,11 @@
 export interface GameState {
   level: number;
+  isMute: boolean;
 }
 
 export enum GameActionTypes {
-  LEVEL_GAME = 1,
+  LEVEL_GAME = 'GAME/LEVEL_GAME',
+  SET_IS_MUTE = 'GAME/SET_IS_MUTE',
 }
 
 export interface SetLevelGame {
@@ -11,4 +13,8 @@ export interface SetLevelGame {
   payload: number;
 }
 
-export type GameAction = SetLevelGame
+interface SetIsMute {
+  type: GameActionTypes.SET_IS_MUTE;
+}
+
+export type GameAction = SetLevelGame | SetIsMute
