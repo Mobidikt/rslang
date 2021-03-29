@@ -22,8 +22,8 @@ const GameCall: React.FC = () => {
   const [words, setWords] = useState<any>()
   const [gameWords, setGameWords] = useState<any>()
   const [arrGameWord, setArrGameWord] = useState<any>()
-  const [currentWord, setCurrentWord ] = useState<any>()
-  const [answerWords, setAnswerWords ] = useState<any>()
+  const [currentWord, setCurrentWord] = useState<any>()
+  const [answerWords, setAnswerWords] = useState<any>()
   const [successWords, setSuccessWords] = useState<any[]>([])
   const [errorWords, setErrorWords] = useState<any[]>([])
   const [indexWord, setIndexWord] = useState<number>(0)
@@ -45,17 +45,17 @@ const GameCall: React.FC = () => {
     setIsloadingGame(true)
     let result: any = []
     wordApi.getByGroupAndPage(level - 1, 0).then((res) => {
-      result = res.data
+      result = res
       wordApi.getByGroupAndPage(level - 1, 1).then((res) => {
-        result = result.concat(res.data)
+        result = result.concat(res)
         wordApi.getByGroupAndPage(level - 1, 2).then((res) => {
-          result = result.concat(res.data)
+          result = result.concat(res)
           wordApi.getByGroupAndPage(level - 1, 3).then((res) => {
-            result = result.concat(res.data)
+            result = result.concat(res)
             wordApi.getByGroupAndPage(level - 1, 4).then((res) => {
-              result = result.concat(res.data)
+              result = result.concat(res)
               wordApi.getByGroupAndPage(level - 1, 5).then((res) => {
-                result = result.concat(res.data)
+                result = result.concat(res)
                 setWords(result)
                 setIsloadingGame(false)
               })
@@ -74,14 +74,14 @@ const GameCall: React.FC = () => {
       setGameWords(arrGame)
       setArrGameWord(arr)
     }
-  }, [words])  
+  }, [words])
   useEffect(() => {
     document.addEventListener('fullscreenchange', escFunction)
     return () => {
       document.removeEventListener('fullscreenchange', escFunction, false)
     }
   }, [fullScreen, escFunction])
-  
+
   const playWord = () => {
     playSound(currentWord.audio)
   }
@@ -94,7 +94,7 @@ const GameCall: React.FC = () => {
       .catch(() => {})
   }
   const checkWord = (word: any) => {
-    setIndexWord(prev => prev+1)
+    setIndexWord((prev) => prev + 1)
     if (currentWord.word === word.word) {
       setSuccessWords([...successWords, currentWord])
     } else {
@@ -103,35 +103,34 @@ const GameCall: React.FC = () => {
     }
   }
   const skipWord = () => {
-    setIndexWord(prev => prev+1)
+    setIndexWord((prev) => prev + 1)
     setErrorWords([...errorWords, currentWord])
   }
-
 
   useEffect(() => {
     if (indexWord === countWords) {
       console.log(successWords, errorWords)
     } else {
-      if(gameWords){
+      if (gameWords) {
         renderCurrentWord(indexWord)
         renderAnswerWords(indexWord)
       }
     }
-  },[indexWord])
+  }, [indexWord])
 
   const renderAnswerWords = (index: number) => {
     let answerWords: any = []
     answerWords.push(gameWords[index])
-    answerWords.push(arrGameWord[index*4])
-    answerWords.push(arrGameWord[index*4+1])
-    answerWords.push(arrGameWord[index*4+2])
-    answerWords.push(arrGameWord[index*4+3])
+    answerWords.push(arrGameWord[index * 4])
+    answerWords.push(arrGameWord[index * 4 + 1])
+    answerWords.push(arrGameWord[index * 4 + 2])
+    answerWords.push(arrGameWord[index * 4 + 3])
     answerWords = randomArr(answerWords, 5)
     setAnswerWords(answerWords)
   }
- useEffect(()=>{
-   if(currentWord && game) setTimeout(()=> playWord(), 300)
- },[currentWord])
+  useEffect(() => {
+    if (currentWord && game) setTimeout(() => playWord(), 300)
+  }, [currentWord])
   const renderCurrentWord = (index: number) => {
     setCurrentWord(gameWords[index])
   }
@@ -140,7 +139,7 @@ const GameCall: React.FC = () => {
       renderCurrentWord(indexWord)
       renderAnswerWords(indexWord)
     }
-  },[gameWords])
+  }, [gameWords])
 
   const startGame = () => {
     setGame(true)
@@ -186,7 +185,12 @@ const GameCall: React.FC = () => {
             />
             <div className="call__wrapper-btn">
               {answerWords.map((word: any) => (
-                <Button type="primary" className="game__btn" key={word.word} onClick={()=>checkWord(word)}>
+                <Button
+                  type="primary"
+                  className="game__btn"
+                  key={word.word}
+                  onClick={() => checkWord(word)}
+                >
                   {word.wordTranslate}
                 </Button>
               ))}

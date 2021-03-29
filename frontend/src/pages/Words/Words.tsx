@@ -11,7 +11,13 @@ const Word: React.FC = () => {
   const navigate = useNavigate()
   const { currentPage } = useTypedSelector((state) => state.lessonReducer)
   const { groupId } = useParams()
-  const { fetchWords, setCurrentGroup, setSelectedSection, setCurrentPage } = useActions()
+  const {
+    fetchWords,
+    setCurrentGroup,
+    setSelectedSection,
+    setCurrentPage,
+    setFromCurrentGroup,
+  } = useActions()
 
   useEffect(() => {
     fetchWords(+groupId, currentPage || 0)
@@ -31,6 +37,11 @@ const Word: React.FC = () => {
     navigate(`/tutorial/${+groupId - 1}`)
   }
 
+  const handleNavigateToGame = (path: string) => {
+    setFromCurrentGroup(true)
+    navigate(`/games/${path}`)
+  }
+
   const backToLessons = () => {
     navigate('/tutorial')
     setSelectedSection(`Lessons`)
@@ -48,18 +59,11 @@ const Word: React.FC = () => {
         />
         <div className="words-games">
           <h4>Изучить эти слова можно тут:</h4>
-          <Link to="/games/savannah">
-            <Button>Саванна</Button>
-          </Link>
-          <Link to="/games/sprint">
-            <Button>Спринт</Button>
-          </Link>
-          <Link to="/games/call">
-            <Button>Аудиовызов</Button>
-          </Link>
-          <Link to="/games/our-game">
-            <Button>Наша игра</Button>
-          </Link>
+          <Button onClick={() => handleNavigateToGame('savannah')}>Саванна</Button>
+
+          <Button onClick={() => handleNavigateToGame('sprint')}>Спринт</Button>
+          <Button onClick={() => handleNavigateToGame('call')}>Аудиовызов</Button>
+          <Button onClick={() => handleNavigateToGame('our-game')}>Наша игра</Button>
         </div>
         <div className="words-navigation">
           <Button onClick={handlePrevGroup} disabled={+groupId === 0} size="large">

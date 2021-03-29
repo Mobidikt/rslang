@@ -29,6 +29,7 @@ export interface LessonState {
   currentWordIsDifficult: boolean;
   isLoading: boolean;
   error: string | null;
+  fromCurrentGroup: boolean;
 }
 
 export enum LessonActionTypes {
@@ -43,6 +44,7 @@ export enum LessonActionTypes {
   REQUESTED_WORD_SUCCESSED = 'LESSON/REQUESTED_WORD_SUCCESSED',
   REQUESTED_WORD_FAILED = 'LESSON/REQUESTED_WORD_FAILED',
   SET_CURRENT_WORD_IS_DIFFICULT = 'LESSON/SET_CURRENT_WORD_IS_DIFFICULT',
+  SET_FROM_CURRENT_GROUP = 'LESSON/SET_FROM_CURRENT_GROUP',
 }
 
 type SetCurrentWordIsDifficultAction = {
@@ -98,6 +100,11 @@ export type RequestedWordFailedAction = {
   payload: string,
 }
 
+export type SetFromCurrentGroup = {
+  type: LessonActionTypes.SET_FROM_CURRENT_GROUP,
+  payload: boolean,
+}
+
 export type LessonAction =
   | SetCurrentPageAction
   | SetCurrentGroupAction
@@ -110,3 +117,4 @@ export type LessonAction =
   | RequestedWordSuccessedAction
   | RequestedWordFailedAction
   | SetCurrentWordIsDifficultAction
+  | SetFromCurrentGroup

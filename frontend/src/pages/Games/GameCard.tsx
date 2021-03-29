@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react'
 import { useNavigate } from 'react-router'
 import { Card } from 'antd'
+import useActions from '../../hooks/useActions'
 
 const { Meta } = Card
 
@@ -12,8 +13,11 @@ type GameCardTypes = {
 
 const GameCard: React.FC<GameCardTypes> = ({ url, img, title }: GameCardTypes) => {
   const navigate = useNavigate()
+  const { setFromCurrentGroup } = useActions()
   const handleClick = useCallback(() => {
+    setFromCurrentGroup(false)
     navigate(url)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigate, url])
 
   return (

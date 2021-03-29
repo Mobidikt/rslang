@@ -7,6 +7,7 @@ import Bar from '../components/Bar/Bar'
 import Header from '../components/Header/Header'
 import useTypedSelector from '../hooks/useTypedSelector'
 import useActions from '../hooks/useActions'
+import getWordsForGame from '../utils/getWordsForGame'
 
 const { Content } = Layout
 
@@ -15,6 +16,7 @@ const DefaultLayout: React.FC = () => {
   const { fetchUserWords } = useActions()
 
   useEffect(() => {
+    console.log(getWordsForGame(3, 45))
     if (userId) {
       fetchUserWords(userId)
     }

@@ -1,5 +1,5 @@
 import { put, takeEvery, call } from 'redux-saga/effects'
-import { FetchWordsAction, LessonActionTypes, FetchWordAction } from '../types/lesson'
+import { FetchWordsAction, LessonActionTypes, FetchWordAction, WordType } from '../types/lesson'
 import actions from '../actions/lesson'
 
 import WordApi from '../../services/WordApi'
@@ -10,7 +10,7 @@ function* fetchWords(action: FetchWordsAction) {
   try {
     yield put(actions.requestedWords())
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const { data } = yield call(() => WordApi.getByGroupAndPage(group, page))
+    const data: Array<WordType> = yield call(() => WordApi.getByGroupAndPage(group, page))
     yield put(actions.requestedWordsSuccessed(data))
   } catch (e) {
     yield put(actions.requestedWordsFailed(e))

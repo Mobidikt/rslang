@@ -26,6 +26,7 @@ const initialState: LessonState = {
   currentWordIsDifficult: false,
   isLoading: false,
   error: null,
+  fromCurrentGroup: false,
 }
 
 const reducer = (state: LessonState = initialState, action: LessonAction): LessonState => {
@@ -95,6 +96,13 @@ const reducer = (state: LessonState = initialState, action: LessonAction): Lesso
       return {
         ...state,
         currentWordIsDifficult: action.payload,
+      }
+    }
+
+    case LessonActionTypes.SET_FROM_CURRENT_GROUP: {
+      return {
+        ...state,
+        fromCurrentGroup: action.payload,
       }
     }
 

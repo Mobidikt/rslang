@@ -53,6 +53,11 @@ const setCurrentWordIsDifficult = (status: boolean): LessonAction => ({
   payload: status,
 })
 
+const setFromCurrentGroup = (status: boolean): LessonAction => ({
+  type: LessonActionTypes.SET_FROM_CURRENT_GROUP,
+  payload: status,
+})
+
 export default {
   setCurrentPage,
   setCurrentGroup,
@@ -65,4 +70,5 @@ export default {
   requestedWordSuccessed,
   requestedWordFailed,
   setCurrentWordIsDifficult,
+  setFromCurrentGroup,
 }
