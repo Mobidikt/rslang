@@ -139,7 +139,9 @@ const GameCall: React.FC = () => {
   )
 
   useEffect(() => {
-    if (gameWords) {
+    if (indexWord === countWords) {
+      setGame(false)
+    } else if (gameWords) {
       renderCurrentWord(indexWord)
       renderAnswerWords(indexWord)
     }
