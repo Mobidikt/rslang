@@ -8,7 +8,7 @@ function getRandomFloat(min: number, max: number) {
 }
 
 /* eslint-disable */
-function randomArr(inputArray: any[], outputLength: number) {
+export function randomArr(inputArray: any[], outputLength: number) {
   function shuffle(a: any) {
     let j
     let x
