@@ -1,5 +1,7 @@
+import { WordType } from '../../../store/types/lesson'
+
 /* eslint-disable */
-const randomArr = (inputArray: [], outputLength: number) => {
+const randomArr: (inputArray: WordType[], outputLength: number) => WordType[] = (inputArray, outputLength) => {
   function shuffle(a: any) {
     let j
     let x

@@ -1,3 +1,5 @@
+/* eslint-disable */
+// @ts-ignore
 import React, { useCallback, useEffect, useState } from 'react'
 import { FullScreen, useFullScreenHandle } from 'react-full-screen'
 import Button from 'antd/es/button/button'
@@ -12,20 +14,19 @@ import { GAMES_INFO } from '../utils/gamesInfo'
 import randomArr from '../utils/randomArr'
 import playSound from '../../../utils/playSound'
 import SettingsGame from '../Settings/Settings'
-/* eslint-disable */
-// @ts-ignore
+import { WordType } from '../../../store/types/lesson'
 const GameCall: React.FC = () => {
   const { level } = useTypedSelector((state) => state.gameReducer)
   const [game, setGame] = useState(false)
   const [soundOn, setSoundOn] = useState(true)
   const [fullScreen, setFullScreen] = useState(false)
-  const [words, setWords] = useState<any>()
-  const [gameWords, setGameWords] = useState<any>()
-  const [arrGameWord, setArrGameWord] = useState<any>()
-  const [currentWord, setCurrentWord] = useState<any>()
-  const [answerWords, setAnswerWords] = useState<any>()
-  const [successWords, setSuccessWords] = useState<any[]>([])
-  const [errorWords, setErrorWords] = useState<any[]>([])
+  const [words, setWords] = useState<WordType[]>([])
+  const [gameWords, setGameWords] = useState<WordType[]>([])
+  const [arrGameWord, setArrGameWord] = useState<WordType[]>([])
+  const [currentWord, setCurrentWord] = useState<WordType>()
+  const [answerWords, setAnswerWords] = useState<WordType[]>([])
+  const [successWords, setSuccessWords] = useState<WordType[]>([])
+  const [errorWords, setErrorWords] = useState<WordType[]>([])
   const [indexWord, setIndexWord] = useState<number>(0)
   const [isloadingGame, setIsloadingGame] = useState(true)
 
@@ -44,33 +45,50 @@ const GameCall: React.FC = () => {
     setGame(false)
     setIsloadingGame(true)
     let result: any = []
-    wordApi.getByGroupAndPage(level - 1, 0).then((res) => {
-      result = res
-      wordApi.getByGroupAndPage(level - 1, 1).then((res) => {
-        result = result.concat(res)
-        wordApi.getByGroupAndPage(level - 1, 2).then((res) => {
-          result = result.concat(res)
-          wordApi.getByGroupAndPage(level - 1, 3).then((res) => {
+    wordApi
+      .getByGroupAndPage(level - 1, 0)
+      .then((data) => {
+        result = data
+        wordApi
+          .getByGroupAndPage(level - 1, 1)
+          .then((res) => {
             result = result.concat(res)
-            wordApi.getByGroupAndPage(level - 1, 4).then((res) => {
-              result = result.concat(res)
-              wordApi.getByGroupAndPage(level - 1, 5).then((res) => {
-                result = result.concat(res)
-                setWords(result)
-                setIsloadingGame(false)
+            wordApi
+              .getByGroupAndPage(level - 1, 2)
+              .then((data2) => {
+                result = result.concat(data2)
+                wordApi
+                  .getByGroupAndPage(level - 1, 3)
+                  .then((data3) => {
+                    result = result.concat(data3)
+                    wordApi
+                      .getByGroupAndPage(level - 1, 4)
+                      .then((data4) => {
+                        result = result.concat(data4)
+                        wordApi
+                          .getByGroupAndPage(level - 1, 5)
+                          .then((data5) => {
+                            result = result.concat(data5)
+                            setWords(result)
+                            setIsloadingGame(false)
+                          })
+                          .catch((err) => console.log(err))
+                      })
+                      .catch((err) => console.log(err))
+                  })
+                  .catch((err) => console.log(err))
               })
-            })
+              .catch((err) => console.log(err))
           })
-        })
+          .catch((err) => console.log(err))
       })
-    })
+      .catch((err) => console.log(err))
   }, [level])
 
   useEffect(() => {
     if (words) {
-      console.log(words)
-      let arr = randomArr(words, 100)
-      let arrGame = arr.splice(0, countWords)
+      const arr = randomArr(words, 100)
+      const arrGame = arr.splice(0, countWords)
       setGameWords(arrGame)
       setArrGameWord(arr)
     }
@@ -82,9 +100,9 @@ const GameCall: React.FC = () => {
     }
   }, [fullScreen, escFunction])
 
-  const playWord = () => {
-    playSound(currentWord.audio)
-  }
+  const playWord = useCallback(() => {
+    if (currentWord) playSound(currentWord.audio)
+  }, [currentWord])
 
   const playSoundError = (): void => {
     const audio = new Audio('../../../assets/sounds/error.mp3')
@@ -93,57 +111,64 @@ const GameCall: React.FC = () => {
       .then(() => {})
       .catch(() => {})
   }
-  const checkWord = (word: any) => {
-    setIndexWord((prev) => prev + 1)
-    if (currentWord.word === word.word) {
-      setSuccessWords([...successWords, currentWord])
-    } else {
-      playSoundError()
-      setErrorWords([...errorWords, currentWord])
-    }
-  }
+  const checkWord = useCallback(
+    (word: WordType) => {
+      setIndexWord((prev) => prev + 1)
+      if (currentWord)
+        if (currentWord.word === word.word) {
+          setSuccessWords([...successWords, currentWord])
+        } else {
+          playSoundError()
+          setErrorWords([...errorWords, currentWord])
+        }
+    },
+    [currentWord, errorWords, successWords],
+  )
   const skipWord = () => {
     setIndexWord((prev) => prev + 1)
-    setErrorWords([...errorWords, currentWord])
+    if (currentWord) setErrorWords([...errorWords, currentWord])
   }
 
-  useEffect(() => {
-    if (indexWord === countWords) {
-      console.log(successWords, errorWords)
-    } else {
-      if (gameWords) {
-        renderCurrentWord(indexWord)
-        renderAnswerWords(indexWord)
-      }
-    }
-  }, [indexWord])
-
-  const renderAnswerWords = (index: number) => {
-    let answerWords: any = []
-    answerWords.push(gameWords[index])
-    answerWords.push(arrGameWord[index * 4])
-    answerWords.push(arrGameWord[index * 4 + 1])
-    answerWords.push(arrGameWord[index * 4 + 2])
-    answerWords.push(arrGameWord[index * 4 + 3])
-    answerWords = randomArr(answerWords, 5)
-    setAnswerWords(answerWords)
-  }
+  const renderAnswerWords = useCallback(
+    (index: number) => {
+      let wordsAnswer: WordType[] = []
+      wordsAnswer.push(gameWords[index])
+      wordsAnswer.push(arrGameWord[index * 4])
+      wordsAnswer.push(arrGameWord[index * 4 + 1])
+      wordsAnswer.push(arrGameWord[index * 4 + 2])
+      wordsAnswer.push(arrGameWord[index * 4 + 3])
+      wordsAnswer = randomArr(wordsAnswer, 5)
+      setAnswerWords(wordsAnswer)
+    },
+    [arrGameWord, gameWords],
+  )
   useEffect(() => {
     if (currentWord && game) setTimeout(() => playWord(), 300)
-  }, [currentWord])
-  const renderCurrentWord = (index: number) => {
-    setCurrentWord(gameWords[index])
-  }
+  }, [currentWord, game, playWord])
+  const renderCurrentWord = useCallback(
+    (index: number) => {
+      setCurrentWord(gameWords[index])
+    },
+    [gameWords],
+  )
   useEffect(() => {
     if (gameWords) {
       renderCurrentWord(indexWord)
       renderAnswerWords(indexWord)
     }
-  }, [gameWords])
+  }, [gameWords, indexWord, renderCurrentWord, renderAnswerWords])
 
+  useEffect(() => {
+    if (indexWord === countWords) {
+      setGame(false)
+    } else if (gameWords) {
+      renderCurrentWord(indexWord)
+      renderAnswerWords(indexWord)
+    }
+  }, [indexWord, gameWords, renderAnswerWords, renderCurrentWord])
   const startGame = () => {
     setGame(true)
-    setTimeout(() => playSound(currentWord.audio), 300)
+    if (currentWord) setTimeout(() => playSound(currentWord.audio), 300)
   }
   return (
     <FullScreen handle={handleFullScreen} className="fullscreen-call">
@@ -184,7 +209,7 @@ const GameCall: React.FC = () => {
               }
             />
             <div className="call__wrapper-btn">
-              {answerWords.map((word: any) => (
+              {answerWords.map((word: WordType) => (
                 <Button
                   type="primary"
                   className="game__btn"
