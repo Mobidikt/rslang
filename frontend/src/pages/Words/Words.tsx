@@ -9,7 +9,9 @@ import './Words.scss'
 
 const Word: React.FC = () => {
   const navigate = useNavigate()
+  const { userId } = useTypedSelector((state) => state.authReducer)
   const { currentPage } = useTypedSelector((state) => state.lessonReducer)
+  const { deletedWords } = useTypedSelector((state) => state.dictionaryReducer)
   const { groupId } = useParams()
   const {
     fetchWords,
@@ -20,10 +22,18 @@ const Word: React.FC = () => {
   } = useActions()
 
   useEffect(() => {
-    fetchWords(+groupId, currentPage || 0)
-    setCurrentGroup(+groupId)
+    if (userId) {
+      if (deletedWords) {
+        fetchWords(+groupId, currentPage || 0, deletedWords)
+        setCurrentGroup(+groupId)
+      }
+    } else {
+      fetchWords(+groupId, currentPage || 0, deletedWords)
+      setCurrentGroup(+groupId)
+    }
+
     // eslint-disable-next-line
-  }, [currentPage, groupId])
+  }, [currentPage, groupId, deletedWords])
 
   const handleNextGroup = () => {
     setCurrentPage(0)

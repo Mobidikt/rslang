@@ -10,8 +10,26 @@ const getCurrentPageFromLocalStorage = (): number => {
   return 0
 }
 
+const word = {
+  id: '5e9f5e43434e35eb9e72bc21af519',
+  group: 0,
+  page: 6,
+  word: 'announce',
+  image: 'files/07_0122.jpg',
+  audio: 'files/07_0122.mp3',
+  audioMeaning: 'files/07_0122_meaning.mp3',
+  audioExample: 'files/07_0122_example.mp3',
+  textMeaning: 'To <i>announce</i> something is to make it known.',
+  textExample: 'He <b>announced</b> to everyone his new idea for the company.',
+  transcription: '[ənáuns]',
+  textExampleTranslate: 'Он объявил всем свою новую идею для компании',
+  textMeaningTranslate: 'Объявить что-то значит сделать это известным',
+  wordTranslate: 'объявить',
+  isDeleted: true,
+}
+
 const initialState: LessonState = {
-  words: [],
+  words: [word],
   lessons: [
     { title: 'lesson 1', color: '#E9FF70' },
     { title: 'lesson 2', color: '#FFD670' },
@@ -27,6 +45,7 @@ const initialState: LessonState = {
   isLoading: false,
   error: null,
   fromCurrentGroup: false,
+  deletedPages: [],
 }
 
 const reducer = (state: LessonState = initialState, action: LessonAction): LessonState => {
@@ -103,6 +122,13 @@ const reducer = (state: LessonState = initialState, action: LessonAction): Lesso
       return {
         ...state,
         fromCurrentGroup: action.payload,
+      }
+    }
+
+    case LessonActionTypes.ADD_DELETED_PAGE: {
+      return {
+        ...state,
+        deletedPages: [...state.deletedPages, action.payload],
       }
     }
 

@@ -50,8 +50,6 @@ const reducer = (
       return {
         ...state,
         isLoadingDictionary: false,
-        learnedWords: [...state.learnedWords, newWord],
-        difficultWords: [...state.difficultWords, newWord],
         userWords: [...state.userWords, newWord],
       }
     }

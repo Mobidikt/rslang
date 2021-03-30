@@ -38,24 +38,32 @@ export default async function getWordsForGame(
 
   if (fromCurrentGroup) {
     const currentGroup = state.lessonReducer.currentGroup || 1
-    if(state.lessonReducer.currentPage > 25){
+    if (state.lessonReducer.currentPage > 25) {
       for (let i = state.lessonReducer.currentPage; i > countPage - 1; i -= 1) {
         const page = state.lessonReducer.currentPage - (i - 1)
-  
+
         // eslint-disable-next-line no-await-in-loop
-        const wordsFromResponse: Array<WordType> = await WordApi.getByGroupAndPage(currentGroup, page)
+        const wordsFromResponse: Array<WordType> = await WordApi.getByGroupAndPage(
+          currentGroup,
+          page,
+        )
         words = words.concat(wordsFromResponse)
       }
     } else {
       for (let i = 0; i < countPage - 1; i += 1) {
         const page = state.lessonReducer.currentPage + (i + 1)
-  
+
         // eslint-disable-next-line no-await-in-loop
-        const wordsFromResponse: Array<WordType> = await WordApi.getByGroupAndPage(currentGroup, page)
+        const wordsFromResponse: Array<WordType> = await WordApi.getByGroupAndPage(
+          currentGroup,
+          page,
+        )
         words = words.concat(wordsFromResponse)
       }
     }
-    words = state.lessonReducer.words.concat(randomArr([...words], countWords-20))
+    words = state.lessonReducer.words.concat(
+      randomArr([...words], countWords - state.lessonReducer.words.length),
+    )
     return words
   }
 

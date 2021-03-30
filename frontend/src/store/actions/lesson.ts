@@ -1,3 +1,4 @@
+import { WordAgregationType } from '../types/dictionary'
 import { LessonAction, LessonActionTypes, WordType } from '../types/lesson'
 
 const setCurrentPage = (page: number): LessonAction => ({
@@ -10,9 +11,13 @@ const setCurrentGroup = (group: number): LessonAction => ({
   payload: group,
 })
 
-const fetchWords = (group: number, page: number): LessonAction => ({
+const fetchWords = (
+  group: number,
+  page: number,
+  deletedWords: Array<WordAgregationType>,
+): LessonAction => ({
   type: LessonActionTypes.FETCH_WORDS,
-  payload: { group, page },
+  payload: { group, page, deletedWords },
 })
 
 const requestedWords = (): LessonAction => ({
@@ -58,6 +63,11 @@ const setFromCurrentGroup = (status: boolean): LessonAction => ({
   payload: status,
 })
 
+const addDeletedPage = (page: number): LessonAction => ({
+  type: LessonActionTypes.ADD_DELETED_PAGE,
+  payload: page,
+})
+
 export default {
   setCurrentPage,
   setCurrentGroup,
@@ -71,4 +81,5 @@ export default {
   requestedWordFailed,
   setCurrentWordIsDifficult,
   setFromCurrentGroup,
+  addDeletedPage,
 }

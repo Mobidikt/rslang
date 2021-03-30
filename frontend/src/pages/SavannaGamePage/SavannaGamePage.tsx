@@ -14,7 +14,7 @@ const SavannaGame: React.FC = () => {
   const [words, setWords] = useState<Array<WordType>>([])
 
   const getWords = useCallback(async () => {
-    const wordsFromResponse = await getWordsForGame(level, 20)
+    const wordsFromResponse = await getWordsForGame(level - 1, 20)
     setWords(wordsFromResponse)
   }, [level])
 

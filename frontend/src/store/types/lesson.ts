@@ -13,6 +13,27 @@ export type WordType = {
   wordTranslate: string,
   textMeaningTranslate: string,
   textExampleTranslate: string,
+  isDeleted?: boolean,
+}
+
+type WordAgregationType = {
+  _id: string,
+  group: number,
+  page: number,
+  word: string,
+  image: string,
+  audio: string,
+  audioMeaning: string,
+  audioExample: string,
+  textMeaning: string,
+  textExample: string,
+  transcription: string,
+  textExampleTranslate: string,
+  textMeaningTranslate: string,
+  wordTranslate: string,
+  userWord: {
+    difficulty: string,
+  },
 }
 
 type LessonType = {
@@ -30,6 +51,7 @@ export interface LessonState {
   isLoading: boolean;
   error: string | null;
   fromCurrentGroup: boolean;
+  deletedPages: Array<number>;
 }
 
 export enum LessonActionTypes {
@@ -45,6 +67,7 @@ export enum LessonActionTypes {
   REQUESTED_WORD_FAILED = 'LESSON/REQUESTED_WORD_FAILED',
   SET_CURRENT_WORD_IS_DIFFICULT = 'LESSON/SET_CURRENT_WORD_IS_DIFFICULT',
   SET_FROM_CURRENT_GROUP = 'LESSON/SET_FROM_CURRENT_GROUP',
+  ADD_DELETED_PAGE = 'LESSON/ADD_DELETED_PAGE',
 }
 
 type SetCurrentWordIsDifficultAction = {
@@ -64,7 +87,7 @@ export type SetCurrentGroupAction = {
 
 export type FetchWordsAction = {
   type: LessonActionTypes.FETCH_WORDS,
-  payload: { group: number, page: number },
+  payload: { group: number, page: number, deletedWords: Array<WordAgregationType> },
 }
 
 export type RequestedWordsAction = {
@@ -105,6 +128,11 @@ export type SetFromCurrentGroup = {
   payload: boolean,
 }
 
+type SetDeletedPage = {
+  type: LessonActionTypes.ADD_DELETED_PAGE,
+  payload: number,
+}
+
 export type LessonAction =
   | SetCurrentPageAction
   | SetCurrentGroupAction
@@ -118,3 +146,4 @@ export type LessonAction =
   | RequestedWordFailedAction
   | SetCurrentWordIsDifficultAction
   | SetFromCurrentGroup
+  | SetDeletedPage

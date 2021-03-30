@@ -2,6 +2,15 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
+}
+
+.ant-card {
+  min-width: 150px;
+}
+
+.ant-list {
+ min-height: 600px;
 }
 
 .word-list {

@@ -5,13 +5,28 @@ import actions from '../actions/lesson'
 import WordApi from '../../services/WordApi'
 
 function* fetchWords(action: FetchWordsAction) {
-  const { group, page } = action.payload
+  const { group, page, deletedWords } = action.payload
+
+  const deletedWordsIdx: Array<string> = deletedWords.map((deletedWord) => deletedWord._id)
 
   try {
     yield put(actions.requestedWords())
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const data: Array<WordType> = yield call(() => WordApi.getByGroupAndPage(group, page))
-    yield put(actions.requestedWordsSuccessed(data))
+    const wordsWithoutDeletedWords = data
+      .map((word) => {
+        if (deletedWordsIdx.includes(word.id)) {
+          const newWord = {
+            isDeleted: true,
+            ...word,
+          }
+          return newWord
+        }
+        return word
+      })
+      .filter((word) => word.isDeleted !== true)
+
+    yield put(actions.requestedWordsSuccessed(wordsWithoutDeletedWords))
   } catch (e) {
     yield put(actions.requestedWordsFailed(e))
   }

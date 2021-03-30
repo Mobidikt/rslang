@@ -31,6 +31,7 @@ function* addWord(action: AddWordAction) {
     yield call(() => WordApi.save(userId, wordId, difficulty))
     const wordWithDifficulty = { ...word, _id: word.id, userWord: { difficulty } }
     yield put(actions.requestedAddWordSuccessed(wordWithDifficulty))
+    yield put(actions.groupWords())
   } catch (e) {
     yield put(actions.requestedAddWordFailed(e))
   }

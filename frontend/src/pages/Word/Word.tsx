@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { Spin, Button, Input, message } from 'antd'
 import { SoundOutlined, ArrowLeftOutlined } from '@ant-design/icons'
@@ -15,7 +15,9 @@ const Word: React.FC = () => {
     (state) => state.lessonReducer,
   )
   const { userId } = useTypedSelector((state) => state.authReducer)
-  const { difficultWords, userWords } = useTypedSelector((state) => state.dictionaryReducer)
+  const { difficultWords, userWords, isLoadingDictionary } = useTypedSelector(
+    (state) => state.dictionaryReducer,
+  )
 
   const isInUserWords = (wordId: string) => {
     return !!userWords.find((el) => el._id === wordId)
@@ -23,6 +25,7 @@ const Word: React.FC = () => {
 
   const textMeaningRef = useRef<HTMLParagraphElement>(null)
   const textExampleRef = useRef<HTMLParagraphElement>(null)
+  const [wasDelete, setWasDelete] = useState<boolean>(false)
 
   useEffect(() => {
     fetchWord(id)
@@ -53,7 +56,27 @@ const Word: React.FC = () => {
         } else {
           addWord(userId, id, currentWord, 'difficult')
         }
+        // eslint-disable-next-line
+        message.success('Слово успешно изменено')
       }
+    } else {
+      // eslint-disable-next-line
+      message.warning('Эта функция доступна только авторизованным пользователям')
+    }
+  }
+
+  const removeWord = () => {
+    if (userId) {
+      if (currentWord) {
+        if (isInUserWords(id)) {
+          updateUserWord(userId, id, currentWord, 'deleted')
+        } else {
+          addWord(userId, id, currentWord, 'deleted')
+        }
+      }
+      // eslint-disable-next-line
+      message.success('Слово успешно удалено')
+      setWasDelete(true)
     } else {
       // eslint-disable-next-line
       message.warning('Эта функция доступна только авторизованным пользователям')
@@ -116,6 +139,17 @@ const Word: React.FC = () => {
         >
           {currentWordIsDifficult ? 'Убрать из сложных' : 'Добавить в сложные'}
         </Button>
+        {wasDelete ? null : (
+          <Button
+            disabled={isLoadingDictionary}
+            onClick={removeWord}
+            type="primary"
+            size="large"
+            className="word-buttons__btn"
+          >
+            Удалить
+          </Button>
+        )}
       </div>
     </>
   )

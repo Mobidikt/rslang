@@ -82,7 +82,12 @@ interface RequestedUserWordsFailedAction {
 
 export interface AddWordAction {
   type: DictionaryActionTypes.ADD_WORD;
-  payload: { userId: string, wordId: string, word: WordType, difficulty: 'difficult' | 'learned' };
+  payload: {
+    userId: string,
+    wordId: string,
+    word: WordType,
+    difficulty: 'difficult' | 'learned' | 'deleted',
+  };
 }
 
 interface RequestedAddWordAction {

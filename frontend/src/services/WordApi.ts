@@ -46,7 +46,7 @@ async function getUserWords(userId: string): Promise<WordAgregationType[]> {
 const save = async (
   userId: string,
   wordId: string,
-  mode: 'difficult' | 'learned',
+  mode: 'difficult' | 'learned' | 'deleted',
 ): Promise<SaveResponseType> => {
   const data = await axios.post<SaveResponseType>(
     `${config.API_URL}/users/${userId}/words/${wordId}`,

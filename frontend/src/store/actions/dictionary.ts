@@ -24,7 +24,7 @@ const addWord = (
   userId: string,
   wordId: string,
   word: WordType,
-  difficulty: 'difficult' | 'learned',
+  difficulty: 'difficult' | 'learned' | 'deleted',
 ): DictionaryAction => ({
   type: DictionaryActionTypes.ADD_WORD,
   payload: { userId, wordId, word, difficulty },

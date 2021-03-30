@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { List, Spin } from 'antd'
 import useTypedSelector from '../../hooks/useTypedSelector'
 import WordCard from './WordCard/WordCard'
@@ -8,6 +8,12 @@ import Pagination from './Pagination/Pagination'
 const WordsList: React.FC = () => {
   const { words, isLoading } = useTypedSelector((state) => state.lessonReducer)
   const { difficultWords } = useTypedSelector((state) => state.dictionaryReducer)
+  const [isNextPage, setIsNextPage] = useState<boolean>(true)
+
+  const handleSetIsNextPage = (status: boolean) => {
+    setIsNextPage(status)
+  }
+
   const ListJSX = (
     <>
       <List
@@ -24,7 +30,7 @@ const WordsList: React.FC = () => {
           </List.Item>
         )}
       />
-      <Pagination />
+      <Pagination onHandleSetIsNextPage={handleSetIsNextPage} isNextPage={isNextPage} />
     </>
   )
 
