@@ -8,7 +8,7 @@ import useTypedSelector from '../../hooks/useTypedSelector'
 const Header: React.FC = () => {
   const { setIsVisibleAuthCard, logout, clearUserWords } = useActions()
   const { token, username } = useTypedSelector((state) => state.authReducer)
-  const { selectedSection } = useTypedSelector((state) => state.appReducer)
+  const { selectedSection, headerColor } = useTypedSelector((state) => state.appReducer)
 
   const logoutUserClick = () => {
     clearUserWords()
@@ -17,7 +17,7 @@ const Header: React.FC = () => {
 
   return (
     <>
-      <header className="header">
+      <header className="header" style={{ background: headerColor }}>
         <h2 className="header__sectionName">{selectedSection}</h2>
         {token ? (
           <div>

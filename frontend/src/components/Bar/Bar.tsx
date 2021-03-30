@@ -16,7 +16,7 @@ const { Sider } = Layout
 
 const Bar: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false)
-  const { setSelectedSection } = useActions()
+  const { setSelectedSection, setHeaderColor } = useActions()
   const location = useLocation().pathname
   const navigate = useNavigate()
   const onCollapse = () => {
@@ -42,6 +42,7 @@ const Bar: React.FC = () => {
           onClick={() => {
             navigate('/tutorial')
             setSelectedSection('Tutorial')
+            setHeaderColor('#70D6FF')
           }}
         >
           Tutorial
@@ -53,6 +54,7 @@ const Bar: React.FC = () => {
           onClick={() => {
             navigate('/dictionary')
             setSelectedSection('Dictionary')
+            setHeaderColor('#FF70A6')
           }}
         >
           Dictionary
@@ -64,6 +66,7 @@ const Bar: React.FC = () => {
           onClick={() => {
             navigate('/games')
             setSelectedSection('Games')
+            setHeaderColor('#FF9770')
           }}
         >
           Games
@@ -75,6 +78,7 @@ const Bar: React.FC = () => {
           onClick={() => {
             navigate('/statistics')
             setSelectedSection('Statistics')
+            setHeaderColor('#FFD670')
           }}
         >
           Statistics
@@ -86,6 +90,7 @@ const Bar: React.FC = () => {
           onClick={() => {
             navigate('/settings')
             setSelectedSection('Settings')
+            setHeaderColor('#E9FF70')
           }}
         >
           Settings

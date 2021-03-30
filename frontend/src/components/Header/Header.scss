@@ -1,8 +1,7 @@
 .header {
   // background: white;
-  background: #1890ff;
-  color: white;
-  height: 60px;
+  color: black;
+  height: 65px;
   display: flex;
   justify-content: space-between;
   padding: 0 20px;
@@ -10,9 +9,9 @@
 }
 
 .header__sectionName {
-  color: white !important;
+  color: black;
   margin: 0;
-  font-size: 28px !important;
+  font-size: 32px !important;
 }
 
 .logout {

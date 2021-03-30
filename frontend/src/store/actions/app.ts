@@ -5,6 +5,12 @@ const setSelectedSection = (title: string): AppAction => ({
   payload: title,
 })
 
+const setHeaderColor = (color: string): AppAction => ({
+  type: AppActionTypes.SET_HEADER_COLOR,
+  payload: color,
+})
+
 export default {
   setSelectedSection,
+  setHeaderColor,
 }
