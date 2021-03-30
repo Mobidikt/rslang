@@ -15,7 +15,7 @@ const Pagination: React.FC<PaginationType> = ({ onHandleSetIsNextPage, isNextPag
     (state) => state.lessonReducer,
   )
   const { userId } = useTypedSelector((state) => state.authReducer)
-  const { setCurrentPage, setFirstPage, addDeletedPage } = useActions()
+  const { setCurrentPage, setFirstPage, addDeletedPage, removeDeletedPage } = useActions()
 
   const nextPageClickHandler = () => {
     onHandleSetIsNextPage(true)
@@ -45,11 +45,15 @@ const Pagination: React.FC<PaginationType> = ({ onHandleSetIsNextPage, isNextPag
   }, [words])
 
   useEffect(() => {
+    if (words.length > 0) {
+      removeDeletedPage(currentPage)
+    }
     const nums: Array<number> = new Array(30).fill('').map((_, idx) => idx)
     const fillPages: Array<number> = nums
       .map((num) => (deletedPages.includes(num) ? 100 : num))
       .filter((num) => num !== 100)
     setFirstPage(fillPages[0])
+    console.log(fillPages)
     // eslint-disable-next-line
   }, [])
 

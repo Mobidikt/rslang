@@ -140,17 +140,7 @@ const DictionaryCurrentMode: React.FC = () => {
                   danger
                   icon={<DeleteOutlined />}
                 />
-              ) : (
-                <Popconfirm
-                  title="Вы уверены что хотите удалить это слово?"
-                  placement="topRight"
-                  onConfirm={() => deleteUserWord(word._id, userWords, userId || '')}
-                  okText="Да"
-                  cancelText="Нет"
-                >
-                  <Button shape="round" danger icon={<DeleteOutlined />} />
-                </Popconfirm>
-              ),
+              ) : null,
             ].filter((btn) => btn !== null)}
             extra={
               <img width={250} className="word_img" alt="wordImage" src={getImgUrl(word.image)} />

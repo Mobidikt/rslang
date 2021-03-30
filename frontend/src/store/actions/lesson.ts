@@ -73,6 +73,11 @@ const setFirstPage = (page: number): LessonAction => ({
   payload: page,
 })
 
+const removeDeletedPage = (page: number): LessonAction => ({
+  type: LessonActionTypes.DELETE_DELETED_PAGE,
+  payload: page,
+})
+
 export default {
   setCurrentPage,
   setCurrentGroup,
@@ -88,4 +93,5 @@ export default {
   setFromCurrentGroup,
   addDeletedPage,
   setFirstPage,
+  removeDeletedPage,
 }

@@ -69,6 +69,7 @@ export enum LessonActionTypes {
   SET_CURRENT_WORD_IS_DIFFICULT = 'LESSON/SET_CURRENT_WORD_IS_DIFFICULT',
   SET_FROM_CURRENT_GROUP = 'LESSON/SET_FROM_CURRENT_GROUP',
   ADD_DELETED_PAGE = 'LESSON/ADD_DELETED_PAGE',
+  DELETE_DELETED_PAGE = 'LESSON/DELETE_DELETED_PAGE',
   SET_FIRST_PAGE = 'LESSON/SET_FIRST_PAGE',
 }
 
@@ -140,6 +141,11 @@ type SetFirstPage = {
   payload: number,
 }
 
+type DeleteDeletedPage = {
+  type: LessonActionTypes.DELETE_DELETED_PAGE,
+  payload: number,
+}
+
 export type LessonAction =
   | SetCurrentPageAction
   | SetCurrentGroupAction
@@ -155,3 +161,4 @@ export type LessonAction =
   | SetFromCurrentGroup
   | SetDeletedPage
   | SetFirstPage
+  | DeleteDeletedPage

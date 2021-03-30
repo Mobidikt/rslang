@@ -140,6 +140,14 @@ const reducer = (state: LessonState = initialState, action: LessonAction): Lesso
       }
     }
 
+    case LessonActionTypes.DELETE_DELETED_PAGE: {
+      const newDeletedPages = state.deletedPages.filter((page) => page !== action.payload)
+      return {
+        ...state,
+        deletedPages: newDeletedPages,
+      }
+    }
+
     default:
       return state
   }
