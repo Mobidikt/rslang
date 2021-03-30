@@ -3,34 +3,42 @@ import React, { useCallback, useEffect, useState } from 'react'
 import './SprintGamePage.scss'
 // @ts-ignore
 import useInterval from '../../hooks/useInterval'
-import wordApi from '../../services/WordApi'
 import { FullScreen, useFullScreenHandle } from 'react-full-screen'
 import Button from 'antd/es/button/button'
-import {
-  ArrowLeftOutlined,
-  ArrowRightOutlined,
-  FullscreenExitOutlined,
-  FullscreenOutlined,
-} from '@ant-design/icons/lib'
+import { ArrowLeftOutlined, ArrowRightOutlined, FullscreenExitOutlined, FullscreenOutlined } from '@ant-design/icons/lib'
 import Icon from '@ant-design/icons'
 import { ReactComponent as volumeOnIcon } from '../../assets/icons/volume-on.svg'
 import { ReactComponent as volumeOffIcon } from '../../assets/icons/no-sound.svg'
 import SettingsGame from '../../components/Games/Settings/Settings'
 import useTypedSelector from '../../hooks/useTypedSelector'
+import { GAMES_INFO } from '../../components/Games/utils/gamesInfo'
+import { playSoundSuccess, playSoundError } from '../../components/Games/utils/soundEffect'
+import Title from '../../components/Games/Title/Title'
+import getWordsForGame from '../../utils/getWordsForGame'
+import { randomArr } from '../../utils/getWordsForGame'
+
 
 const SprintGame: React.FC = () => {
   const { level } = useTypedSelector((state) => state.gameReducer)
-  const [startGame, setStartGame] = useState(false)
+  const [game, setGame] = useState(false)
   const [soundOn, setSoundOn] = useState(true)
   const [timeSeconds, setTimerSeconds] = useState(60)
   const [circleDashArray, setCircleDashArray] = useState('283')
   const [fullScreen, setFullScreen] = useState(false)
-  const [words, setWords] = useState<any>()
+  const [words, setWords] = useState<any[]>()
+  const [isloadingGame, setIsloadingGame] = useState(true)
+  const [englishWords, setEnglishWords] = useState<Array<{[key: string]: string}>>([])
+  const [translateWords, setTranslateWords] = useState<Array<{[key: string]: string}>>([])
+  const [wordIndex, setWordIndex] = useState(0)
+  const [greenHighlight, setGreenHighlight] = useState(false)
+  const [redHighlight, setRedHighlight] = useState(false)
+  const [gameOver, setGameOver] = useState(true)
 
   const handleFullScreen = useFullScreenHandle()
 
   const FULL_DASH_ARRAY = 283
   const TIME_LIMIT = 60
+
 
   const calculateTimeFraction = (timeLeft: number) => {
     const rawTimeFraction = timeLeft / TIME_LIMIT
@@ -48,26 +56,79 @@ const SprintGame: React.FC = () => {
     }
   }, [])
 
-  useEffect(() => {
-    wordApi.getByGroupAndPage(level - 1, 1).then((res) => {
-      console.log(res)
-      setWords(res)
+  const getWords = async () => {
+    let newWords = await getWordsForGame(0, 40)
+    console.log(newWords)
+    setIsloadingGame(false)
+    setWords(newWords)
+  }
+
+  const createWordsForGame = () => {
+    let englishWords: Array<{[key: string]: string}> = [],
+        translateWords: Array<{[key: string]: string}> = []
+
+    words?.forEach((wordInfo) => {
+      englishWords.push( {id: wordInfo.id, word: wordInfo.word} )
+      translateWords.push( {id: wordInfo.id, wordTranslate: wordInfo.wordTranslate})
     })
+
+    let shuffleTranslateArr = randomArr(translateWords, translateWords.length),
+        shuffleEnglishArr = randomArr(englishWords, englishWords.length)
+
+    setEnglishWords(shuffleEnglishArr)
+    setTranslateWords(shuffleTranslateArr)
+
+    console.log(englishWords, translateWords)
+  }
+
+  const handleAnswerClick = (isRightClicked: boolean) => {
+    if (isRightClicked ?
+      englishWords[wordIndex].id === translateWords[wordIndex].id :
+      englishWords[wordIndex].id !== translateWords[wordIndex].id) {
+
+      if (soundOn) {
+        playSoundSuccess()
+      }
+
+      setGreenHighlight(true)
+      setTimeout(() => {
+        setGreenHighlight(false);
+      }, 300);
+    } else {
+
+      if (soundOn) {
+        playSoundError()
+      }
+
+      setRedHighlight(true)
+      setTimeout(() => {
+        setRedHighlight(false);
+      }, 300);
+    }
+    setWordIndex(wordIndex + 1)
+  }
+
+  useEffect(() => {
+    getWords()
   }, [level])
 
+  useEffect(() => {
+    createWordsForGame()
+  }, [words])
+
   useInterval(() => {
-    if (startGame) {
+    if (game) {
       setTimerSeconds((timeSeconds) => {
         let timeLeft = timeSeconds - 1
         setCircle(timeLeft)
         return timeLeft
       })
     }
-  }, 1000)
+  }, gameOver ? 1000 : null)
 
   useEffect(() => {
     if (timeSeconds === 0) {
-      setTimerSeconds(60)
+      setGameOver(false)
     }
   }, [timeSeconds])
 
@@ -81,10 +142,11 @@ const SprintGame: React.FC = () => {
 
   return (
     <div className="sprint-game">
-      {startGame ? (
+      {game ? (
         <div className="sprint-game-start">
           <FullScreen handle={handleFullScreen}>
-            <div className="sprint-game-start__inner">
+            <div className={`sprint-game-start__inner ${greenHighlight ? "green-highlight" : "" ||
+                                                        redHighlight ? "red-highlight" : ""}`}>
               <div className="sprint-game-start__settings">
                 <div className="timer">
                   <div className="timer__number">{timeSeconds}</div>
@@ -145,17 +207,17 @@ const SprintGame: React.FC = () => {
                 </div>
               </div>
               <div className="sprint-game-start__words">
-                <p>Cheetah - Гепард</p>
+                <p>{englishWords[wordIndex].word} - {translateWords[wordIndex].wordTranslate}</p>
               </div>
               <div className="sprint-game-start__buttons">
                 <div className="button-wrapper">
                   <ArrowLeftOutlined className="arrow-icon" />
-                  <Button type="primary" className="sprint-btn">
+                  <Button type="primary" className="sprint-btn" onClick={() => handleAnswerClick(true)}>
                     RIGHT
                   </Button>
                 </div>
                 <div className="button-wrapper">
-                  <Button type="primary" className="sprint-btn">
+                  <Button type="primary" className="sprint-btn" onClick={() => handleAnswerClick(false)}>
                     WRONG
                   </Button>
                   <ArrowRightOutlined className="arrow-icon" />
@@ -163,24 +225,20 @@ const SprintGame: React.FC = () => {
               </div>
             </div>
           </FullScreen>
+          <div className="sprint-game-start__statistics" hidden={gameOver}>
+            <h1>statistics</h1>
+          </div>
         </div>
       ) : (
         <div className="sprint-game-rules">
-          <h1>SPRINT</h1>
-          <p>
-            After the start of the game, you will see word and translation.
-            <br /> You need to choose is it right or wrong.
-          </p>
-          <p>1. Use mouse to choose.</p>
-          <p>2. Use the keys Left and Right.</p>
+          <Title
+            title={GAMES_INFO.sprint.title}
+            description={GAMES_INFO.sprint.description}
+            settings={GAMES_INFO.sprint.settings}
+            loading={isloadingGame}
+            startGame={() => setGame(true)}
+          />
           <SettingsGame />
-          <Button
-            type="primary"
-            className="sprint-game-rules__btn"
-            onClick={() => setStartGame(true)}
-          >
-            START
-          </Button>
         </div>
       )}
     </div>
