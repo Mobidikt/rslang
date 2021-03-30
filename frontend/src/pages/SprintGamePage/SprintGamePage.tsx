@@ -12,6 +12,7 @@ import { ReactComponent as volumeOffIcon } from '../../assets/icons/no-sound.svg
 import SettingsGame from '../../components/Games/Settings/Settings'
 import useTypedSelector from '../../hooks/useTypedSelector'
 import { GAMES_INFO } from '../../components/Games/utils/gamesInfo'
+import { playSoundSuccess, playSoundError } from '../../components/Games/utils/soundEffect'
 import Title from '../../components/Games/Title/Title'
 import getWordsForGame from '../../utils/getWordsForGame'
 import { randomArr } from '../../utils/getWordsForGame'
@@ -28,6 +29,10 @@ const SprintGame: React.FC = () => {
   const [isloadingGame, setIsloadingGame] = useState(true)
   const [englishWords, setEnglishWords] = useState<Array<{[key: string]: string}>>([])
   const [translateWords, setTranslateWords] = useState<Array<{[key: string]: string}>>([])
+  const [wordIndex, setWordIndex] = useState(0)
+  const [greenHighlight, setGreenHighlight] = useState(false)
+  const [redHighlight, setRedHighlight] = useState(false)
+  const [gameOver, setGameOver] = useState(true)
 
   const handleFullScreen = useFullScreenHandle()
 
@@ -52,7 +57,7 @@ const SprintGame: React.FC = () => {
   }, [])
 
   const getWords = async () => {
-    let newWords = await getWordsForGame(0, 100)
+    let newWords = await getWordsForGame(0, 40)
     console.log(newWords)
     setIsloadingGame(false)
     setWords(newWords)
@@ -67,12 +72,40 @@ const SprintGame: React.FC = () => {
       translateWords.push( {id: wordInfo.id, wordTranslate: wordInfo.wordTranslate})
     })
 
-    let shuffleArr = randomArr(translateWords, translateWords.length)
+    let shuffleTranslateArr = randomArr(translateWords, translateWords.length),
+        shuffleEnglishArr = randomArr(englishWords, englishWords.length)
 
-    setEnglishWords(englishWords)
-    setTranslateWords(shuffleArr)
+    setEnglishWords(shuffleEnglishArr)
+    setTranslateWords(shuffleTranslateArr)
 
     console.log(englishWords, translateWords)
+  }
+
+  const handleAnswerClick = (isRightClicked: boolean) => {
+    if (isRightClicked ?
+      englishWords[wordIndex].id === translateWords[wordIndex].id :
+      englishWords[wordIndex].id !== translateWords[wordIndex].id) {
+
+      if (soundOn) {
+        playSoundSuccess()
+      }
+
+      setGreenHighlight(true)
+      setTimeout(() => {
+        setGreenHighlight(false);
+      }, 300);
+    } else {
+
+      if (soundOn) {
+        playSoundError()
+      }
+
+      setRedHighlight(true)
+      setTimeout(() => {
+        setRedHighlight(false);
+      }, 300);
+    }
+    setWordIndex(wordIndex + 1)
   }
 
   useEffect(() => {
@@ -91,11 +124,11 @@ const SprintGame: React.FC = () => {
         return timeLeft
       })
     }
-  }, 1000)
+  }, gameOver ? 1000 : null)
 
   useEffect(() => {
     if (timeSeconds === 0) {
-      setTimerSeconds(60)
+      setGameOver(false)
     }
   }, [timeSeconds])
 
@@ -112,7 +145,8 @@ const SprintGame: React.FC = () => {
       {game ? (
         <div className="sprint-game-start">
           <FullScreen handle={handleFullScreen}>
-            <div className="sprint-game-start__inner">
+            <div className={`sprint-game-start__inner ${greenHighlight ? "green-highlight" : "" ||
+                                                        redHighlight ? "red-highlight" : ""}`}>
               <div className="sprint-game-start__settings">
                 <div className="timer">
                   <div className="timer__number">{timeSeconds}</div>
@@ -173,17 +207,17 @@ const SprintGame: React.FC = () => {
                 </div>
               </div>
               <div className="sprint-game-start__words">
-                <p>{englishWords[0].word} - {translateWords[0].wordTranslate}</p>
+                <p>{englishWords[wordIndex].word} - {translateWords[wordIndex].wordTranslate}</p>
               </div>
               <div className="sprint-game-start__buttons">
                 <div className="button-wrapper">
                   <ArrowLeftOutlined className="arrow-icon" />
-                  <Button type="primary" className="sprint-btn">
+                  <Button type="primary" className="sprint-btn" onClick={() => handleAnswerClick(true)}>
                     RIGHT
                   </Button>
                 </div>
                 <div className="button-wrapper">
-                  <Button type="primary" className="sprint-btn">
+                  <Button type="primary" className="sprint-btn" onClick={() => handleAnswerClick(false)}>
                     WRONG
                   </Button>
                   <ArrowRightOutlined className="arrow-icon" />
@@ -191,23 +225,12 @@ const SprintGame: React.FC = () => {
               </div>
             </div>
           </FullScreen>
+          <div className="sprint-game-start__statistics" hidden={gameOver}>
+            <h1>statistics</h1>
+          </div>
         </div>
       ) : (
         <div className="sprint-game-rules">
-          {/*<h1>SPRINT</h1>*/}
-          {/*<p>*/}
-            {/*After the start of the game, you will see word and translation.*/}
-            {/*<br /> You need to choose is it right or wrong.*/}
-          {/*</p>*/}
-          {/*<p>1. Use mouse to choose.</p>*/}
-          {/*<p>2. Use the keys Left and Right.</p>*/}
-          {/*<Button*/}
-            {/*type="primary"*/}
-            {/*className="sprint-game-rules__btn"*/}
-            {/*onClick={() => setStartGame(true)}*/}
-          {/*>*/}
-            {/*START*/}
-          {/*</Button>*/}
           <Title
             title={GAMES_INFO.sprint.title}
             description={GAMES_INFO.sprint.description}
