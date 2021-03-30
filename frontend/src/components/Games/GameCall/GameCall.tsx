@@ -15,10 +15,12 @@ import { WordType } from '../../../store/types/lesson'
 import getWordsForGame from '../../../utils/getWordsForGame'
 import renderArrAnswerWords from '../utils/renderArrAnswerWords'
 import { playSoundSuccess, playSoundError } from '../utils/soundEffect'
+import Statistics from '../Statistics/Statistics'
 
 const GameCall: React.FC = () => {
   const { level } = useTypedSelector((state) => state.gameReducer)
   const [game, setGame] = useState(false)
+  const [gameOver, setGameOver] = useState(false)
   const [soundOn, setSoundOn] = useState(true)
   const [fullScreen, setFullScreen] = useState(false)
   const [words, setWords] = useState<WordType[]>([])
@@ -122,6 +124,7 @@ const GameCall: React.FC = () => {
   useEffect(() => {
     if (indexWord === countWords) {
       setGame(false)
+      setGameOver(true)
       initGame()
     } else if (gameWords) {
       renderCurrentWord(indexWord)
@@ -137,9 +140,7 @@ const GameCall: React.FC = () => {
           <div className="call">
             <Button
               className="call__btn_play-sound"
-              icon={
-                <Icon className="sound-icon" component={soundOn ? volumeOnIcon : volumeOffIcon} />
-              }
+              icon={<Icon className="sound-icon" component={volumeOnIcon} />}
               onClick={playWord}
             />
             <Button
@@ -185,13 +186,19 @@ const GameCall: React.FC = () => {
             </Button>
           </div>
         ) : (
-          <Title
-            title={GAMES_INFO.call.title}
-            description={GAMES_INFO.call.description}
-            settings={GAMES_INFO.call.settings}
-            loading={isloadingGame}
-            startGame={() => startGame()}
-          />
+          <>
+            {gameOver ? (
+              <Statistics success={successWords} error={errorWords} url="/games/call" />
+            ) : (
+              <Title
+                title={GAMES_INFO.call.title}
+                description={GAMES_INFO.call.description}
+                settings={GAMES_INFO.call.settings}
+                loading={isloadingGame}
+                startGame={() => startGame()}
+              />
+            )}
+          </>
         )}
       </>
       <SettingsGame />
