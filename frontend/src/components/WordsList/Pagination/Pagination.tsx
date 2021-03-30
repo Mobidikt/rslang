@@ -11,9 +11,11 @@ type PaginationType = {
 }
 
 const Pagination: React.FC<PaginationType> = ({ onHandleSetIsNextPage, isNextPage }) => {
-  const { currentPage, words } = useTypedSelector((state) => state.lessonReducer)
+  const { currentPage, words, firstPage, deletedPages } = useTypedSelector(
+    (state) => state.lessonReducer,
+  )
   const { userId } = useTypedSelector((state) => state.authReducer)
-  const { setCurrentPage, fetchWords } = useActions()
+  const { setCurrentPage, setFirstPage, addDeletedPage } = useActions()
 
   const nextPageClickHandler = () => {
     onHandleSetIsNextPage(true)
@@ -30,6 +32,7 @@ const Pagination: React.FC<PaginationType> = ({ onHandleSetIsNextPage, isNextPag
       if (words.length === 0) {
         // eslint-disable-next-line
         message.warning('Предыдущая старница была удалена')
+        addDeletedPage(currentPage)
         if (isNextPage) {
           nextPageClickHandler()
         } else {
@@ -41,13 +44,22 @@ const Pagination: React.FC<PaginationType> = ({ onHandleSetIsNextPage, isNextPag
     // eslint-disable-next-line
   }, [words])
 
+  useEffect(() => {
+    const nums: Array<number> = new Array(30).fill('').map((_, idx) => idx)
+    const fillPages: Array<number> = nums
+      .map((num) => (deletedPages.includes(num) ? 100 : num))
+      .filter((num) => num !== 100)
+    setFirstPage(fillPages[0])
+    // eslint-disable-next-line
+  }, [])
+
   return (
     <div className="pagination">
       <Button
         shape="circle"
         onClick={prevPageClickHandler}
         icon={<LeftOutlined />}
-        disabled={currentPage === 0}
+        disabled={currentPage === firstPage}
       />
       <span>{currentPage + 1}</span>
       <Button

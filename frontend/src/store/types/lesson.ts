@@ -52,6 +52,7 @@ export interface LessonState {
   error: string | null;
   fromCurrentGroup: boolean;
   deletedPages: Array<number>;
+  firstPage: number;
 }
 
 export enum LessonActionTypes {
@@ -68,6 +69,7 @@ export enum LessonActionTypes {
   SET_CURRENT_WORD_IS_DIFFICULT = 'LESSON/SET_CURRENT_WORD_IS_DIFFICULT',
   SET_FROM_CURRENT_GROUP = 'LESSON/SET_FROM_CURRENT_GROUP',
   ADD_DELETED_PAGE = 'LESSON/ADD_DELETED_PAGE',
+  SET_FIRST_PAGE = 'LESSON/SET_FIRST_PAGE',
 }
 
 type SetCurrentWordIsDifficultAction = {
@@ -133,6 +135,11 @@ type SetDeletedPage = {
   payload: number,
 }
 
+type SetFirstPage = {
+  type: LessonActionTypes.SET_FIRST_PAGE,
+  payload: number,
+}
+
 export type LessonAction =
   | SetCurrentPageAction
   | SetCurrentGroupAction
@@ -147,3 +154,4 @@ export type LessonAction =
   | SetCurrentWordIsDifficultAction
   | SetFromCurrentGroup
   | SetDeletedPage
+  | SetFirstPage

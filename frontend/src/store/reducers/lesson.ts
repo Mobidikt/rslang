@@ -46,6 +46,7 @@ const initialState: LessonState = {
   error: null,
   fromCurrentGroup: false,
   deletedPages: [],
+  firstPage: 0,
 }
 
 const reducer = (state: LessonState = initialState, action: LessonAction): LessonState => {
@@ -129,6 +130,13 @@ const reducer = (state: LessonState = initialState, action: LessonAction): Lesso
       return {
         ...state,
         deletedPages: [...state.deletedPages, action.payload],
+      }
+    }
+
+    case LessonActionTypes.SET_FIRST_PAGE: {
+      return {
+        ...state,
+        firstPage: action.payload,
       }
     }
 

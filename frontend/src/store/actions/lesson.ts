@@ -68,6 +68,11 @@ const addDeletedPage = (page: number): LessonAction => ({
   payload: page,
 })
 
+const setFirstPage = (page: number): LessonAction => ({
+  type: LessonActionTypes.SET_FIRST_PAGE,
+  payload: page,
+})
+
 export default {
   setCurrentPage,
   setCurrentGroup,
@@ -82,4 +87,5 @@ export default {
   setCurrentWordIsDifficult,
   setFromCurrentGroup,
   addDeletedPage,
+  setFirstPage,
 }
