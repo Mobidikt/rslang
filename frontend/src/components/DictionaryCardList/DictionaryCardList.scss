@@ -1,18 +1,28 @@
 .dictionaryCardList {
+  width: 80%;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .dictionaryCardList__card {
   cursor: pointer;
-  width: 330px;
-  margin: 20px;
+  flex-basis: 30%;
   background: transparent;
   text-align: center;
 
   &:hover {
     transform: scale(1.1);
     transition: all 0.9s;
+  }
+}
+
+@media(max-width: 800px) {
+  .dictionaryCardList {
+    justify-content: center;
+    &__card {
+      flex-basis: 70%;
+    }
   }
 }
