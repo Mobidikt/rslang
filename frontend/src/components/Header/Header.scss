@@ -1,17 +1,18 @@
 .header {
   // background: white;
   color: black;
-  height: 65px;
+  height: 70px;
   display: flex;
   justify-content: space-between;
-  padding: 0 20px;
+  padding: 0 30px;
   align-items: center;
 }
 
 .header__sectionName {
-  color: black;
+  color: rgb(65, 65, 65) !important;
   margin: 0;
-  font-size: 32px !important;
+  font-size: 35px !important;
+  font-weight: 800 !important;
 }
 
 .logout {

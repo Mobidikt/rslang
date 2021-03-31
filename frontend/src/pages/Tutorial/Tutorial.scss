@@ -1,4 +1,43 @@
-.turotial {
+.tutorial {
+  width: 100%;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+
+  &-title {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+    // background: white;
+    height: 80px;
+    width: 80%;
+    border-radius: 15px;
+  
+    h2 {
+        margin: 0;
+        padding: 5px;
+        font-weight: 900;
+        color: rgb(107, 106, 106);
+    }
+  }
 }
+
+
+
+@media (max-width: 800px) {
+
+  .tutorial {
+    padding-bottom: 20px;
+  }
+  .tutorial-title {
+    margin-bottom: 40px;
+
+    h2 {
+      line-height: 1;
+      font-size: 40px;
+    }
+  }
+  
+  
+}
+
