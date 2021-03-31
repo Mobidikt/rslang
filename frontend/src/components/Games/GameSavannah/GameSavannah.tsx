@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from 'react'
+/* eslint-disable no-nested-ternary */
+import React, { useState, useEffect, useRef } from 'react'
 import { Switch, Rate, Button } from 'antd'
 import { v4 as uuidv4 } from 'uuid'
 import { HeartFilled } from '@ant-design/icons'
 import { WordType } from '../../../store/types/lesson'
 import SoundComponent from '../SoundComponent/SoundComponent'
+import { playSoundError, playSoundSuccess } from '../utils/soundEffect'
 import './GameSavannah.scss'
 import randomArr from '../utils/randomArr'
+import useTypedSelector from '../../../hooks/useTypedSelector'
 
 type GameSavannahType = {
   words: Array<WordType>,
@@ -19,14 +22,61 @@ type WordForGameType = {
 const GameSavannah: React.FC<GameSavannahType> = ({ words }) => {
   const [helth, setHelth] = useState<number>(5)
   const [isEN, setIsEN] = useState<boolean>(true)
-  const [isLoos, setIsLoos] = useState<boolean>(false)
   const [currentWordIdx, setCurrentWordIdx] = useState<number>(-1)
   const [wordsForGame, setWordsForGame] = useState<Array<WordForGameType>>([])
   const [results, setResults] = useState<Array<boolean>>([])
   const [isFinish, setIsFinish] = useState<boolean>(false)
+  const droppedWordRef = useRef<HTMLDivElement>(null)
+  const initialTopWordRef = useRef<number>(190)
+  const wrongAnswersArr = useRef<Array<WordType>>([])
+  const trueAnswersArr = useRef<Array<WordType>>([])
 
   const [mixedCurrentWords, setMixedCurrentWords] = useState<Array<WordType>>([])
-  // console.log(randomArr(words, 4, rigthWords[0].id))
+
+  const { isMute } = useTypedSelector((state) => state.gameReducer)
+
+  const handleWrongAnswer = () => {
+    setHelth((prev) => prev - 1)
+    initialTopWordRef.current = 190
+    setResults((prev) => [...prev, false])
+    wrongAnswersArr.current.push(wordsForGame[currentWordIdx].answer)
+    if (!isMute) {
+      playSoundError()
+    }
+  }
+
+  const handleTrueAnswer = () => {
+    setResults((prev) => [...prev, true])
+    initialTopWordRef.current = 190
+    trueAnswersArr.current.push(wordsForGame[currentWordIdx].answer)
+    if (!isMute) {
+      playSoundSuccess()
+    }
+  }
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (isFinish) clearInterval(interval)
+      if (initialTopWordRef.current === 360) {
+        clearInterval(interval)
+        handleWrongAnswer()
+        if (currentWordIdx !== 9) {
+          setCurrentWordIdx((prev) => prev + 1)
+        }
+      }
+
+      if (initialTopWordRef.current !== 360) {
+        initialTopWordRef.current += 1
+        if (droppedWordRef.current) {
+          droppedWordRef.current.style.top = `+${initialTopWordRef.current}px`
+        }
+      }
+    }, 50)
+    return () => {
+      clearInterval(interval)
+    }
+    // eslint-disable-next-line
+  }, [currentWordIdx, isFinish])
 
   const mixArr = (arr: Array<WordType>) => {
     return arr.sort(() => Math.random() - 0.5)
@@ -53,24 +103,26 @@ const GameSavannah: React.FC<GameSavannahType> = ({ words }) => {
     // eslint-disable-next-line
   }, [currentWordIdx])
 
-  const isGameOver = () => {
-    return helth === 0
+  const onFinish = () => {
+    console.log(wrongAnswersArr, trueAnswersArr)
   }
 
-  const handleWrongAnswer = () => {
-    setHelth((prev) => prev - 1)
-    if (isGameOver()) {
-      setIsLoos(true)
+  useEffect(() => {
+    if (helth === 0) {
+      setIsFinish(true)
+      onFinish()
     }
-  }
+  }, [helth])
 
   const handleAnswerClick = (wordText: string) => {
-    if (!setIsFinish) return
+    if (isFinish) {
+      onFinish()
+      return
+    }
     if (wordText === wordsForGame[currentWordIdx].answer.word) {
-      setResults((prev) => [...prev, true])
+      handleTrueAnswer()
     } else {
       handleWrongAnswer()
-      setResults((prev) => [...prev, false])
     }
     if (currentWordIdx === 9) setIsFinish(true)
     if (currentWordIdx !== 9) {
@@ -93,19 +145,26 @@ const GameSavannah: React.FC<GameSavannahType> = ({ words }) => {
         <Rate disabled value={helth} character={<HeartFilled />} style={{ fontSize: '25px' }} />
       </div>
       <div className="game-savannah-field">
-        <div className="game-savannag-field-droppedWord">
-          {currentWordIdx >= 0 ? wordsForGame[currentWordIdx].answer.wordTranslate : null}
+        <div ref={droppedWordRef} className="game-savannah-field__droppedWord">
+          {currentWordIdx >= 0
+            ? isEN
+              ? wordsForGame[currentWordIdx].answer.wordTranslate
+              : wordsForGame[currentWordIdx].answer.word
+            : null}
         </div>
         <div className="game-savannah-field-answers">
-          {mixedCurrentWords.map((word) => (
-            <Button
-              className="game-savannah-field-answers__btn"
-              key={word.id}
-              onClick={() => handleAnswerClick(word.word)}
-            >
-              {word.word}
-            </Button>
-          ))}
+          <div>
+            {mixedCurrentWords.map((word) => (
+              <Button
+                className="game-savannah-field-answers__btn"
+                key={word.id}
+                onClick={() => handleAnswerClick(word.word)}
+              >
+                {isEN ? word.word : word.wordTranslate}
+              </Button>
+            ))}
+          </div>
+
           <div className="game-savannah-field-answers-results">
             {results.map((result) => (
               <div

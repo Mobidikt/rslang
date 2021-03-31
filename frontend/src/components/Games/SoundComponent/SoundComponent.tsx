@@ -14,7 +14,7 @@ const SoundComponent: React.FC = () => {
       style={{ height: '48px' }}
       type="text"
       className="btn-sound"
-      icon={<Icon className="sound-icon" component={isMute ? volumeOnIcon : volumeOffIcon} />}
+      icon={<Icon className="sound-icon" component={!isMute ? volumeOnIcon : volumeOffIcon} />}
       onClick={setIsMute}
     />
   )
