@@ -155,13 +155,14 @@ const GameSavannah: React.FC<GameSavannahType> = ({ words }) => {
         <div className="game-savannah-field-answers">
           <div>
             {mixedCurrentWords.map((word) => (
-              <Button
+              <button
+                type="button"
                 className="game-savannah-field-answers__btn"
                 key={word.id}
                 onClick={() => handleAnswerClick(word.word)}
               >
                 {isEN ? word.word : word.wordTranslate}
-              </Button>
+              </button>
             ))}
           </div>
 

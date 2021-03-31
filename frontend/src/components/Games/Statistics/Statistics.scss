@@ -3,9 +3,22 @@
     flex-direction: column;
     align-items: center;
     max-height: 70%;
+ 
 }
+
+
+.ant-modal-content {
+    width: 400px;
+}
+
+.ant-modal-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
 .statistics-game__wrapper{
-    overflow-y: auto;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -13,8 +26,20 @@
 }
 .statistics-game__success {
     width: 100%;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
+    h3 {
+        margin-bottom: 12px;
+    }
 }
+
+.statistics-game__error {
+    width: 100%;
+
+    h3 {
+        margin-bottom: 12px;
+    }
+}
+
 .statistics-game__words-wrapper{
     width: 100%;
     margin-bottom: 10px;
@@ -22,6 +47,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+
 }
 .statistics-game__word{
     display: flex;
@@ -67,4 +93,18 @@
 }
 .statistics-game__btn {
     margin-top: 20px;
+    width: 150px;
+    height: 40px;
+    font-size: 20px;
+    border-radius: 5px;
+}
+
+.error {
+    color: red;
+    font-size: 20px;
+}
+
+.success {
+    color: green;
+    font-size: 20px;
 }
