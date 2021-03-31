@@ -11,51 +11,49 @@ import playSound from '../../../utils/playSound'
 type StatisticsTypes = {
   success: WordType[],
   error: WordType[],
-  url: string,
+  back: () => void,
 }
 
-const Statistics: React.FC<StatisticsTypes> = ({ success, error, url }) => {
-  const { setSelectedSection } = useActions()
-  const navigate = useNavigate()
+const Statistics: React.FC<StatisticsTypes> = ({ success, error, back }) => {
   return (
     <section className="statistics-game">
       <h3 className="statistics-game__title">Game statistics</h3>
-      {success.map((word) => (
+      <div className="statistics-game__wrapper">
         <div className="statistics-game__success">
-          <Button
-            type="primary"
-            icon={<Icon className="sound-icon" component={volumeOnIcon} />}
-            onClick={() => playSound(word.audio)}
-          />
-          <p className="statistics-game__text" key={word.id}>
-            {word.word}
-          </p>
+          {success.map((word) => (
+            <div className="statistics-game__words-wrapper" key={word.id}>
+              <div className="statistics-game__word">
+                <Button
+                  type="primary"
+                  className="statistics-game__play-sound"
+                  onClick={() => playSound(word.audio)}
+                />
+                <p className="statistics-game__text">{word.word}</p>
+              </div>
+              <i className="success-icon" />
+            </div>
+          ))}
         </div>
-      ))}
-      {error.map((word) => (
         <div className="statistics-game__error">
-          <Button
-            type="primary"
-            className="statistics-game__play-sound"
-            icon={<Icon className="sound-icon" component={volumeOnIcon} />}
-            onClick={() => playSound(word.audio)}
-          />
-          <p className="statistics-game__text" key={word.id}>
-            {word.word} - {word.wordTranslate}
-          </p>
+          {error.map((word) => (
+            <div className="statistics-game__words-wrapper" key={word.id}>
+              <div className="statistics-game__word">
+                <Button
+                  type="primary"
+                  className="statistics-game__play-sound"
+                  onClick={() => playSound(word.audio)}
+                />
+                <p className="statistics-game__text">
+                  {word.word} - {word.wordTranslate}
+                </p>
+              </div>
+              <i className="error-icon" />
+            </div>
+          ))}
         </div>
-      ))}
-
-      <Button
-        type="primary"
-        danger
-        className="statistics-game__btn"
-        onClick={() => {
-          navigate(url)
-          setSelectedSection('Games')
-        }}
-      >
-        Go back to the game page
+      </div>
+      <Button type="primary" danger className="statistics-game__btn" onClick={back}>
+        Go back
       </Button>
     </section>
   )
