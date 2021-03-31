@@ -1,0 +1,70 @@
+.statistics-game {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-height: 70%;
+}
+.statistics-game__wrapper{
+    overflow-y: auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.statistics-game__success {
+    width: 100%;
+    margin-bottom: 20px;
+}
+.statistics-game__words-wrapper{
+    width: 100%;
+    margin-bottom: 10px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.statistics-game__word{
+    display: flex;
+    align-items: center;
+}
+.statistics-game__text{
+    margin: 10px;
+    padding: 0;
+}
+.statistics-game__play-sound{
+    visibility: visible !important;
+    border-radius: 50%;
+    margin-right: 20px;
+    padding: 0;
+    height: 40px;
+    background-color: transparent;
+    border: none;
+    width: 40px !important;
+    background-image: url(../../../assets/icons/volume-on.svg);
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    &:hover, &:focus, &:active {
+        background-image: url(../../../assets/icons/volume-on.svg);
+        background-color: transparent;
+    }
+}
+.success-icon {
+    height: 30px;
+    width: 30px;
+    background-image: url(../../../assets/icons/result_known-word.png);
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.error-icon{
+    height: 30px;
+    width: 30px;
+    background-image: url(../../../assets/icons/result_unknown-word.png);
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.statistics-game__btn {
+    margin-top: 20px;
+}

@@ -1,6 +1,7 @@
 import React from 'react'
 import { Button } from 'antd'
 import './Title.scss'
+import SettingsGame from '../Settings/Settings'
 
 type TitleTypes = {
   title: string,
@@ -40,6 +41,7 @@ const Title: React.FC<TitleTypes> = ({
       >
         START
       </Button>
+      <SettingsGame />
     </div>
   )
 }
