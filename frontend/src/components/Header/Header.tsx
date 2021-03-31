@@ -24,7 +24,11 @@ const Header: React.FC = () => {
         <h2 className="header__sectionName">{selectedSection}</h2>
         {token ? (
           <div>
-            <Button className="profile" shape="circle" icon={<UserOutlined />} />
+            {userPhoto ? (
+              <img alt="avatar" className="avatar" src={getImgUrl(userPhoto)} />
+            ) : (
+              <Button className="profile" shape="circle" icon={<UserOutlined />} />
+            )}
 
             <span className="header__username">{username}</span>
             <Button className="btn logout" onClick={logoutUserClick}>

@@ -11,10 +11,12 @@ import gameSprint from '../../assets/image/gameSprint.png'
 const Games: React.FC = () => {
   return (
     <div className="games">
-      <GameCard url="/games/savannah" img={gameSavannah} title="Savannah" />
-      <GameCard url="/games/call" img={gameCall} title="Audiocall" />
-      <GameCard url="/games/sprint" img={gameSprint} title="Sprint" />
-      <GameCard url="/games/our-game" img={gameOur} title="gameOur" />
+      <div className="games-container">
+        <GameCard url="/games/savannah" img={gameSavannah} title="Savannah" />
+        <GameCard url="/games/call" img={gameCall} title="Audiocall" />
+        <GameCard url="/games/sprint" img={gameSprint} title="Sprint" />
+        <GameCard url="/games/our-game" img={gameOur} title="gameOur" />
+      </div>
     </div>
   )
 }
