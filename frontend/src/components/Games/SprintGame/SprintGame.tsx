@@ -8,22 +8,20 @@ import useTypedSelector from '../../../hooks/useTypedSelector'
 //components
 import SettingsGame from '../Settings/Settings'
 import Title from '../Title/Title'
+import SoundComponent from '../SoundComponent/SoundComponent'
+import Statistics from '../Statistics/Statistics'
 //antd
 import Button from 'antd/es/button/button'
 import {ArrowLeftOutlined, ArrowRightOutlined, FullscreenExitOutlined, FullscreenOutlined, HeartFilled} from '@ant-design/icons/lib'
-import Icon from '@ant-design/icons'
 import { Rate } from 'antd'
 //libs
 import { FullScreen, useFullScreenHandle } from 'react-full-screen'
-//assets
-import { ReactComponent as volumeOnIcon } from '../../../assets/icons/volume-on.svg'
-import { ReactComponent as volumeOffIcon } from '../../../assets/icons/no-sound.svg'
 //utils
 import { GAMES_INFO } from '../utils/gamesInfo'
 import { playSoundSuccess, playSoundError } from '../utils/soundEffect'
 import getWordsForGame from '../../../utils/getWordsForGame'
 import { randomArr } from '../../../utils/getWordsForGame'
-import SoundComponent from "../SoundComponent/SoundComponent";
+import { WordType } from '../../../store/types/lesson'
 
 
 
@@ -31,18 +29,23 @@ const SprintGame: React.FC = () => {
   const { level } = useTypedSelector((state) => state.gameReducer)
   const { isMute } = useTypedSelector((state) => state.gameReducer)
 
-  const [game, setGame] = useState(false)
-  const [timeSeconds, setTimerSeconds] = useState(60)
+  const [startGame, setStartGame] = useState(false)
+  const [timeSeconds, setTimeSeconds] = useState(60)
   const [circleDashArray, setCircleDashArray] = useState('283')
   const [fullScreen, setFullScreen] = useState(false)
-  const [words, setWords] = useState<any[]>()
   const [isloadingGame, setIsloadingGame] = useState(true)
-  const [englishWords, setEnglishWords] = useState<Array<{[key: string]: string}>>([])
-  const [translateWords, setTranslateWords] = useState<Array<{[key: string]: string}>>([])
+
+  const [words, setWords] = useState<any[]>()
+  const [englishWords, setEnglishWords] = useState<WordType[]>([])
+  const [translateWords, setTranslateWords] = useState<WordType[]>([])
+  const [successWords, setSuccessWords] = useState<WordType[]>([])
+  const [errorWords, setErrorWords] = useState<WordType[]>([])
+
+
   const [wordIndex, setWordIndex] = useState(0)
   const [greenHighlight, setGreenHighlight] = useState(false)
   const [redHighlight, setRedHighlight] = useState(false)
-  const [gameOver, setGameOver] = useState(true)
+  const [gameOver, setGameOver] = useState(false)
   const [helth, setHelth] = useState<number>(5)
 
   const handleFullScreen = useFullScreenHandle()
@@ -74,18 +77,17 @@ const SprintGame: React.FC = () => {
   }
 
   const createWordsForGame = () => {
-    let englishWords: Array<{[key: string]: string}> = [],
-      translateWords: Array<{[key: string]: string}> = []
+    let englishWords: Array<WordType> = [],
+        translateWords: Array<WordType> = []
 
-    words?.forEach((wordInfo) => {
-      englishWords.push( {id: wordInfo.id, word: wordInfo.word} )
-      translateWords.push( {id: wordInfo.id, wordTranslate: wordInfo.wordTranslate})
+    words?.forEach((word) => {
+      englishWords.push(word)
+      translateWords.push(word)
     })
 
-    let shuffleTranslateArr = randomArr(translateWords, translateWords.length),
-      shuffleEnglishArr = randomArr(englishWords, englishWords.length)
+    let shuffleTranslateArr = randomArr(translateWords, translateWords.length)
 
-    setEnglishWords(shuffleEnglishArr)
+    setEnglishWords(englishWords)
     setTranslateWords(shuffleTranslateArr)
 
     console.log(englishWords, translateWords)
@@ -93,8 +95,10 @@ const SprintGame: React.FC = () => {
 
   const handleAnswerClick = (isRightClicked: boolean) => {
     if (isRightClicked ?
-      englishWords[wordIndex].id === translateWords[wordIndex].id :
-      englishWords[wordIndex].id !== translateWords[wordIndex].id) {
+        englishWords[wordIndex].id === translateWords[wordIndex].id :
+        englishWords[wordIndex].id !== translateWords[wordIndex].id) {
+
+      setSuccessWords([...successWords, englishWords[wordIndex]])
 
       if (isMute) {
         playSoundSuccess()
@@ -105,6 +109,9 @@ const SprintGame: React.FC = () => {
         setGreenHighlight(false);
       }, 300);
     } else {
+
+      setErrorWords([...errorWords, englishWords[wordIndex]])
+      setHelth(helth-1)
 
       if (isMute) {
         playSoundError()
@@ -118,6 +125,12 @@ const SprintGame: React.FC = () => {
     setWordIndex(wordIndex + 1)
   }
 
+  const handleBackClick = () => {
+    setGameOver(false)
+    setHelth(5)
+    setStartGame(false)
+  }
+
   useEffect(() => {
     getWords()
   }, [level])
@@ -127,20 +140,22 @@ const SprintGame: React.FC = () => {
   }, [words])
 
   useInterval(() => {
-    if (game) {
-      setTimerSeconds((timeSeconds) => {
+    if (startGame) {
+      setTimeSeconds((timeSeconds) => {
         let timeLeft = timeSeconds - 1
         setCircle(timeLeft)
         return timeLeft
       })
     }
-  }, gameOver ? 1000 : null)
+  }, gameOver ? null : 1000)
 
   useEffect(() => {
-    if (timeSeconds === 0) {
-      setGameOver(false)
+    if (helth === 0 || timeSeconds === 0) {
+      setTimeSeconds(60)
+      setStartGame(false)
+      setGameOver(true)
     }
-  }, [timeSeconds])
+  }, [helth, timeSeconds])
 
   useEffect(() => {
     document.addEventListener('fullscreenchange', escFunction)
@@ -152,12 +167,14 @@ const SprintGame: React.FC = () => {
 
   return (
     <div className="sprint-game">
-      {game ? (
+      {startGame ? (
         <div className="sprint-game-start">
           <FullScreen handle={handleFullScreen}>
-            <Rate disabled value={helth} character={<HeartFilled />} style={{ fontSize: '25px' }} />
+            <div className="rate-wrapper">
+              <Rate disabled value={helth} character={<HeartFilled />} style={{ fontSize: '25px' }} />
+            </div>
             <div className={`sprint-game-start__inner ${greenHighlight ? "green-highlight" : "" ||
-            redHighlight ? "red-highlight" : ""}`}>
+                                                        redHighlight ? "red-highlight" : ""}`}>
               <div className="sprint-game-start__settings">
                 <div className="timer">
                   <div className="timer__number">{timeSeconds}</div>
@@ -189,7 +206,6 @@ const SprintGame: React.FC = () => {
                 <div className="full-screen">
                   <Button
                     type="text"
-                    className="btn-full-screen"
                     onClick={() => setFullScreen(!fullScreen)}
                     icon={
                       fullScreen ? (
@@ -226,20 +242,30 @@ const SprintGame: React.FC = () => {
               </div>
             </div>
           </FullScreen>
-          <div className="sprint-game-start__statistics" hidden={gameOver}>
-            <h1>statistics</h1>
-          </div>
         </div>
       ) : (
-        <div className="sprint-game-rules">
-          <Title
-            title={GAMES_INFO.sprint.title}
-            description={GAMES_INFO.sprint.description}
-            settings={GAMES_INFO.sprint.settings}
-            loading={isloadingGame}
-            startGame={() => setGame(true)}
-          />
-          <SettingsGame />
+        <div className="sprint-game-start">
+        {gameOver ? (
+            <div className="sprint-game-start__statistics">
+              <Statistics
+                success={successWords}
+                error={errorWords}
+                back={() => handleBackClick()}
+              />
+            </div>
+          ) : (
+            <div className="sprint-game-rules">
+              <Title
+                title={GAMES_INFO.sprint.title}
+                description={GAMES_INFO.sprint.description}
+                settings={GAMES_INFO.sprint.settings}
+                loading={isloadingGame}
+                startGame={() => setStartGame(true)}
+              />
+              <SettingsGame />
+            </div>
+          )
+        }
         </div>
       )}
     </div>
