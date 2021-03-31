@@ -133,6 +133,29 @@ const GameCall: React.FC = () => {
     // eslint-disable-next-line
   }, [gameWords, indexWord, renderCurrentWord, renderAnswerWords])
 
+  const handleKeyPress = useCallback(
+    (event: KeyboardEvent) => {
+      switch (event.key) {
+        case '1':
+        case '2':
+        case '3':
+        case '4':
+        case '5':
+          checkWord(answerWords[parseInt(event.key, 10) - 1])
+          break
+        default:
+          console.log('default')
+      }
+    },
+    [answerWords, checkWord],
+  )
+  useEffect(() => {
+    document.addEventListener('keydown', handleKeyPress)
+    return () => {
+      document.removeEventListener('keydown', handleKeyPress)
+    }
+  }, [handleKeyPress])
+
   return (
     <FullScreen handle={handleFullScreen} className="fullscreen-call">
       <>

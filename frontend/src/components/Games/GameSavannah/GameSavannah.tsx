@@ -7,11 +7,13 @@ import { WordType } from '../../../store/types/lesson'
 import SoundComponent from '../SoundComponent/SoundComponent'
 import { playSoundError, playSoundSuccess } from '../utils/soundEffect'
 import './GameSavannah.scss'
+import Statistics from '../Statistics/Statistics'
 import randomArr from '../utils/randomArr'
 import useTypedSelector from '../../../hooks/useTypedSelector'
 
 type GameSavannahType = {
   words: Array<WordType>,
+  onRestart: () => void,
 }
 
 type WordForGameType = {
@@ -19,7 +21,7 @@ type WordForGameType = {
   wrongAnswers: Array<WordType>,
 }
 
-const GameSavannah: React.FC<GameSavannahType> = ({ words }) => {
+const GameSavannah: React.FC<GameSavannahType> = ({ words, onRestart }) => {
   const [helth, setHelth] = useState<number>(5)
   const [isEN, setIsEN] = useState<boolean>(true)
   const [currentWordIdx, setCurrentWordIdx] = useState<number>(-1)
@@ -103,22 +105,15 @@ const GameSavannah: React.FC<GameSavannahType> = ({ words }) => {
     // eslint-disable-next-line
   }, [currentWordIdx])
 
-  const onFinish = () => {
-    console.log(wrongAnswersArr, trueAnswersArr)
-  }
-
   useEffect(() => {
     if (helth === 0) {
       setIsFinish(true)
-      onFinish()
     }
   }, [helth])
 
   const handleAnswerClick = (wordText: string) => {
-    if (isFinish) {
-      onFinish()
-      return
-    }
+    if (isFinish) return
+
     if (wordText === wordsForGame[currentWordIdx].answer.word) {
       handleTrueAnswer()
     } else {
@@ -131,59 +126,69 @@ const GameSavannah: React.FC<GameSavannahType> = ({ words }) => {
   }
 
   return (
-    <div className="game-savannah">
-      <div className="game-savannah-header">
-        <div className="game-savannah-header-settings">
-          <SoundComponent />
-          <Switch
-            checkedChildren="EN"
-            unCheckedChildren="RU"
-            onChange={() => setIsEN((prev) => !prev)}
-            defaultChecked
-          />
-        </div>
-        <Rate disabled value={helth} character={<HeartFilled />} style={{ fontSize: '25px' }} />
-      </div>
-      <div className="game-savannah-field">
-        <div ref={droppedWordRef} className="game-savannah-field__droppedWord">
-          {currentWordIdx >= 0
-            ? isEN
-              ? wordsForGame[currentWordIdx].answer.wordTranslate
-              : wordsForGame[currentWordIdx].answer.word
-            : null}
-        </div>
-        <div className="game-savannah-field-answers">
-          <div>
-            {mixedCurrentWords.map((word) => (
-              <Button
-                className="game-savannah-field-answers__btn"
-                key={word.id}
-                onClick={() => handleAnswerClick(word.word)}
-              >
-                {isEN ? word.word : word.wordTranslate}
-              </Button>
-            ))}
+    <>
+      <div className="game-savannah">
+        <div className="game-savannah-header">
+          <div className="game-savannah-header-settings">
+            <SoundComponent />
+            <Switch
+              checkedChildren="EN"
+              unCheckedChildren="RU"
+              onChange={() => setIsEN((prev) => !prev)}
+              defaultChecked
+            />
           </div>
+          <Rate disabled value={helth} character={<HeartFilled />} style={{ fontSize: '25px' }} />
+        </div>
+        <div className="game-savannah-field">
+          <div ref={droppedWordRef} className="game-savannah-field__droppedWord">
+            {currentWordIdx >= 0
+              ? isEN
+                ? wordsForGame[currentWordIdx].answer.wordTranslate
+                : wordsForGame[currentWordIdx].answer.word
+              : null}
+          </div>
+          <div className="game-savannah-field-answers">
+            <div>
+              {mixedCurrentWords.map((word) => (
+                <button
+                  type="button"
+                  className="game-savannah-field-answers__btn"
+                  key={word.id}
+                  onClick={() => handleAnswerClick(word.word)}
+                >
+                  {isEN ? word.word : word.wordTranslate}
+                </button>
+              ))}
+            </div>
 
-          <div className="game-savannah-field-answers-results">
-            {results.map((result) => (
-              <div
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-                key={uuidv4()}
-                className={
-                  result
-                    ? 'game-savannah-field-answers-results--true'
-                    : 'game-savannah-field-answers-results--false'
-                }
-              >
-                {result ? '+' : '-'}
-              </div>
-            ))}
+            <div className="game-savannah-field-answers-results">
+              {results.map((result) => (
+                <div
+                  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+                  key={uuidv4()}
+                  className={
+                    result
+                      ? 'game-savannah-field-answers-results--true'
+                      : 'game-savannah-field-answers-results--false'
+                  }
+                >
+                  {result ? '+' : '-'}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+      {isFinish ? (
+        <Statistics
+          success={trueAnswersArr.current}
+          error={wrongAnswersArr.current}
+          back={onRestart}
+        />
+      ) : null}
+    </>
   )
 }
 

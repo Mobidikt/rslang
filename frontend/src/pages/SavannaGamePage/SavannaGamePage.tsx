@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react'
+import { FullScreen, useFullScreenHandle } from 'react-full-screen'
 import Title from '../../components/Games/Title/Title'
 import './SavannaGamePage.scss'
 import { GAMES_INFO } from '../../components/Games/utils/gamesInfo'
@@ -7,11 +8,15 @@ import SettingsGame from '../../components/Games/Settings/Settings'
 import useTypedSelector from '../../hooks/useTypedSelector'
 import { WordType } from '../../store/types/lesson'
 import GameSavannah from '../../components/Games/GameSavannah/GameSavannah'
+import FullScreenBtn from '../../components/Games/FullScreenBtn/FullScreenBtn'
 
 const SavannaGame: React.FC = () => {
   const { level } = useTypedSelector((state) => state.gameReducer)
   const [isPlay, setIsPlay] = useState<boolean>(false)
+  const [fullScreen, setFullScreen] = useState(false)
   const [words, setWords] = useState<Array<WordType>>([])
+
+  const handleFullScreen = useFullScreenHandle()
 
   const getWords = useCallback(async () => {
     const wordsFromResponse = await getWordsForGame(level - 1, 25)
@@ -26,7 +31,7 @@ const SavannaGame: React.FC = () => {
   return (
     <div className="savanna-game">
       {isPlay ? (
-        <GameSavannah words={words} />
+        <GameSavannah onRestart={() => setIsPlay(false)} words={words} />
       ) : (
         <>
           <Title
@@ -36,7 +41,6 @@ const SavannaGame: React.FC = () => {
             startGame={() => setIsPlay(true)}
             loading={words.length === 0}
           />
-          <SettingsGame />
         </>
       )}
     </div>

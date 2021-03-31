@@ -2,6 +2,7 @@ import React from 'react'
 import { Button } from 'antd'
 import './Title.scss'
 import SettingsGame from '../Settings/Settings'
+import useTypedSelector from '../../../hooks/useTypedSelector'
 
 type TitleTypes = {
   title: string,
@@ -18,6 +19,7 @@ const Title: React.FC<TitleTypes> = ({
   startGame,
   loading,
 }: TitleTypes) => {
+  const { fromCurrentGroup } = useTypedSelector((state) => state.lessonReducer)
   return (
     <div className="title-game">
       <h2 className="title-game__title">{title}</h2>
@@ -41,7 +43,7 @@ const Title: React.FC<TitleTypes> = ({
       >
         START
       </Button>
-      <SettingsGame />
+      {fromCurrentGroup ? null : <SettingsGame />}
     </div>
   )
 }
