@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { Button, Modal } from 'antd'
 import './Statistics.scss'
-import { useNavigate } from 'react-router'
-import Icon, { CheckOutlined, CloseOutlined } from '@ant-design/icons'
+import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
 import { WordType } from '../../../store/types/lesson'
 import { ReactComponent as volumeOnIcon } from '../../../assets/icons/volume-on.svg'
-import useActions from '../../../hooks/useActions'
 import playSound from '../../../utils/playSound'
 
 type StatisticsTypes = {

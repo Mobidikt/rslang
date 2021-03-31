@@ -26,7 +26,7 @@ const SavannaGame: React.FC = () => {
   return (
     <div className="savanna-game">
       {isPlay ? (
-        <GameSavannah words={words} />
+        <GameSavannah onRestart={() => setIsPlay(false)} words={words} />
       ) : (
         <>
           <Title
