@@ -3,6 +3,7 @@ import { GameState, GameAction, GameActionTypes } from '../types/game'
 const initialState: GameState = {
   level: 1,
   isMute: false,
+  countWordsGame: 5,
 }
 
 const reducer = (state: GameState = initialState, action: GameAction): GameState => {
@@ -18,6 +19,13 @@ const reducer = (state: GameState = initialState, action: GameAction): GameState
       return {
         ...state,
         isMute: !state.isMute,
+      }
+    }
+
+    case GameActionTypes.COUNT_WORDS_GAME: {
+      return {
+        ...state,
+        countWordsGame: action.payload,
       }
     }
     default:
