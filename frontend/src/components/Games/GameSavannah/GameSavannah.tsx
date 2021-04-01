@@ -1,5 +1,5 @@
 /* eslint-disable no-nested-ternary */
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { Switch, Rate, Button } from 'antd'
 import { v4 as uuidv4 } from 'uuid'
 import { HeartFilled } from '@ant-design/icons'
@@ -37,7 +37,7 @@ const GameSavannah: React.FC<GameSavannahType> = ({ words, onRestart }) => {
 
   const { isMute } = useTypedSelector((state) => state.gameReducer)
 
-  const handleWrongAnswer = () => {
+  const handleWrongAnswer = useCallback(() => {
     setHelth((prev) => prev - 1)
     initialTopWordRef.current = 190
     setResults((prev) => [...prev, false])
@@ -45,16 +45,16 @@ const GameSavannah: React.FC<GameSavannahType> = ({ words, onRestart }) => {
     if (!isMute) {
       playSoundError()
     }
-  }
+  }, [isMute, wordsForGame, currentWordIdx])
 
-  const handleTrueAnswer = () => {
+  const handleTrueAnswer = useCallback(() => {
     setResults((prev) => [...prev, true])
     initialTopWordRef.current = 190
     trueAnswersArr.current.push(wordsForGame[currentWordIdx].answer)
     if (!isMute) {
       playSoundSuccess()
     }
-  }
+  }, [isMute, wordsForGame, currentWordIdx])
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -111,19 +111,45 @@ const GameSavannah: React.FC<GameSavannahType> = ({ words, onRestart }) => {
     }
   }, [helth])
 
-  const handleAnswerClick = (wordText: string) => {
-    if (isFinish) return
+  const handleAnswerClick = useCallback(
+    (wordText: string) => {
+      if (isFinish) return
 
-    if (wordText === wordsForGame[currentWordIdx].answer.word) {
-      handleTrueAnswer()
-    } else {
-      handleWrongAnswer()
+      if (wordText === wordsForGame[currentWordIdx].answer.word) {
+        handleTrueAnswer()
+      } else {
+        handleWrongAnswer()
+      }
+      if (currentWordIdx === 9) setIsFinish(true)
+      if (currentWordIdx !== 9) {
+        setCurrentWordIdx((prev) => prev + 1)
+      }
+    },
+    [currentWordIdx, handleTrueAnswer, handleWrongAnswer, isFinish, wordsForGame],
+  )
+
+  const handleKeyPress = useCallback(
+    (event: KeyboardEvent) => {
+      switch (event.key) {
+        case '1':
+        case '2':
+        case '3':
+        case '4':
+        case '5':
+          handleAnswerClick(mixedCurrentWords[parseInt(event.key, 10) - 1].word)
+          break
+        default:
+          console.log('default')
+      }
+    },
+    [handleAnswerClick, mixedCurrentWords],
+  )
+  useEffect(() => {
+    document.addEventListener('keydown', handleKeyPress)
+    return () => {
+      document.removeEventListener('keydown', handleKeyPress)
     }
-    if (currentWordIdx === 9) setIsFinish(true)
-    if (currentWordIdx !== 9) {
-      setCurrentWordIdx((prev) => prev + 1)
-    }
-  }
+  }, [handleKeyPress])
 
   return (
     <>
