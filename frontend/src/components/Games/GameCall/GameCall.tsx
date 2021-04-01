@@ -17,7 +17,7 @@ import Statistics from '../Statistics/Statistics'
 import FullScreenBtn from '../FullScreenBtn/FullScreenBtn'
 
 const GameCall: React.FC = () => {
-  const { level } = useTypedSelector((state) => state.gameReducer)
+  const { level, countWordsGame } = useTypedSelector((state) => state.gameReducer)
   const [game, setGame] = useState(false)
   const [gameOver, setGameOver] = useState(false)
   const [fullScreen, setFullScreen] = useState(false)
@@ -32,7 +32,6 @@ const GameCall: React.FC = () => {
   const [isloadingGame, setIsloadingGame] = useState(true)
 
   const handleFullScreen = useFullScreenHandle()
-  const countWords = 5
 
   const escFunction = useCallback(() => {
     if (!document.fullscreenElement) {
@@ -46,7 +45,7 @@ const GameCall: React.FC = () => {
     setGame(true)
   }
   const initGame = () => {
-    getWordsForGame(level - 1, countWords * 5)
+    getWordsForGame(level - 1, countWordsGame * 5)
       .then((data) => {
         const wordsFromResponse = data
         setWords(wordsFromResponse)
@@ -74,12 +73,12 @@ const GameCall: React.FC = () => {
 
   useEffect(() => {
     if (words) {
-      const arrGame = words.splice(0, countWords)
-      const arr = randomArr(words, countWords * 4, '')
+      const arrGame = words.splice(0, countWordsGame)
+      const arr = randomArr(words, countWordsGame * 4, '')
       setGameWords(arrGame)
       setArrGameWord(arr)
     }
-  }, [words])
+  }, [words, countWordsGame])
 
   useEffect(() => {
     document.addEventListener('fullscreenchange', escFunction)
@@ -122,7 +121,7 @@ const GameCall: React.FC = () => {
   )
 
   useEffect(() => {
-    if (indexWord === countWords) {
+    if (indexWord === countWordsGame) {
       setGame(false)
       setGameOver(true)
       initGame()
