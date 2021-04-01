@@ -5,6 +5,8 @@ import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
 import { WordType } from '../../../store/types/lesson'
 import { ReactComponent as volumeOnIcon } from '../../../assets/icons/volume-on.svg'
 import playSound from '../../../utils/playSound'
+import useTypedSelector from '../../../hooks/useTypedSelector'
+import useActions from '../../../hooks/useActions'
 
 type StatisticsTypes = {
   success: WordType[],
@@ -14,6 +16,20 @@ type StatisticsTypes = {
 
 const Statistics: React.FC<StatisticsTypes> = ({ success, error, back }) => {
   const [isModalVisible, setIsModalVisible] = useState(false)
+  const { userId } = useTypedSelector((state) => state.authReducer)
+  const { addWord } = useActions()
+  const { userWords } = useTypedSelector((state) => state.dictionaryReducer)
+
+  const addWordsToDictionary = () => {
+    const words = [...success, ...error]
+    if (userId) {
+      for (let i = 0; i < words.length; i += 1) {
+        if (!userWords.find((word) => word._id === words[i].id)) {
+          addWord(userId, words[i].id, words[i], 'learned')
+        }
+      }
+    }
+  }
 
   const showModal = () => {
     setIsModalVisible(true)
@@ -25,9 +41,11 @@ const Statistics: React.FC<StatisticsTypes> = ({ success, error, back }) => {
 
   useEffect(() => {
     showModal()
+    addWordsToDictionary()
     return () => {
       handleCancel()
     }
+    // eslint-disable-next-line
   }, [])
 
   return (

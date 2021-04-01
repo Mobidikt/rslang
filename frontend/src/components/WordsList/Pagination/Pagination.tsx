@@ -53,7 +53,6 @@ const Pagination: React.FC<PaginationType> = ({ onHandleSetIsNextPage, isNextPag
       .map((num) => (deletedPages.includes(num) ? 100 : num))
       .filter((num) => num !== 100)
     setFirstPage(fillPages[0])
-    console.log(fillPages)
     // eslint-disable-next-line
   }, [])
 
