@@ -76,12 +76,18 @@ const Settings: React.FC = () => {
             </Checkbox>
           </div>
         </div>
-        <div className="settings__box_checkbox">
-          <Select defaultValue={countWordsGame} onChange={changeCountWords} style={{ width: 60 }}>
+        <div className="settings__box">
+          <h3>GAME SETTINGS</h3>
+          <Select
+            defaultValue={countWordsGame}
+            onChange={changeCountWords}
+            style={{ width: 60, marginRight: 10 }}
+          >
             <Option value={5}>5</Option>
             <Option value={10}>10</Option>
             <Option value={15}>15</Option>
           </Select>
+          <span>Words in game</span>
         </div>
       </div>
     </div>
