@@ -166,7 +166,7 @@ const GameSavannah: React.FC<GameSavannahType> = ({ words, onRestart }) => {
               {results.map((result) => (
                 <div
                   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+                  // eslint-disable-next-line
                   key={uuidv4()}
                   className={
                     result
