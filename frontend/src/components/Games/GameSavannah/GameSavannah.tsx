@@ -35,7 +35,7 @@ const GameSavannah: React.FC<GameSavannahType> = ({ words, onRestart }) => {
 
   const [mixedCurrentWords, setMixedCurrentWords] = useState<Array<WordType>>([])
 
-  const { isMute } = useTypedSelector((state) => state.gameReducer)
+  const { isMute, countWordsGame } = useTypedSelector((state) => state.gameReducer)
 
   const handleWrongAnswer = useCallback(() => {
     setHelth((prev) => prev - 1)
@@ -86,7 +86,7 @@ const GameSavannah: React.FC<GameSavannahType> = ({ words, onRestart }) => {
 
   useEffect(() => {
     setWordsForGame(
-      randomArr(words, 10, '').map((word) => {
+      randomArr(words, countWordsGame, '').map((word) => {
         return {
           answer: word,
           wrongAnswers: randomArr(words, 4, word.id),
@@ -94,7 +94,7 @@ const GameSavannah: React.FC<GameSavannahType> = ({ words, onRestart }) => {
       }),
     )
     setCurrentWordIdx(0)
-  }, [setWordsForGame, words])
+  }, [setWordsForGame, words, countWordsGame])
 
   useEffect(() => {
     if (currentWordIdx >= 0) {
@@ -120,12 +120,12 @@ const GameSavannah: React.FC<GameSavannahType> = ({ words, onRestart }) => {
       } else {
         handleWrongAnswer()
       }
-      if (currentWordIdx === 9) setIsFinish(true)
-      if (currentWordIdx !== 9) {
+      if (currentWordIdx === countWordsGame - 1) setIsFinish(true)
+      if (currentWordIdx !== countWordsGame - 1) {
         setCurrentWordIdx((prev) => prev + 1)
       }
     },
-    [currentWordIdx, handleTrueAnswer, handleWrongAnswer, isFinish, wordsForGame],
+    [currentWordIdx, handleTrueAnswer, handleWrongAnswer, isFinish, wordsForGame, countWordsGame],
   )
 
   const handleKeyPress = useCallback(
@@ -144,6 +144,7 @@ const GameSavannah: React.FC<GameSavannahType> = ({ words, onRestart }) => {
     },
     [handleAnswerClick, mixedCurrentWords],
   )
+
   useEffect(() => {
     document.addEventListener('keydown', handleKeyPress)
     return () => {
