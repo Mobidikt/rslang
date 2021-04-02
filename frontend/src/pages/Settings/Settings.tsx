@@ -1,8 +1,10 @@
 /* eslint-disable */
 import React, { useState } from 'react'
 import './Settings.scss'
-import { Checkbox } from 'antd'
+import { Checkbox, Select } from 'antd'
 import { CheckboxChangeEvent } from 'antd/es/checkbox'
+import useTypedSelector from '../../hooks/useTypedSelector'
+import useActions from '../../hooks/useActions'
 
 const defaultSettings: { [key: string]: boolean } = {
   difficult_button: true,
@@ -11,12 +13,21 @@ const defaultSettings: { [key: string]: boolean } = {
   sentence_translation: true,
 }
 
+const { Option } = Select
+
 const Settings: React.FC = () => {
+  const { countWordsGame } = useTypedSelector((state) => state.gameReducer)
+  const { SetCountWordsGame } = useActions()
+
   const [settings, setSettings] = useState(defaultSettings)
 
   const checkboxHandler = (e: CheckboxChangeEvent) => {
     const propName: string = e.target.name || ''
     setSettings({ ...settings, [propName]: e.target.checked })
+  }
+
+  const changeCountWords = (count: number) => {
+    SetCountWordsGame(count)
   }
 
   return (
@@ -64,6 +75,19 @@ const Settings: React.FC = () => {
               Sentence translation with learning word
             </Checkbox>
           </div>
+        </div>
+        <div className="settings__box">
+          <h3>GAME SETTINGS</h3>
+          <Select
+            defaultValue={countWordsGame}
+            onChange={changeCountWords}
+            style={{ width: 60, marginRight: 10 }}
+          >
+            <Option value={5}>5</Option>
+            <Option value={10}>10</Option>
+            <Option value={15}>15</Option>
+          </Select>
+          <span>Words in game</span>
         </div>
       </div>
     </div>

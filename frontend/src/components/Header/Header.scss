@@ -29,10 +29,26 @@
   border-radius: 10px;
 }
 
-.avatar {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
+
+
+.profile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0px 3px;
+  width: 35px;
+  height: 35px;
+
+  img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    margin: 0;
+  }
+}
+
+.header-user {
+  display: flex;
 }
 
 @media(max-width: 700px) {

@@ -55,7 +55,6 @@ const Statistics: React.FC<StatisticsTypes> = ({ success, error, back }) => {
       visible={isModalVisible}
       closable={false}
       footer={false}
-      bodyStyle={{ width: '490px' }}
     >
       <div className="statistics-game__wrapper">
         <div className="statistics-game__success">

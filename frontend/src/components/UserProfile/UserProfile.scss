@@ -1,0 +1,30 @@
+.email:disabled {
+  color: black;
+  cursor: default;
+}
+
+.photo__title {
+  margin-right: 10px;
+}
+
+.user-profile {
+  width: 400px !important;
+}
+
+.photo {
+  width: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+}
+
+.avatar {
+  margin-bottom: 10px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.form__btn {
+  margin-top: 40px;
+}

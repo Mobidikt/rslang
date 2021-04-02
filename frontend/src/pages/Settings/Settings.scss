@@ -8,10 +8,12 @@
   &__inner {
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
   }
   &__box {
-    &:first-child {
-      margin-right: 40px;
+    margin-right: 40px;
+    &:last-child {
+      margin-right: 0px;
     }
     h3 {
       color: #939ba5;
@@ -36,9 +38,7 @@
       flex-direction: column;
     }
     &__box {
-      &:first-child {
-        margin: 0 auto;
-      }
+      margin: 0 auto;
       width: 300px;
       margin: 0 auto;
     }

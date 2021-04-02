@@ -7,9 +7,10 @@ import useActions from '../../hooks/useActions'
 import AuthCard from '../AuthCard/AuthCard'
 import useTypedSelector from '../../hooks/useTypedSelector'
 import getImgUrl from '../../utils/getImageUrl'
+import UserProfile from '../UserProfile/UserProfile'
 
 const Header: React.FC = () => {
-  const { setIsVisibleAuthCard, logout, clearUserWords } = useActions()
+  const { setIsVisibleAuthCard, logout, clearUserWords, setIsVisibleProfileCard } = useActions()
   const { token, username, userPhoto } = useTypedSelector((state) => state.authReducer)
   const { selectedSection, headerColor } = useTypedSelector((state) => state.appReducer)
 
@@ -23,11 +24,18 @@ const Header: React.FC = () => {
       <header className="header" style={{ background: headerColor }}>
         <h2 className="header__sectionName">{selectedSection}</h2>
         {token ? (
-          <div>
+          <div className="header-user">
             {userPhoto ? (
-              <img alt="avatar" className="avatar" src={getImgUrl(userPhoto)} />
+              <Button onClick={() => setIsVisibleProfileCard()} className="profile" shape="circle">
+                <img alt="avatar" className="avatar" src={getImgUrl(userPhoto)} />
+              </Button>
             ) : (
-              <Button className="profile" shape="circle" icon={<UserOutlined />} />
+              <Button
+                onClick={() => setIsVisibleProfileCard()}
+                className="profile"
+                shape="circle"
+                icon={<UserOutlined />}
+              />
             )}
 
             <span className="header__username">{username}</span>
@@ -41,6 +49,7 @@ const Header: React.FC = () => {
           </Button>
         )}
       </header>
+      {token ? <UserProfile /> : null}
       <AuthCard />
     </>
   )

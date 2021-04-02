@@ -103,7 +103,7 @@ const SprintGame: React.FC = () => {
     ) {
       setSuccessWords([...successWords, englishWords[wordIndex]])
 
-      if (isMute) {
+      if (!isMute) {
         playSoundSuccess()
       }
 
@@ -115,7 +115,7 @@ const SprintGame: React.FC = () => {
       setErrorWords([...errorWords, englishWords[wordIndex]])
       setHelth(helth - 1)
 
-      if (isMute) {
+      if (!isMute) {
         playSoundError()
       }
 
@@ -132,6 +132,23 @@ const SprintGame: React.FC = () => {
     setHelth(5)
     setStartGame(false)
   }
+
+  const handleKeyPress = (event: KeyboardEvent) => {
+      switch (event.key) {
+        case 'ArrowLeft':
+          handleAnswerClick(true)
+          break
+        case 'ArrowRight':
+          handleAnswerClick(false)
+      }
+  }
+
+  useEffect(() => {
+    document.addEventListener('keydown', handleKeyPress)
+    return () => {
+      document.removeEventListener('keydown', handleKeyPress)
+    }
+  }, [handleKeyPress])
 
   useEffect(() => {
     getWords()
@@ -244,20 +261,12 @@ const SprintGame: React.FC = () => {
               <div className="sprint-game-start__buttons">
                 <div className="button-wrapper">
                   <ArrowLeftOutlined className="arrow-icon" />
-                  <Button
-                    type="primary"
-                    className="sprint-btn"
-                    onClick={() => handleAnswerClick(true)}
-                  >
+                  <Button type="primary" className="sprint-btn" onClick={() => handleAnswerClick(true)} >
                     RIGHT
                   </Button>
                 </div>
                 <div className="button-wrapper">
-                  <Button
-                    type="primary"
-                    className="sprint-btn"
-                    onClick={() => handleAnswerClick(false)}
-                  >
+                  <Button type="primary" className="sprint-btn" onClick={() => handleAnswerClick(false)} >
                     WRONG
                   </Button>
                   <ArrowRightOutlined className="arrow-icon" />
