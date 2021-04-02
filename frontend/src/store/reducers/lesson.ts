@@ -10,6 +10,12 @@ const getCurrentPageFromLocalStorage = (): number => {
   return 0
 }
 
+const getVisibleStateFromLocalStorage = (name: string): boolean => {
+  const status = localStorage.getItem(name)
+  if (status === 'false') return false
+  return true
+}
+
 const word = {
   id: '5e9f5e43434e35eb9e72bc21af519',
   group: 0,
@@ -47,6 +53,10 @@ const initialState: LessonState = {
   fromCurrentGroup: false,
   deletedPages: [],
   firstPage: 0,
+  isDeleteBtnVisible: getVisibleStateFromLocalStorage('isDeleteBtnVisible'),
+  isDifficultBtnVisible: getVisibleStateFromLocalStorage('isDifficultBtnVisible'),
+  isTranslationSentenceVisible: getVisibleStateFromLocalStorage('isTranslationSentenceVisible'),
+  isTranslationWordVisible: getVisibleStateFromLocalStorage('isTranslationWordVisible'),
 }
 
 const reducer = (state: LessonState = initialState, action: LessonAction): LessonState => {
@@ -145,6 +155,44 @@ const reducer = (state: LessonState = initialState, action: LessonAction): Lesso
       return {
         ...state,
         deletedPages: newDeletedPages,
+      }
+    }
+
+    case LessonActionTypes.SET_IS_DELETE_BTN_VISIBLE: {
+      localStorage.setItem('isDeleteBtnVisible', JSON.stringify(!state.isDeleteBtnVisible))
+      return {
+        ...state,
+        isDeleteBtnVisible: !state.isDeleteBtnVisible,
+      }
+    }
+
+    case LessonActionTypes.SET_IS_DIFFICULT_BTN_VISIBLE: {
+      localStorage.setItem('isDifficultBtnVisible', JSON.stringify(!state.isDifficultBtnVisible))
+      return {
+        ...state,
+        isDifficultBtnVisible: !state.isDifficultBtnVisible,
+      }
+    }
+
+    case LessonActionTypes.SET_IS_TRANSLATION_SENTENCE_VISIBLE: {
+      localStorage.setItem(
+        'isTranslationSentenceVisible',
+        JSON.stringify(!state.isTranslationSentenceVisible),
+      )
+      return {
+        ...state,
+        isTranslationSentenceVisible: !state.isTranslationSentenceVisible,
+      }
+    }
+
+    case LessonActionTypes.SET_IS_TRANSLATION_WORD_VISIBLE: {
+      localStorage.setItem(
+        'isTranslationWordVisible',
+        JSON.stringify(!state.isTranslationWordVisible),
+      )
+      return {
+        ...state,
+        isTranslationWordVisible: !state.isTranslationWordVisible,
       }
     }
 

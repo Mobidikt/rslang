@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React, { useEffect, useRef, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { Spin, Button, Input, message } from 'antd'
@@ -11,9 +12,15 @@ import './Word.scss'
 const Word: React.FC = () => {
   const { groupId, id } = useParams()
   const { fetchWord, addWord, setCurrentWordIsDifficult, updateUserWord } = useActions()
-  const { currentWord, isLoading, currentWordIsDifficult } = useTypedSelector(
-    (state) => state.lessonReducer,
-  )
+  const {
+    currentWord,
+    isLoading,
+    currentWordIsDifficult,
+    isDeleteBtnVisible,
+    isTranslationWordVisible,
+    isDifficultBtnVisible,
+    isTranslationSentenceVisible,
+  } = useTypedSelector((state) => state.lessonReducer)
   const { userId } = useTypedSelector((state) => state.authReducer)
   const { difficultWords, userWords, isLoadingDictionary } = useTypedSelector(
     (state) => state.dictionaryReducer,
@@ -102,20 +109,28 @@ const Word: React.FC = () => {
             </span>
             <p className="word-info-text__transcription">{currentWord?.transcription}</p>
             <p className="word-info-text__translate">
-              <b>{currentWord?.wordTranslate}</b>
+              <b>{isTranslationWordVisible ? currentWord?.wordTranslate : null}</b>
             </p>
 
             <span className="word-info-text__meaning" ref={textMeaningRef} />
             <span className="word-info-text__sound">
               <SoundOutlined onClick={() => playSound(currentWord?.audioMeaning || '')} />
             </span>
-            <p className="word-info-text__meaningTranslate">{currentWord?.textMeaningTranslate}</p>
-
+            {isTranslationSentenceVisible ? (
+              <p className="word-info-text__meaningTranslate">
+                {currentWord?.textMeaningTranslate}
+              </p>
+            ) : null}
+            <br />
             <span className="word-info-text__example" ref={textExampleRef} />
             <span className="word-info-text__sound">
               <SoundOutlined onClick={() => playSound(currentWord?.audioExample || '')} />
             </span>
-            <p className="word-info-text__exampleTranslate">{currentWord?.textExampleTranslate}</p>
+            {isTranslationSentenceVisible ? (
+              <p className="word-info-text__exampleTranslate">
+                {currentWord?.textExampleTranslate}
+              </p>
+            ) : null}
           </div>
         </div>
 
@@ -131,25 +146,29 @@ const Word: React.FC = () => {
         </div>
       </div>
       <div className="word-buttons">
-        <Button
-          type="primary"
-          size="large"
-          className="word-buttons__btn"
-          onClick={addWordToDictionary}
-        >
-          {currentWordIsDifficult ? 'Убрать из сложных' : 'Добавить в сложные'}
-        </Button>
-        {wasDelete ? null : (
+        {isDifficultBtnVisible ? (
           <Button
-            disabled={isLoadingDictionary}
-            onClick={removeWord}
             type="primary"
             size="large"
             className="word-buttons__btn"
+            onClick={addWordToDictionary}
           >
-            Удалить
+            {currentWordIsDifficult ? 'Убрать из сложных' : 'Добавить в сложные'}
           </Button>
-        )}
+        ) : null}
+        {isDeleteBtnVisible ? (
+          wasDelete ? null : (
+            <Button
+              disabled={isLoadingDictionary}
+              onClick={removeWord}
+              type="primary"
+              size="large"
+              className="word-buttons__btn"
+            >
+              Удалить
+            </Button>
+          )
+        ) : null}
       </div>
     </>
   )
