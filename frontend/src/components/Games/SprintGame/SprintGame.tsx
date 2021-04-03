@@ -97,8 +97,8 @@ const SprintGame: React.FC = () => {
   const shuffleTranslateWords = (words: Array<WordType>): Array<WordType> => {
     let size = 3 //размер подмассива
     let newArr: Array<WordType> = [] //массив в который будет выведен результат.
-    for (let i = 0; i < Math.ceil(words.length/size); i++) {
-      let arr: any  = words.slice((i * size), (i * size) + size)
+    for (let i = 0; i < Math.ceil(words.length / size); i++) {
+      let arr: any = words.slice(i * size, i * size + size)
       arr = randomArr(arr, arr.length)
 
       for (let i = 0; i < arr.length; i++) {
