@@ -1,5 +1,10 @@
 .game-sprint {
   background: url(../../assets/image/sprint-game.png) no-repeat center;
   background-size: cover;
-  height: 100%;
+    background-position: center;
+    height: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

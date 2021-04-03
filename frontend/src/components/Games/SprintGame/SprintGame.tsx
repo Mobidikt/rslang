@@ -12,13 +12,7 @@ import SoundComponent from '../SoundComponent/SoundComponent'
 import Statistics from '../Statistics/Statistics'
 //antd
 import Button from 'antd/es/button/button'
-import {
-  ArrowLeftOutlined,
-  ArrowRightOutlined,
-  FullscreenExitOutlined,
-  FullscreenOutlined,
-  HeartFilled,
-} from '@ant-design/icons/lib'
+import { ArrowLeftOutlined, ArrowRightOutlined, HeartFilled } from '@ant-design/icons/lib'
 import { Rate } from 'antd'
 //libs
 import { FullScreen, useFullScreenHandle } from 'react-full-screen'
@@ -36,7 +30,6 @@ const SprintGame: React.FC = () => {
   const [startGame, setStartGame] = useState(false)
   const [timeSeconds, setTimeSeconds] = useState(60)
   const [circleDashArray, setCircleDashArray] = useState('283')
-  const [fullScreen, setFullScreen] = useState(false)
   const [isloadingGame, setIsloadingGame] = useState(true)
 
   const [words, setWords] = useState<any[]>()
@@ -64,12 +57,6 @@ const SprintGame: React.FC = () => {
   const setCircle = (timeLeft: number) => {
     setCircleDashArray(`${(calculateTimeFraction(timeLeft) * FULL_DASH_ARRAY).toFixed(0)} 283`)
   }
-
-  const escFunction = useCallback(() => {
-    if (!document.fullscreenElement) {
-      setFullScreen(false)
-    }
-  }, [])
 
   const getWords = async () => {
     let newWords = await getWordsForGame(0, 100)
@@ -194,14 +181,6 @@ const SprintGame: React.FC = () => {
     }
   }, [helth, timeSeconds])
 
-  useEffect(() => {
-    document.addEventListener('fullscreenchange', escFunction)
-
-    return () => {
-      document.removeEventListener('fullscreenchange', escFunction, false)
-    }
-  }, [fullScreen])
-
   return (
     <div className="sprint-game">
       {startGame ? (
@@ -247,25 +226,6 @@ const SprintGame: React.FC = () => {
 
                 <div className="sound">
                   <SoundComponent />
-                </div>
-                <div className="">
-                  <Button
-                    type="text"
-                    onClick={() => setFullScreen(!fullScreen)}
-                    icon={
-                      fullScreen ? (
-                        <FullscreenExitOutlined
-                          className="full-screen-icon"
-                          onClick={handleFullScreen.exit}
-                        />
-                      ) : (
-                        <FullscreenOutlined
-                          className="full-screen-icon"
-                          onClick={handleFullScreen.enter}
-                        />
-                      )
-                    }
-                  />
                 </div>
               </div>
               <div className="sprint-game-start__words">
