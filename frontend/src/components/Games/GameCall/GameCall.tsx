@@ -14,6 +14,7 @@ import getWordsForGame from '../../../utils/getWordsForGame'
 import renderArrAnswerWords from '../utils/renderArrAnswerWords'
 import { playSoundSuccess, playSoundError } from '../utils/soundEffect'
 import Statistics from '../Statistics/Statistics'
+import Result from '../Result/Result'
 
 const GameCall: React.FC = () => {
   const { level, countWordsGame } = useTypedSelector((state) => state.gameReducer)
@@ -28,7 +29,7 @@ const GameCall: React.FC = () => {
   const [errorWords, setErrorWords] = useState<WordType[]>([])
   const [indexWord, setIndexWord] = useState<number>(0)
   const [health, setHealth] = useState<number>(5)
-  const [isloadingGame, setIsloadingGame] = useState(true)
+  const [isloadingGame, setIsloadingGame] = useState<boolean>(true)
 
   const startGame = () => {
     setErrorWords([])
@@ -166,6 +167,11 @@ const GameCall: React.FC = () => {
               </Button>
             ))}
           </div>
+          <Result
+            successWords={successWords}
+            countWordsGame={countWordsGame}
+            errorWords={errorWords}
+          />
           <Button type="primary" className="game__btn" onClick={skipWord}>
             Пропустить
           </Button>

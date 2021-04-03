@@ -11,6 +11,7 @@ import '../Games.scss'
 import Statistics from '../Statistics/Statistics'
 import randomArr from '../utils/randomArr'
 import useTypedSelector from '../../../hooks/useTypedSelector'
+import Result from '../Result/Result'
 
 type GameSavannahType = {
   words: Array<WordType>,
@@ -28,7 +29,6 @@ const GameSavannah: React.FC<GameSavannahType> = ({ words, onRestart, calcBackgr
   const [isEN, setIsEN] = useState<boolean>(true)
   const [currentWordIdx, setCurrentWordIdx] = useState<number>(-1)
   const [wordsForGame, setWordsForGame] = useState<Array<WordForGameType>>([])
-  const [results, setResults] = useState<Array<boolean>>([])
   const [isFinish, setIsFinish] = useState<boolean>(false)
   const droppedWordRef = useRef<HTMLDivElement>(null)
   const initialTopWordRef = useRef<number>(190)
@@ -42,7 +42,6 @@ const GameSavannah: React.FC<GameSavannahType> = ({ words, onRestart, calcBackgr
   const handleWrongAnswer = useCallback(() => {
     setHelth((prev) => prev - 1)
     initialTopWordRef.current = 190
-    setResults((prev) => [...prev, false])
     wrongAnswersArr.current.push(wordsForGame[currentWordIdx].answer)
     if (!isMute) {
       playSoundError()
@@ -50,7 +49,6 @@ const GameSavannah: React.FC<GameSavannahType> = ({ words, onRestart, calcBackgr
   }, [isMute, wordsForGame, currentWordIdx])
 
   const handleTrueAnswer = useCallback(() => {
-    setResults((prev) => [...prev, true])
     initialTopWordRef.current = 190
     trueAnswersArr.current.push(wordsForGame[currentWordIdx].answer)
     calcBackgroundY(trueAnswersArr.current.length)
@@ -199,23 +197,11 @@ const GameSavannah: React.FC<GameSavannahType> = ({ words, onRestart, calcBackgr
                   </Button>
                 ))}
               </div>
-
-              <div className="game-savannah-field-answers-results">
-                {results.map((result) => (
-                  <div
-                    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-                    key={uuidv4()}
-                    className={
-                      result
-                        ? 'game-savannah-field-answers-results--true'
-                        : 'game-savannah-field-answers-results--false'
-                    }
-                  >
-                    {result ? '+' : '-'}
-                  </div>
-                ))}
-              </div>
+              <Result
+                successWords={trueAnswersArr.current}
+                countWordsGame={countWordsGame}
+                errorWords={wrongAnswersArr.current}
+              />
             </div>
           </div>
         </div>
