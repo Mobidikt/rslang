@@ -1,0 +1,29 @@
+.game-result-board {
+    background-color: white;
+    border: 1px solid black;
+    margin-top: 20px;
+    height: 30px;
+    width: 60%;
+    display: flex;
+    border-radius: 15px;
+    font-size: 20px;
+    line-height: 20px;
+    overflow: hidden;
+    &__item--true {
+        box-sizing: border-box;
+        background-color: green;
+        border: 1px solid black;
+        color: white;
+        text-align: center;
+        height: 100%;
+        z-index: 1;
+    }
+    &__item--false {
+        box-sizing: border-box;
+        text-align: center;
+        color: white;
+        background-color: red;
+        border: 1px solid black;
+        height: 100%;
+    }
+}
