@@ -157,7 +157,9 @@ const SprintGame: React.FC = () => {
   }
 
   useEffect(() => {
-    document.addEventListener('keydown', handleKeyPress)
+    if (gameOver) {
+      document.removeEventListener('keydown', handleKeyPress)
+    } else document.addEventListener('keydown', handleKeyPress)
     return () => {
       document.removeEventListener('keydown', handleKeyPress)
     }
@@ -246,7 +248,7 @@ const SprintGame: React.FC = () => {
                 <div className="sound">
                   <SoundComponent />
                 </div>
-                <div className="full-screen">
+                <div className="">
                   <Button
                     type="text"
                     onClick={() => setFullScreen(!fullScreen)}
