@@ -1,0 +1,26 @@
+.game__btn{
+    font-family: 'Nunito';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 28px;
+    line-height: 38px;
+    background: transparent;
+    border: 2px solid #FF9770;
+    box-shadow: 3px 3px 5px rgba(29, 22, 22, 0.15);
+    border-radius: 8px;
+    color: #161616;
+    min-width: 140px;
+    padding: 5px 20px;
+    min-height: 56px;
+    margin-top: 55px;
+    &:hover {
+        border:  2px solid #FF9770;
+        background: #bb6b56;
+        color: white;
+    }
+    &:focus {
+        border:  2px solid #FF9770;
+        background: #bb6b56;
+        color: white;
+    }
+}

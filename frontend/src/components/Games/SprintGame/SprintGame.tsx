@@ -72,7 +72,7 @@ const SprintGame: React.FC = () => {
   }, [])
 
   const getWords = async () => {
-    let newWords = await getWordsForGame(0, 200)
+    let newWords = await getWordsForGame(0, 40)
     console.log(newWords)
     setIsloadingGame(false)
     setWords(newWords)

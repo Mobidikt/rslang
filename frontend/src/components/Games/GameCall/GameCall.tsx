@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { FullScreen, useFullScreenHandle } from 'react-full-screen'
 import Button from 'antd/es/button/button'
 import Icon from '@ant-design/icons'
 import './GameCall.scss'
+import '../Games.scss'
 import useTypedSelector from '../../../hooks/useTypedSelector'
 import { ReactComponent as volumeOnIcon } from '../../../assets/icons/volume-on.svg'
 import Title from '../Title/Title'
@@ -127,18 +127,6 @@ const GameCall: React.FC = () => {
     [gameWords],
   )
 
-  useEffect(() => {
-    if (indexWord === countWordsGame) {
-      setGame(false)
-      setGameOver(true)
-      initGame()
-    } else if (gameWords) {
-      renderCurrentWord(indexWord)
-      renderAnswerWords(indexWord)
-    }
-    // eslint-disable-next-line
-  }, [gameWords, indexWord, renderCurrentWord, renderAnswerWords])
-
   const handleKeyPress = useCallback(
     (event: KeyboardEvent) => {
       switch (event.key) {
@@ -155,30 +143,44 @@ const GameCall: React.FC = () => {
     [answerWords, checkWord],
   )
   useEffect(() => {
-    document.addEventListener('keydown', handleKeyPress)
+    if (indexWord === countWordsGame) {
+      setGame(false)
+      setGameOver(true)
+      initGame()
+    } else if (gameWords) {
+      renderCurrentWord(indexWord)
+      renderAnswerWords(indexWord)
+    }
+    // eslint-disable-next-line
+  }, [gameWords, indexWord, renderCurrentWord, renderAnswerWords])
+
+  useEffect(() => {
+    if (gameOver) {
+      document.removeEventListener('keydown', handleKeyPress)
+    } else document.addEventListener('keydown', handleKeyPress)
     return () => {
       document.removeEventListener('keydown', handleKeyPress)
     }
-  }, [handleKeyPress])
+  }, [handleKeyPress, gameOver])
 
   return (
     <div className={`game-call ${fullScreen ? 'full-screen' : ''} `}>
       {game ? (
         <div className="call">
           <Button
-            className="call__btn_play-sound"
+            className="game__btn call__btn_play-sound"
             icon={<Icon className="sound-icon" component={volumeOnIcon} />}
             onClick={playWord}
           />
           <div className="call__wrapper-btn">
-            {answerWords.map((word: WordType) => (
+            {answerWords.map((word: WordType, i: number) => (
               <Button
                 type="primary"
                 className="game__btn"
                 key={word.word}
                 onClick={() => checkWord(word)}
               >
-                {word.wordTranslate}
+                {i + 1} {word.wordTranslate}
               </Button>
             ))}
           </div>

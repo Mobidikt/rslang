@@ -48,16 +48,12 @@ const Statistics: React.FC<StatisticsTypes> = ({ success, error, back }) => {
   }, [])
 
   return (
-    <Modal
-      className="statistics-game"
-      title="Статистика игры"
-      visible={isModalVisible}
-      closable={false}
-      footer={false}
-    >
+    <Modal title="Статистика игры" visible={isModalVisible} closable={false} footer={false}>
       <div className="statistics-game__wrapper">
         <div className="statistics-game__success">
-          {success.length > 0 ? <h3>Правильные ответы:</h3> : null}
+          {success.length > 0 ? (
+            <h3 className="statistics-game__title">Правильные ответы:</h3>
+          ) : null}
           {success.map((word) => (
             <div className="statistics-game__words-wrapper" key={word.id}>
               <div className="statistics-game__word">
@@ -66,14 +62,18 @@ const Statistics: React.FC<StatisticsTypes> = ({ success, error, back }) => {
                   className="statistics-game__play-sound"
                   onClick={() => playSound(word.audio)}
                 />
-                <p className="statistics-game__text">{word.word}</p>
+                <p className="statistics-game__text">
+                  {word.word} - {word.wordTranslate}
+                </p>
               </div>
               <CheckOutlined className="success" />
             </div>
           ))}
         </div>
         <div className="statistics-game__error">
-          {error.length > 0 ? <h3>Неправильные ответы:</h3> : null}
+          {error.length > 0 ? (
+            <h3 className="statistics-game__title">Неправильные ответы:</h3>
+          ) : null}
           {error.map((word) => (
             <div className="statistics-game__words-wrapper" key={word.id}>
               <div className="statistics-game__word">
@@ -91,7 +91,7 @@ const Statistics: React.FC<StatisticsTypes> = ({ success, error, back }) => {
           ))}
         </div>
       </div>
-      <Button type="primary" danger className="statistics-game__btn" onClick={back}>
+      <Button type="primary" className="statistics-game__btn" onClick={back}>
         Продолжить
       </Button>
     </Modal>
