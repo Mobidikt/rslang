@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import Button from 'antd/es/button/button'
-import Icon from '@ant-design/icons'
+import Icon, { HeartFilled } from '@ant-design/icons'
+import { Rate } from 'antd'
 import './GameCall.scss'
 import '../Games.scss'
 import useTypedSelector from '../../../hooks/useTypedSelector'
@@ -29,6 +30,7 @@ const GameCall: React.FC = () => {
   const [successWords, setSuccessWords] = useState<WordType[]>([])
   const [errorWords, setErrorWords] = useState<WordType[]>([])
   const [indexWord, setIndexWord] = useState<number>(0)
+  const [health, setHealth] = useState<number>(5)
   const [isloadingGame, setIsloadingGame] = useState(true)
 
   const escFunction = useCallback(() => {
@@ -75,6 +77,7 @@ const GameCall: React.FC = () => {
     setGame(false)
     setIsloadingGame(true)
     initGame()
+    setHealth(5)
     // eslint-disable-next-line
   }, [level])
 
@@ -108,8 +111,10 @@ const GameCall: React.FC = () => {
         } else {
           playSoundError()
           setErrorWords([...errorWords, currentWord])
+          setHealth(health - 1)
         }
     },
+    // eslint-disable-next-line
     [currentWord, errorWords, successWords],
   )
   const skipWord = () => {
@@ -143,10 +148,11 @@ const GameCall: React.FC = () => {
     [answerWords, checkWord],
   )
   useEffect(() => {
-    if (indexWord === countWordsGame) {
+    if (indexWord === countWordsGame || health === 0) {
       setGame(false)
       setGameOver(true)
       initGame()
+      setHealth(5)
     } else if (gameWords) {
       renderCurrentWord(indexWord)
       renderAnswerWords(indexWord)
@@ -167,6 +173,7 @@ const GameCall: React.FC = () => {
     <div className={`game-call ${fullScreen ? 'full-screen' : ''} `}>
       {game ? (
         <div className="call">
+          <Rate disabled value={health} character={<HeartFilled />} className="game-call__health" />
           <Button
             className="game__btn call__btn_play-sound"
             icon={<Icon className="sound-icon" component={volumeOnIcon} />}

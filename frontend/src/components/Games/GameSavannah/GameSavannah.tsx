@@ -1,6 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import React, { useState, useEffect, useRef, useCallback } from 'react'
-import { Switch, Rate, Button } from 'antd'
+import { Switch, Rate } from 'antd'
 import { v4 as uuidv4 } from 'uuid'
 import { HeartFilled } from '@ant-design/icons'
 import { WordType } from '../../../store/types/lesson'
@@ -146,11 +146,13 @@ const GameSavannah: React.FC<GameSavannahType> = ({ words, onRestart }) => {
   )
 
   useEffect(() => {
-    document.addEventListener('keydown', handleKeyPress)
+    if (isFinish) {
+      document.removeEventListener('keydown', handleKeyPress)
+    } else document.addEventListener('keydown', handleKeyPress)
     return () => {
       document.removeEventListener('keydown', handleKeyPress)
     }
-  }, [handleKeyPress])
+  }, [handleKeyPress, isFinish])
 
   return (
     <>
