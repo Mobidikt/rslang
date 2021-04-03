@@ -31,13 +31,20 @@ const GameCall: React.FC = () => {
   const [indexWord, setIndexWord] = useState<number>(0)
   const [isloadingGame, setIsloadingGame] = useState(true)
 
-  const handleFullScreen = useFullScreenHandle()
-
   const escFunction = useCallback(() => {
     if (!document.fullscreenElement) {
       setFullScreen(false)
     }
   }, [])
+
+  const handleFullScreen = () => {
+    setFullScreen(!fullScreen)
+  }
+  useEffect(() => {
+    if (fullScreen) {
+      document.body.style.position = 'fixed'
+    } else document.body.style.position = ''
+  }, [fullScreen])
 
   const startGame = () => {
     setErrorWords([])
@@ -143,7 +150,6 @@ const GameCall: React.FC = () => {
           checkWord(answerWords[parseInt(event.key, 10) - 1])
           break
         default:
-          console.log('default')
       }
     },
     [answerWords, checkWord],
@@ -156,57 +162,47 @@ const GameCall: React.FC = () => {
   }, [handleKeyPress])
 
   return (
-    <FullScreen handle={handleFullScreen} className="fullscreen-call">
-      <>
-        {game ? (
-          <div className="call">
-            <Button
-              className="call__btn_play-sound"
-              icon={<Icon className="sound-icon" component={volumeOnIcon} />}
-              onClick={playWord}
-            />
-            <div className="call__wrapper-btn">
-              {answerWords.map((word: WordType) => (
-                <Button
-                  type="primary"
-                  className="game__btn"
-                  key={word.word}
-                  onClick={() => checkWord(word)}
-                >
-                  {word.wordTranslate}
-                </Button>
-              ))}
-            </div>
-            <Button type="primary" className="game__btn" onClick={skipWord}>
-              Пропустить
-            </Button>
+    <div className={`game-call ${fullScreen ? 'full-screen' : ''} `}>
+      {game ? (
+        <div className="call">
+          <Button
+            className="call__btn_play-sound"
+            icon={<Icon className="sound-icon" component={volumeOnIcon} />}
+            onClick={playWord}
+          />
+          <div className="call__wrapper-btn">
+            {answerWords.map((word: WordType) => (
+              <Button
+                type="primary"
+                className="game__btn"
+                key={word.word}
+                onClick={() => checkWord(word)}
+              >
+                {word.wordTranslate}
+              </Button>
+            ))}
           </div>
-        ) : (
-          <>
-            {gameOver ? (
-              <Statistics
-                success={successWords}
-                error={errorWords}
-                back={() => setGameOver(false)}
-              />
-            ) : (
-              <Title
-                title={GAMES_INFO.call.title}
-                description={GAMES_INFO.call.description}
-                settings={GAMES_INFO.call.settings}
-                loading={isloadingGame}
-                startGame={() => startGame()}
-              />
-            )}
-          </>
-        )}
-      </>
-      <FullScreenBtn
-        fullScreen={fullScreen}
-        toggle={() => setFullScreen(!fullScreen)}
-        handleFullScreen={handleFullScreen}
-      />
-    </FullScreen>
+          <Button type="primary" className="game__btn" onClick={skipWord}>
+            Пропустить
+          </Button>
+        </div>
+      ) : (
+        <>
+          {gameOver ? (
+            <Statistics success={successWords} error={errorWords} back={() => setGameOver(false)} />
+          ) : (
+            <Title
+              title={GAMES_INFO.call.title}
+              description={GAMES_INFO.call.description}
+              settings={GAMES_INFO.call.settings}
+              loading={isloadingGame}
+              startGame={() => startGame()}
+            />
+          )}
+        </>
+      )}
+      <FullScreenBtn fullScreen={fullScreen} toggle={handleFullScreen} />
+    </div>
   )
 }
 

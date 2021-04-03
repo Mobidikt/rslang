@@ -40,3 +40,21 @@
     width: 100px;
     height: 100px;
 }
+.game-call{
+    background: url(../../../assets/image/gameCallBg.png) no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.full-screen {
+    position: fixed;
+    z-index: 99;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}

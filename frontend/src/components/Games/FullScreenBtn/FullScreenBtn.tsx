@@ -2,15 +2,13 @@ import React from 'react'
 import { Button } from 'antd'
 import { FullscreenExitOutlined, FullscreenOutlined } from '@ant-design/icons'
 import './FullScreenBtn.scss'
-import { FullScreenHandle } from 'react-full-screen'
 
 type FullScreenBtnTypes = {
   fullScreen: boolean,
   toggle: () => void,
-  handleFullScreen: FullScreenHandle,
 }
 
-const FullScreenBtn: React.FC<FullScreenBtnTypes> = ({ fullScreen, toggle, handleFullScreen }) => {
+const FullScreenBtn: React.FC<FullScreenBtnTypes> = ({ fullScreen, toggle }) => {
   return (
     <Button
       type="text"
@@ -18,9 +16,9 @@ const FullScreenBtn: React.FC<FullScreenBtnTypes> = ({ fullScreen, toggle, handl
       onClick={toggle}
       icon={
         fullScreen ? (
-          <FullscreenExitOutlined className="full-screen-icon" onClick={handleFullScreen.exit} />
+          <FullscreenExitOutlined className="full-screen-icon" />
         ) : (
-          <FullscreenOutlined className="full-screen-icon" onClick={handleFullScreen.enter} />
+          <FullscreenOutlined className="full-screen-icon" />
         )
       }
     />
