@@ -20,7 +20,6 @@ const GameCall: React.FC = () => {
   const { level, countWordsGame } = useTypedSelector((state) => state.gameReducer)
   const [game, setGame] = useState(false)
   const [gameOver, setGameOver] = useState(false)
-  const [fullScreen, setFullScreen] = useState(false)
   const [words, setWords] = useState<WordType[]>([])
   const [gameWords, setGameWords] = useState<WordType[]>([])
   const [arrGameWord, setArrGameWord] = useState<WordType[]>([])
@@ -31,21 +30,6 @@ const GameCall: React.FC = () => {
   const [indexWord, setIndexWord] = useState<number>(0)
   const [health, setHealth] = useState<number>(5)
   const [isloadingGame, setIsloadingGame] = useState(true)
-
-  const escFunction = useCallback(() => {
-    if (!document.fullscreenElement) {
-      setFullScreen(false)
-    }
-  }, [])
-
-  const handleFullScreen = () => {
-    setFullScreen(!fullScreen)
-  }
-  useEffect(() => {
-    if (fullScreen) {
-      document.body.style.position = 'fixed'
-    } else document.body.style.position = ''
-  }, [fullScreen])
 
   const startGame = () => {
     setErrorWords([])
@@ -88,13 +72,6 @@ const GameCall: React.FC = () => {
       setArrGameWord(arr)
     }
   }, [words, countWordsGame])
-
-  useEffect(() => {
-    document.addEventListener('fullscreenchange', escFunction)
-    return () => {
-      document.removeEventListener('fullscreenchange', escFunction, false)
-    }
-  }, [fullScreen, escFunction])
 
   const playWord = useCallback(() => {
     if (currentWord) playSound(currentWord.audio)
@@ -169,7 +146,7 @@ const GameCall: React.FC = () => {
   }, [handleKeyPress, gameOver])
 
   return (
-    <div className={`game-call ${fullScreen ? 'full-screen' : ''} `}>
+    <>
       {game ? (
         <div className="call">
           <Rate disabled value={health} character={<HeartFilled />} className="game-call__health" />
@@ -209,8 +186,7 @@ const GameCall: React.FC = () => {
           )}
         </>
       )}
-      <FullScreenBtn fullScreen={fullScreen} toggle={handleFullScreen} />
-    </div>
+    </>
   )
 }
 

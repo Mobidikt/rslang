@@ -8,8 +8,15 @@
     border-radius: 50%;
     height: 55px;
     width: 55px;
-    &:hover, &:active, &:focus {
-      background-color: transparent;
+    &:hover {
+      border:  2px solid #FF9770;
+      background: #bb6b56;
+      color: white;
+    }
+    &:focus {
+        border:  2px solid #FF9770;
+        background: #bb6b56;
+        color: white;
     }
   }
 }
@@ -26,13 +33,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid white;
-  &:hover, &:active {
-    color: #40a9ff;
-    background-color: transparent;
-    border-color: #40a9ff;
+  border: 1px solid #bb6b56;
+  &:hover {
+    border:  2px solid #FF9770;
+    background: #bb6b56;
+    color: white;
+  }
+  &:focus {
+      border:  2px solid #FF9770;
+      background: #bb6b56;
+      color: white;
   }
 }
 .game-settings__active{
-  background-color: white;
+  background-color: #FF9770;
 }
