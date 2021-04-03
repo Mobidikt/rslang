@@ -10,6 +10,7 @@ import {
 } from '../types/dictionary'
 import actions from '../actions/dictionary'
 import WordApi from '../../services/WordApi'
+import StatisticsApi from '../../services/StatisticsApi'
 
 function* fetchUserWords(action: FetchUserWordsAction) {
   const userId = action.payload
@@ -29,6 +30,7 @@ function* addWord(action: AddWordAction) {
   try {
     yield put(actions.requestedAddWord())
     yield call(() => WordApi.save(userId, wordId, difficulty))
+    yield call(() => StatisticsApi.add(userId))
     const wordWithDifficulty = { ...word, _id: word.id, userWord: { difficulty } }
     yield put(actions.requestedAddWordSuccessed(wordWithDifficulty))
     yield put(actions.groupWords())

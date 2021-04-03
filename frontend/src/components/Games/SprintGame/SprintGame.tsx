@@ -72,8 +72,7 @@ const SprintGame: React.FC = () => {
   }, [])
 
   const getWords = async () => {
-    let newWords = await getWordsForGame(0, 40)
-    console.log(newWords)
+    let newWords = await getWordsForGame(0, 100)
     setIsloadingGame(false)
     setWords(newWords)
   }
@@ -87,12 +86,26 @@ const SprintGame: React.FC = () => {
       translateWords.push(word)
     })
 
-    let shuffleTranslateArr = randomArr(translateWords, translateWords.length)
+    let shuffledTranslateArr = shuffleTranslateWords(translateWords)
+    let shuffledEnglishArr = shuffleTranslateWords(englishWords)
 
-    setEnglishWords(englishWords)
-    setTranslateWords(shuffleTranslateArr)
-
+    setEnglishWords(shuffledEnglishArr)
+    setTranslateWords(shuffledTranslateArr)
     console.log(englishWords, translateWords)
+  }
+
+  const shuffleTranslateWords = (words: Array<WordType>): Array<WordType> => {
+    let size = 3 //размер подмассива
+    let newArr: Array<WordType> = [] //массив в который будет выведен результат.
+    for (let i = 0; i < Math.ceil(words.length/size); i++) {
+      let arr: any  = words.slice((i * size), (i * size) + size)
+      arr = randomArr(arr, arr.length)
+
+      for (let i = 0; i < arr.length; i++) {
+        newArr.push(arr[i])
+      }
+    }
+    return newArr
   }
 
   const handleAnswerClick = (isRightClicked: boolean) => {
