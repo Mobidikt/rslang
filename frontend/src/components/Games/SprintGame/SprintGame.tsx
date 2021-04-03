@@ -134,13 +134,13 @@ const SprintGame: React.FC = () => {
   }
 
   const handleKeyPress = (event: KeyboardEvent) => {
-      switch (event.key) {
-        case 'ArrowLeft':
-          handleAnswerClick(true)
-          break
-        case 'ArrowRight':
-          handleAnswerClick(false)
-      }
+    switch (event.key) {
+      case 'ArrowLeft':
+        handleAnswerClick(true)
+        break
+      case 'ArrowRight':
+        handleAnswerClick(false)
+    }
   }
 
   useEffect(() => {
@@ -261,12 +261,20 @@ const SprintGame: React.FC = () => {
               <div className="sprint-game-start__buttons">
                 <div className="button-wrapper">
                   <ArrowLeftOutlined className="arrow-icon" />
-                  <Button type="primary" className="sprint-btn" onClick={() => handleAnswerClick(true)} >
+                  <Button
+                    type="primary"
+                    className="sprint-btn"
+                    onClick={() => handleAnswerClick(true)}
+                  >
                     RIGHT
                   </Button>
                 </div>
                 <div className="button-wrapper">
-                  <Button type="primary" className="sprint-btn" onClick={() => handleAnswerClick(false)} >
+                  <Button
+                    type="primary"
+                    className="sprint-btn"
+                    onClick={() => handleAnswerClick(false)}
+                  >
                     WRONG
                   </Button>
                   <ArrowRightOutlined className="arrow-icon" />
