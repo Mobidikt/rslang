@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import Button from 'antd/es/button/button'
 import Icon, { HeartFilled } from '@ant-design/icons'
-import { Rate } from 'antd'
+import { Rate, Button } from 'antd'
 import './GameCall.scss'
 import '../Games.scss'
 import useTypedSelector from '../../../hooks/useTypedSelector'

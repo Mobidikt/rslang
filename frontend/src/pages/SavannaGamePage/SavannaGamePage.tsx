@@ -13,10 +13,8 @@ import FullScreenBtn from '../../components/Games/FullScreenBtn/FullScreenBtn'
 const SavannaGame: React.FC = () => {
   const { level } = useTypedSelector((state) => state.gameReducer)
   const [isPlay, setIsPlay] = useState<boolean>(false)
-  const [fullScreen, setFullScreen] = useState(false)
   const [words, setWords] = useState<Array<WordType>>([])
-
-  const handleFullScreen = useFullScreenHandle()
+  const [fullScreen, setFullScreen] = useState(false)
 
   const getWords = useCallback(async () => {
     const wordsFromResponse = await getWordsForGame(level - 1, 25)
@@ -28,8 +26,18 @@ const SavannaGame: React.FC = () => {
     getWords()
   }, [getWords])
 
+  const handleFullScreen = () => {
+    setFullScreen(!fullScreen)
+  }
+
+  useEffect(() => {
+    if (fullScreen) {
+      document.body.style.position = 'fixed'
+    } else document.body.style.position = ''
+  }, [fullScreen])
+
   return (
-    <div className="savanna-game">
+    <div className={`savanna-game ${fullScreen ? 'full-screen' : ''} `}>
       {isPlay ? (
         <GameSavannah onRestart={() => setIsPlay(false)} words={words} />
       ) : (
@@ -43,6 +51,7 @@ const SavannaGame: React.FC = () => {
           />
         </>
       )}
+      <FullScreenBtn fullScreen={fullScreen} toggle={handleFullScreen} />
     </div>
   )
 }

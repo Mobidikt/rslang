@@ -13,6 +13,10 @@
     padding: 5px 20px;
     min-height: 56px;
     margin-top: 55px;
+    margin-right: 10px;
+    &:last-of-type {
+        margin-right: 0;
+    }
     &:hover {
         border:  2px solid #FF9770;
         background: #bb6b56;
@@ -23,4 +27,12 @@
         background: #bb6b56;
         color: white;
     }
+}
+.full-screen {
+    position: fixed !important;
+    z-index: 99;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
 }
