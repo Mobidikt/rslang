@@ -95,7 +95,10 @@ const GameCall: React.FC = () => {
   )
   const skipWord = () => {
     setIndexWord((prev) => prev + 1)
-    if (currentWord) setErrorWords([...errorWords, currentWord])
+    if (currentWord) {
+      setErrorWords([...errorWords, currentWord])
+      setHealth(health - 1)
+    }
   }
 
   useEffect(() => {
@@ -149,7 +152,7 @@ const GameCall: React.FC = () => {
     <>
       {game ? (
         <div className="call">
-          <Rate disabled value={health} character={<HeartFilled />} className="game-call__health" />
+          <Rate disabled value={health} character={<HeartFilled />} className="game__health" />
           <Button
             className="game__btn call__btn_play-sound"
             icon={<Icon className="sound-icon" component={volumeOnIcon} />}

@@ -1,6 +1,7 @@
 /* eslint-disable */
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './SprintGame.scss'
+import '../Games.scss'
 // @ts-ignore
 //hooks
 import useInterval from '../../../hooks/useInterval'
@@ -22,12 +23,13 @@ import { playSoundSuccess, playSoundError } from '../utils/soundEffect'
 import getWordsForGame from '../../../utils/getWordsForGame'
 import { randomArr } from '../../../utils/getWordsForGame'
 import { WordType } from '../../../store/types/lesson'
+import Result from '../Result/Result'
 
 const SprintGame: React.FC = () => {
   const { level } = useTypedSelector((state) => state.gameReducer)
   const { isMute } = useTypedSelector((state) => state.gameReducer)
 
-  const [startGame, setStartGame] = useState(false)
+  const [game, setGame] = useState(false)
   const [timeSeconds, setTimeSeconds] = useState(60)
   const [circleDashArray, setCircleDashArray] = useState('283')
   const [isloadingGame, setIsloadingGame] = useState(true)
@@ -44,7 +46,6 @@ const SprintGame: React.FC = () => {
   const [gameOver, setGameOver] = useState(false)
   const [helth, setHelth] = useState<number>(5)
 
-  const handleFullScreen = useFullScreenHandle()
   const FULL_DASH_ARRAY = 283
   const TIME_LIMIT = 60
 
@@ -130,7 +131,7 @@ const SprintGame: React.FC = () => {
   const handleBackClick = () => {
     setGameOver(false)
     setHelth(5)
-    setStartGame(false)
+    setGame(false)
   }
 
   const handleKeyPress = (event: KeyboardEvent) => {
@@ -152,7 +153,15 @@ const SprintGame: React.FC = () => {
     }
   }, [handleKeyPress])
 
+  const startGame = () => {
+    setErrorWords([])
+    setSuccessWords([])
+    setGame(true)
+  }
+
   useEffect(() => {
+    setIsloadingGame(true)
+    setGame(false)
     getWords()
   }, [level])
 
@@ -162,7 +171,7 @@ const SprintGame: React.FC = () => {
 
   useInterval(
     () => {
-      if (startGame) {
+      if (game) {
         setTimeSeconds((timeSeconds) => {
           let timeLeft = timeSeconds - 1
           setCircle(timeLeft)
@@ -176,88 +185,76 @@ const SprintGame: React.FC = () => {
   useEffect(() => {
     if (helth === 0 || timeSeconds === 0) {
       setTimeSeconds(60)
-      setStartGame(false)
+      setGame(false)
       setGameOver(true)
     }
   }, [helth, timeSeconds])
 
   return (
     <div className="sprint-game">
-      {startGame ? (
-        <div className="sprint-game-start">
-          <FullScreen handle={handleFullScreen}>
-            <div className="rate-wrapper">
-              <Rate
-                disabled
-                value={helth}
-                character={<HeartFilled />}
-                style={{ fontSize: '25px' }}
-              />
-            </div>
-            <div
-              className={`sprint-game-start__inner ${
-                greenHighlight ? 'green-highlight' : '' || redHighlight ? 'red-highlight' : ''
-              }`}
-            >
-              <div className="sprint-game-start__settings">
-                <div className="timer">
-                  <div className="timer__number">{timeSeconds}</div>
-                  <svg
-                    className="base-timer__svg"
-                    viewBox="0 0 100 100"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <g className="base-timer__circle">
-                      <circle className="base-timer__path-elapsed" cx="50" cy="50" r="45" />
-                      <path
-                        id="base-timer-path-remaining"
-                        strokeDasharray={circleDashArray}
-                        className="base-timer__path-remaining"
-                        d="
+      {game ? (
+        <>
+          <Rate disabled value={helth} character={<HeartFilled />} className="game__health" />
+          <div
+            className={`sprint-game-start__inner ${
+              greenHighlight ? 'green-highlight' : '' || redHighlight ? 'red-highlight' : ''
+            }`}
+          >
+            <div className="sprint-game-start__settings">
+              <div className="timer">
+                <div className="timer__number">{timeSeconds}</div>
+                <svg
+                  className="base-timer__svg"
+                  viewBox="0 0 100 100"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g className="base-timer__circle">
+                    <circle className="base-timer__path-elapsed" cx="50" cy="50" r="45" />
+                    <path
+                      id="base-timer-path-remaining"
+                      strokeDasharray={circleDashArray}
+                      className="base-timer__path-remaining"
+                      d="
                         M 50, 50
                         m -45, 0
                         a 45,45 0 1,0 90,0
                         a 45,45 0 1,0 -90,0
                       "
-                      ></path>
-                    </g>
-                  </svg>
-                </div>
-
-                <div className="sound">
-                  <SoundComponent />
-                </div>
+                    ></path>
+                  </g>
+                </svg>
               </div>
-              <div className="sprint-game-start__words">
-                <p>
-                  {englishWords[wordIndex].word} - {translateWords[wordIndex].wordTranslate}
-                </p>
-              </div>
-              <div className="sprint-game-start__buttons">
-                <div className="button-wrapper">
+              <SoundComponent />
+            </div>
+            <div className="sprint-game-start__words">
+              <p>
+                {englishWords[wordIndex].word} - {translateWords[wordIndex].wordTranslate}
+              </p>
+            </div>
+            <div className="sprint-game-start__buttons">
+              <div className="button-wrapper">
+                <Button
+                  type="primary"
+                  className="game__btn"
+                  onClick={() => handleAnswerClick(true)}
+                >
                   <ArrowLeftOutlined className="arrow-icon" />
-                  <Button
-                    type="primary"
-                    className="sprint-btn"
-                    onClick={() => handleAnswerClick(true)}
-                  >
-                    RIGHT
-                  </Button>
-                </div>
-                <div className="button-wrapper">
-                  <Button
-                    type="primary"
-                    className="sprint-btn"
-                    onClick={() => handleAnswerClick(false)}
-                  >
-                    WRONG
-                  </Button>
+                  RIGHT
+                </Button>
+              </div>
+              <div className="button-wrapper">
+                <Button
+                  type="primary"
+                  className="game__btn"
+                  onClick={() => handleAnswerClick(false)}
+                >
+                  WRONG
                   <ArrowRightOutlined className="arrow-icon" />
-                </div>
+                </Button>
               </div>
             </div>
-          </FullScreen>
-        </div>
+          </div>
+        </>
       ) : (
         <div className="sprint-game-start">
           {gameOver ? (
@@ -275,7 +272,7 @@ const SprintGame: React.FC = () => {
                 description={GAMES_INFO.sprint.description}
                 settings={GAMES_INFO.sprint.settings}
                 loading={isloadingGame}
-                startGame={() => setStartGame(true)}
+                startGame={() => startGame()}
               />
               <SettingsGame />
             </div>
