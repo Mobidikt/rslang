@@ -1,5 +1,5 @@
 /* eslint-disable no-nested-ternary */
-import React, { useState, useEffect, useRef, useCallback } from 'react'
+import React, { useState, useEffect, useRef, useCallback, Dispatch, SetStateAction } from 'react'
 import { Switch, Rate, Button } from 'antd'
 import { v4 as uuidv4 } from 'uuid'
 import { HeartFilled } from '@ant-design/icons'
@@ -15,6 +15,7 @@ import useTypedSelector from '../../../hooks/useTypedSelector'
 type GameSavannahType = {
   words: Array<WordType>,
   onRestart: () => void,
+  calcBackgroundY: (count: number) => void,
 }
 
 type WordForGameType = {
@@ -22,7 +23,7 @@ type WordForGameType = {
   wrongAnswers: Array<WordType>,
 }
 
-const GameSavannah: React.FC<GameSavannahType> = ({ words, onRestart }) => {
+const GameSavannah: React.FC<GameSavannahType> = ({ words, onRestart, calcBackgroundY }) => {
   const [helth, setHelth] = useState<number>(5)
   const [isEN, setIsEN] = useState<boolean>(true)
   const [currentWordIdx, setCurrentWordIdx] = useState<number>(-1)
@@ -52,10 +53,11 @@ const GameSavannah: React.FC<GameSavannahType> = ({ words, onRestart }) => {
     setResults((prev) => [...prev, true])
     initialTopWordRef.current = 190
     trueAnswersArr.current.push(wordsForGame[currentWordIdx].answer)
+    calcBackgroundY(trueAnswersArr.current.length)
     if (!isMute) {
       playSoundSuccess()
     }
-  }, [isMute, wordsForGame, currentWordIdx])
+  }, [isMute, wordsForGame, currentWordIdx, calcBackgroundY])
 
   useEffect(() => {
     const interval = setInterval(() => {

@@ -13,21 +13,35 @@ const SavannaGame: React.FC = () => {
   const [isPlay, setIsPlay] = useState<boolean>(false)
   const [words, setWords] = useState<Array<WordType>>([])
   const [fullScreen, setFullScreen] = useState(false)
-
+  const [backgroundY, setBackgroundY] = useState<number>(-1500)
   const getWords = useCallback(async () => {
     const wordsFromResponse = await getWordsForGame(level - 1, 25)
     setWords(wordsFromResponse)
+    setBackgroundY(-1500)
   }, [level])
 
+  const calcBackgroundY = (count: number) => {
+    setBackgroundY((prev) => prev + count * 10)
+  }
+  useEffect(() => {
+    if (!isPlay) setBackgroundY(-1500)
+  }, [isPlay])
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     getWords()
   }, [getWords])
 
   return (
-    <div className={`savanna-game ${fullScreen ? 'full-screen' : ''} `}>
+    <div
+      className={`savanna-game ${fullScreen ? 'full-screen' : ''} `}
+      style={{ backgroundPositionY: backgroundY }}
+    >
       {isPlay ? (
-        <GameSavannah onRestart={() => setIsPlay(false)} words={words} />
+        <GameSavannah
+          onRestart={() => setIsPlay(false)}
+          words={words}
+          calcBackgroundY={calcBackgroundY}
+        />
       ) : (
         <Title
           title={GAMES_INFO.savannah.title}

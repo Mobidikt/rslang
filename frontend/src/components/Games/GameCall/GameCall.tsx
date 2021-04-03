@@ -14,7 +14,6 @@ import getWordsForGame from '../../../utils/getWordsForGame'
 import renderArrAnswerWords from '../utils/renderArrAnswerWords'
 import { playSoundSuccess, playSoundError } from '../utils/soundEffect'
 import Statistics from '../Statistics/Statistics'
-import FullScreenBtn from '../FullScreenBtn/FullScreenBtn'
 
 const GameCall: React.FC = () => {
   const { level, countWordsGame } = useTypedSelector((state) => state.gameReducer)

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import FullScreenBtn from '../../components/Games/FullScreenBtn/FullScreenBtn'
 import GameCall from '../../components/Games/GameCall/GameCall'
 import './CallGamePage.scss'
