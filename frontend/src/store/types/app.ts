@@ -1,11 +1,13 @@
 export interface AppState {
   selectedSection: string;
   headerColor: string;
+  language: string;
 }
 
 export enum AppActionTypes {
   SET_SELECTED_SECTION = 'APP/SET_SELECTED_SECTION',
   SET_HEADER_COLOR = 'APP/SET_HEADER_COLOR',
+  INTL_SET_LANGUAGE = 'APP/INTL_SET_LANGUAGE',
 }
 
 export interface SetSelectedSection {
@@ -18,4 +20,9 @@ interface SetHeaderBg {
   payload: string;
 }
 
-export type AppAction = SetSelectedSection | SetHeaderBg
+interface IntlSetlanguage {
+  type: AppActionTypes.INTL_SET_LANGUAGE;
+  payload: 'en' | 'ru';
+}
+
+export type AppAction = SetSelectedSection | SetHeaderBg | IntlSetlanguage
