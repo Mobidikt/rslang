@@ -3,6 +3,7 @@ import authActions from './auth'
 import appActions from './app'
 import dictionaryActions from './dictionary'
 import gameSettings from './game'
+import { setLanguage } from './language'
 
 export default {
   ...lessonActions,
@@ -10,4 +11,5 @@ export default {
   ...appActions,
   ...dictionaryActions,
   ...gameSettings,
+  setLanguage,
 }
