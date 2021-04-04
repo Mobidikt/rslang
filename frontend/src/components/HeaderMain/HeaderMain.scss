@@ -38,6 +38,11 @@
   justify-content: space-between;
   margin-bottom: 5px;
   &__item{
+    font-family: 'Raleway';
+font-style: normal;
+font-weight: normal;
+font-size: 24px;
+line-height: 28px;
     cursor: pointer;
     background: transparent;
     border: none;
@@ -45,5 +50,11 @@
     &:hover {
       color: #40a9ff;
     }
+  }
+}
+@media (max-width: 600px) {
+  .nav__item {
+    font-size: 20px;
+line-height: 20px;
   }
 }
