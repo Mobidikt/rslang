@@ -1,7 +1,7 @@
 export interface AppState {
   selectedSection: string;
   headerColor: string;
-  language: string;
+  language: 'en' | 'ru';
 }
 
 export enum AppActionTypes {

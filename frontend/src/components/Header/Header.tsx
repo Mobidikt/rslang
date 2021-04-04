@@ -18,7 +18,6 @@ const Header: React.FC = () => {
     clearUserWords()
     logout()
   }
-
   return (
     <>
       <header className="header" style={{ background: headerColor }}>

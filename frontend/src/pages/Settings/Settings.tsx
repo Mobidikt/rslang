@@ -2,9 +2,11 @@
 import React, { useState } from 'react'
 import './Settings.scss'
 import { Checkbox, Select, Card } from 'antd'
+import { useIntl } from 'react-intl'
 import { CheckboxChangeEvent } from 'antd/es/checkbox'
 import useTypedSelector from '../../hooks/useTypedSelector'
 import useActions from '../../hooks/useActions'
+import LanguageSelect from '../../components/LanguageSelect/LanguageSelect'
 
 const defaultSettings: { [key: string]: boolean } = {
   difficult_button: true,
@@ -16,6 +18,7 @@ const defaultSettings: { [key: string]: boolean } = {
 const { Option } = Select
 
 const Settings: React.FC = () => {
+  const intl = useIntl()
   const { countWordsGame } = useTypedSelector((state) => state.gameReducer)
   const {
     isDeleteBtnVisible,
@@ -71,7 +74,7 @@ const Settings: React.FC = () => {
         </Card>
         <Card>
           <div className="settings__box">
-            <h3 className="settings__title">DISPLAY SETTINGS</h3>
+            <h3 className="settings__title">{intl.formatMessage({ id: 'DISPLAY_SETTINGS' })}</h3>
             <div className="settings__box_checkbox">
               <Checkbox
                 onChange={setIsTranslationWordVisible}
@@ -89,6 +92,10 @@ const Settings: React.FC = () => {
               >
                 Sentence translation with learning word
               </Checkbox>
+              <div>
+                <LanguageSelect />
+                {intl.formatMessage({ id: 'interface_language' })}
+              </div>
             </div>
           </div>
         </Card>
