@@ -230,7 +230,14 @@ const OurGame: React.FC = () => {
           />
         </div>
       </div>
-      {isFinish ? <Statistics success={rightWords} error={wrongWords} back={onRestart} /> : null}
+      {isFinish ? (
+        <Statistics
+          success={rightWords}
+          error={wrongWords}
+          currentGame="ourGame"
+          back={onRestart}
+        />
+      ) : null}
     </FullScreen>
   )
 }

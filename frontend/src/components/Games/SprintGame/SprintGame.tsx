@@ -285,6 +285,7 @@ const SprintGame: React.FC = () => {
               <Statistics
                 success={successWords}
                 error={errorWords}
+                currentGame="sprint"
                 back={() => handleBackClick()}
               />
             </div>

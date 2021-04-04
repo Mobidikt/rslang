@@ -50,11 +50,13 @@ const save = async (
   userId: string,
   wordId: string,
   mode: 'difficult' | 'learned' | 'deleted',
+  currentGame: 'sprint' | 'ourGame' | 'audioCall' | 'savannah' | '',
 ): Promise<SaveResponseType> => {
   const data = await axios.post<SaveResponseType>(
     `${config.API_URL}/users/${userId}/words/${wordId}`,
     {
       difficulty: mode,
+      currentGame,
     },
   )
   return data.data
@@ -74,6 +76,29 @@ const update = async (
   return data
 }
 
+export type UpdateGamesCountAnswersType = {
+  games: {
+    savannah: number,
+    sprint: number,
+    audioCall: number,
+    ourGame: number,
+  },
+}
+
+const updateGamesCountAnswers = async (
+  userId: string,
+  wordId: string,
+  currentGame: 'sprint' | 'ourGame' | 'audioCall' | 'savannah',
+): Promise<UpdateGamesCountAnswersType> => {
+  const { data } = await axios.patch<UpdateGamesCountAnswersType>(
+    `${config.API_URL}/users/${userId}/words/${wordId}`,
+    {
+      currentGame,
+    },
+  )
+  return data
+}
+
 const remove = async (userId: string, wordId: string) => {
   const data = await axios.delete(`${config.API_URL}/users/${userId}/words/${wordId}`)
   return data
@@ -86,4 +111,5 @@ export default {
   update,
   getUserWords,
   remove,
+  updateGamesCountAnswers,
 }

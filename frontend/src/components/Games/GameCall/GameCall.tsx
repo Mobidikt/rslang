@@ -183,7 +183,12 @@ const GameCall: React.FC = () => {
       ) : (
         <>
           {gameOver ? (
-            <Statistics success={successWords} error={errorWords} back={() => setGameOver(false)} />
+            <Statistics
+              success={successWords}
+              error={errorWords}
+              currentGame="audioCall"
+              back={() => setGameOver(false)}
+            />
           ) : (
             <Title
               title={GAMES_INFO.call.title}

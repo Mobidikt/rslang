@@ -8,6 +8,7 @@ import useActions from '../../hooks/useActions'
 import useTypedSelector from '../../hooks/useTypedSelector'
 import playSound from '../../utils/playSound'
 import './Word.scss'
+import { WordAgregationType } from '../../store/types/dictionary'
 
 const Word: React.FC = () => {
   const { groupId, id } = useParams()
@@ -25,6 +26,7 @@ const Word: React.FC = () => {
   const { difficultWords, userWords, isLoadingDictionary } = useTypedSelector(
     (state) => state.dictionaryReducer,
   )
+  const [currentUserWord, setCurrentUserWord] = useState<WordAgregationType>()
 
   const isInUserWords = (wordId: string) => {
     return !!userWords.find((el) => el._id === wordId)
@@ -52,16 +54,19 @@ const Word: React.FC = () => {
     if (textMeaningRef.current) {
       textMeaningRef.current.innerHTML = currentWord?.textMeaning || ''
     }
-  }, [currentWord])
+    if (currentWord) {
+      setCurrentUserWord(userWords.find((el) => el._id === currentWord.id))
+    }
+  }, [currentWord, userWords])
 
   const addWordToDictionary = () => {
     if (userId) {
       if (currentWord) {
         if (isInUserWords(id)) {
           const difficulty = currentWordIsDifficult ? 'learned' : 'difficult'
-          updateUserWord(userId, id, currentWord, difficulty)
+          updateUserWord(userId, id, currentWord, difficulty, '')
         } else {
-          addWord(userId, id, currentWord, 'difficult')
+          addWord(userId, id, currentWord, 'difficult', '')
         }
         // eslint-disable-next-line
         message.success('Слово успешно изменено')
@@ -76,9 +81,9 @@ const Word: React.FC = () => {
     if (userId) {
       if (currentWord) {
         if (isInUserWords(id)) {
-          updateUserWord(userId, id, currentWord, 'deleted')
+          updateUserWord(userId, id, currentWord, 'deleted', '')
         } else {
-          addWord(userId, id, currentWord, 'deleted')
+          addWord(userId, id, currentWord, 'deleted', '')
         }
       }
       // eslint-disable-next-line
@@ -136,13 +141,33 @@ const Word: React.FC = () => {
 
         <div className="word-info-games">
           <p className="word-info-games__title">Savannah</p>
-          <Input className="word-info-games_input" disabled name="savannah" value={1} />
+          <Input
+            className="word-info-games_input"
+            disabled
+            name="savannah"
+            value={currentUserWord?.userWord.games?.savannah || 0}
+          />
           <p className="word-info-games__title">Audiocall</p>
-          <Input className="word-info-games_input" disabled name="audiocall" value={1} />
+          <Input
+            className="word-info-games_input"
+            disabled
+            name="audiocall"
+            value={currentUserWord?.userWord.games?.audioCall || 0}
+          />
           <p className="word-info-games__title">Sprint</p>
-          <Input className="word-info-games_input" disabled name="sprint" value={1} />
+          <Input
+            className="word-info-games_input"
+            disabled
+            name="sprint"
+            value={currentUserWord?.userWord.games?.sprint || 0}
+          />
           <p className="word-info-games__title">Ourgame</p>
-          <Input className="word-info-games_input" disabled name="ourgame" value={1} />
+          <Input
+            className="word-info-games_input"
+            disabled
+            name="ourgame"
+            value={currentUserWord?.userWord.games?.ourGame || 0}
+          />
         </div>
       </div>
       <div className="word-buttons">

@@ -10,13 +10,14 @@ import useActions from '../../../hooks/useActions'
 type StatisticsTypes = {
   success: WordType[],
   error: WordType[],
+  currentGame: 'sprint' | 'ourGame' | 'audioCall' | 'savannah',
   back: () => void,
 }
 
-const Statistics: React.FC<StatisticsTypes> = ({ success, error, back }) => {
+const Statistics: React.FC<StatisticsTypes> = ({ success, error, back, currentGame }) => {
   const [isModalVisible, setIsModalVisible] = useState(false)
   const { userId } = useTypedSelector((state) => state.authReducer)
-  const { addWord } = useActions()
+  const { addWord, updateUserWord } = useActions()
   const { userWords } = useTypedSelector((state) => state.dictionaryReducer)
 
   const addWordsToDictionary = () => {
@@ -24,7 +25,13 @@ const Statistics: React.FC<StatisticsTypes> = ({ success, error, back }) => {
     if (userId) {
       for (let i = 0; i < words.length; i += 1) {
         if (!userWords.find((word) => word._id === words[i].id)) {
-          addWord(userId, words[i].id, words[i], 'learned')
+          if (i < success.length) {
+            addWord(userId, words[i].id, words[i], 'learned', currentGame)
+          } else {
+            addWord(userId, words[i].id, words[i], 'learned', '')
+          }
+        } else {
+          updateUserWord(userId, words[i].id, words[i], 'learned', currentGame)
         }
       }
     }
