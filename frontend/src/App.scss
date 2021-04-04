@@ -28,3 +28,16 @@
     letter-spacing: 0.02em;
   }
 }
+.header-user {
+  display: flex;
+  align-items: center;
+  min-height: 35px;
+}
+
+@media (max-width: 600px) {
+  .App {
+    h2 {
+    font-size: 20px;
+  }
+}
+}

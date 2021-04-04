@@ -1,10 +1,12 @@
 import React from 'react'
+import { useIntl } from 'react-intl'
 import './Dictionary.scss'
 
 import useTypedSelector from '../../hooks/useTypedSelector'
 import DictionaryCardList from '../../components/DictionaryCardList/DictionaryCardList'
 
 const Dictionary: React.FC = () => {
+  const intl = useIntl()
   const { token } = useTypedSelector((state) => state.authReducer)
 
   return (
@@ -12,7 +14,7 @@ const Dictionary: React.FC = () => {
       {token ? (
         <DictionaryCardList />
       ) : (
-        <h2>Словарь доступен только авторизованным пользователям</h2>
+        <h2>{intl.formatMessage({ id: 'dictionary_authorized' })}</h2>
       )}
     </div>
   )

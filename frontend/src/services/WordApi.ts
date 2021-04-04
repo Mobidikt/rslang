@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios, { AxiosResponse } from 'axios'
 import config from '../config'
 import { WordAgregationType } from '../store/types/dictionary'
 import { WordType } from '../store/types/lesson'
@@ -24,14 +24,17 @@ interface GetUserWordResponse {
   paginatedResults: Array<WordAgregationType>;
 }
 
-const getByGroupAndPage = async (groupId: number, pageNumber: number): Promise<Array<WordType>> => {
+const getByGroupAndPage: (groupId: number, pageNumber: number) => Promise<Array<WordType>> = async (
+  groupId,
+  pageNumber,
+) => {
   const { data } = await axios.get<Array<WordType>>(
     `${config.API_URL}/words?group=${groupId}&page=${pageNumber}`,
   )
   return data
 }
 
-const getById = async (id: string) => {
+const getById: (id: string) => Promise<AxiosResponse<GetByIdResponseType>> = async (id) => {
   const data = await axios.get<GetByIdResponseType>(`${config.API_URL}/words/${id}`)
   return data
 }

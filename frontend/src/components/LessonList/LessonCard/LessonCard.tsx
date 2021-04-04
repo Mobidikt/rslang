@@ -1,4 +1,5 @@
 import React from 'react'
+import { useIntl } from 'react-intl'
 import { Card } from 'antd'
 import './LessonCard.scss'
 import { useNavigate } from 'react-router-dom'
@@ -13,6 +14,7 @@ type LessonCardType = {
 }
 
 const LessonCard: React.FC<LessonCardType> = ({ lesson }) => {
+  const intl = useIntl()
   const { title, bgColor, idx } = lesson
   const navigate = useNavigate()
   const { setCurrentPage, setSelectedSection } = useActions()
@@ -28,7 +30,7 @@ const LessonCard: React.FC<LessonCardType> = ({ lesson }) => {
       hoverable
       onClick={handleNavigate}
     >
-      <h3>{title}</h3>
+      <h3>{intl.formatMessage({ id: title })}</h3>
     </Card>
   )
 }

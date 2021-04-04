@@ -1,6 +1,12 @@
 .header-main {
   padding: 1em 0 0;
   width: 100%;
+  border-bottom: 1px solid;
+  &__menu{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
   &__wrapper{
     width: 90%;
     height: 75px;
@@ -9,6 +15,13 @@
     align-items: center;
     margin: 0 auto;
   }
+}
+.header-main__logo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  height: 100%;
+  justify-content: space-around;
 }
 
 .logout {
@@ -23,6 +36,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: 5px;
   &__item{
     cursor: pointer;
     background: transparent;

@@ -1,6 +1,7 @@
 import React from 'react'
 import { Card } from 'antd'
 import { useNavigate } from 'react-router-dom'
+import { useIntl } from 'react-intl'
 import './DictionaryCardList.scss'
 import learnedWordsPhoto from '../../assets/image/learnWords.png'
 import deletedWordsPhoto from '../../assets/image/delWords.png'
@@ -11,22 +12,23 @@ const { Meta } = Card
 const cards = [
   {
     src: learnedWordsPhoto,
-    title: 'Studied words',
+    title: 'Studied_words',
     path: '/dictionary/learned',
   },
   {
     src: difWordsPhoto,
-    title: 'Difficult words',
+    title: 'Difficult_words',
     path: '/dictionary/difficult',
   },
   {
     src: deletedWordsPhoto,
-    title: 'Deleted words',
+    title: 'Deleted_words',
     path: '/dictionary/deleted',
   },
 ]
 
 const DictionaryCardList: React.FC = () => {
+  const intl = useIntl()
   const navigate = useNavigate()
 
   return (
@@ -36,9 +38,9 @@ const DictionaryCardList: React.FC = () => {
           className="dictionaryCardList__card"
           key={card.title}
           onClick={() => navigate(card.path)}
-          cover={<img alt={card.title} src={card.src} />}
+          cover={<img alt={intl.formatMessage({ id: card.title })} src={card.src} />}
         >
-          <Meta title={card.title} />
+          <Meta title={intl.formatMessage({ id: card.title })} />
         </Card>
       ))}
     </div>

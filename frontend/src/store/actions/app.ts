@@ -10,7 +10,13 @@ const setHeaderColor = (color: string): AppAction => ({
   payload: color,
 })
 
+const setLanguage = (language: 'en' | 'ru'): AppAction => ({
+  type: AppActionTypes.INTL_SET_LANGUAGE,
+  payload: language,
+})
+
 export default {
   setSelectedSection,
   setHeaderColor,
+  setLanguage,
 }

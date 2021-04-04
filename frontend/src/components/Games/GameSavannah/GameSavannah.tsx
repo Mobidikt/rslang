@@ -1,7 +1,6 @@
 /* eslint-disable no-nested-ternary */
-import React, { useState, useEffect, useRef, useCallback, Dispatch, SetStateAction } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { Switch, Rate, Button } from 'antd'
-import { v4 as uuidv4 } from 'uuid'
 import { HeartFilled } from '@ant-design/icons'
 import { WordType } from '../../../store/types/lesson'
 import SoundComponent from '../SoundComponent/SoundComponent'

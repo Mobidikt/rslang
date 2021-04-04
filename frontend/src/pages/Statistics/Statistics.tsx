@@ -1,5 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useEffect, useCallback, useState } from 'react'
+import { useIntl } from 'react-intl'
 import { Line } from '@ant-design/charts'
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts'
 import './Statistics.scss'
@@ -7,6 +8,7 @@ import StatisticsApi, { GetStatisticsType } from '../../services/StatisticsApi'
 import useTypedSelector from '../../hooks/useTypedSelector'
 
 const Statistics: React.FC = () => {
+  const intl = useIntl()
   const { userId } = useTypedSelector((state) => state.authReducer)
   const { userWords } = useTypedSelector((state) => state.dictionaryReducer)
   const [statistics, setStatistics] = useState<Array<GetStatisticsType>>([])
@@ -71,9 +73,9 @@ const Statistics: React.FC = () => {
     <div className="statistics">
       {userId ? (
         <>
-          <h2>Долгосрочная Статистика</h2>
+          <h2>{intl.formatMessage({ id: 'Long_Statistics' })}</h2>
           {isEpmty ? (
-            <h2>У вас ещё нет изученных слов</h2>
+            <h2>{intl.formatMessage({ id: 'not_words' })}</h2>
           ) : (
             <div className="statistics-container">
               <ResponsiveContainer width="45%" height={400}>
@@ -90,7 +92,7 @@ const Statistics: React.FC = () => {
           )}
         </>
       ) : (
-        <h2>Статистика доступна только авторизованным пользователям</h2>
+        <h2>{intl.formatMessage({ id: 'statistics_authorized' })}</h2>
       )}
     </div>
   )

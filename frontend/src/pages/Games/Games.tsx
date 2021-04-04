@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react'
 import GameCard from './GameCard'
 import './Games.scss'
@@ -12,9 +11,9 @@ const Games: React.FC = () => {
   return (
     <div className="games">
       <div className="games-container">
-        <GameCard url="/games/savannah" img={gameSavannah} title="Savannah" />
-        <GameCard url="/games/call" img={gameCall} title="Audiocall" />
-        <GameCard url="/games/sprint" img={gameSprint} title="Sprint" />
+        <GameCard url="/games/savannah" img={gameSavannah} title="savannah" />
+        <GameCard url="/games/call" img={gameCall} title="audiocall" />
+        <GameCard url="/games/sprint" img={gameSprint} title="sprint" />
         <GameCard url="/games/our-game" img={gameOur} title="gameOur" />
       </div>
     </div>

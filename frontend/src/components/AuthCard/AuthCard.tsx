@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useIntl } from 'react-intl'
 import { Modal, Button } from 'antd'
 import './AuthCard.scss'
 import useTypedSelector from '../../hooks/useTypedSelector'
@@ -7,6 +8,7 @@ import Login from './Login/Login'
 import Registration from './Registration/Registation'
 
 const AuthCard: React.FC = () => {
+  const intl = useIntl()
   const { isVisibleAuthCard } = useTypedSelector((state) => state.authReducer)
   const [isLogin, setIsLogin] = useState(true)
   const { setIsVisibleAuthCard } = useActions()
@@ -15,7 +17,9 @@ const AuthCard: React.FC = () => {
     <div>
       <Modal
         className="modal"
-        title={isLogin ? 'Авторизация' : 'Регистрация'}
+        title={
+          isLogin ? intl.formatMessage({ id: 'Login' }) : intl.formatMessage({ id: 'Register' })
+        }
         visible={isVisibleAuthCard}
         onCancel={setIsVisibleAuthCard}
         footer={false}
@@ -23,9 +27,13 @@ const AuthCard: React.FC = () => {
         {isLogin ? <Login /> : <Registration />}
 
         <div className="modal-footer">
-          <span>{isLogin ? 'У вас нет аккаунта' : 'У вас есть аккаунт?'}</span>
+          <span>
+            {isLogin
+              ? intl.formatMessage({ id: 'You_not_account' })
+              : intl.formatMessage({ id: 'Do_have_account' })}
+          </span>
           <Button onClick={() => setIsLogin((prev) => !prev)} type="link">
-            {isLogin ? 'Регистрация' : 'Войти'}
+            {isLogin ? intl.formatMessage({ id: 'Register' }) : intl.formatMessage({ id: 'Login' })}
           </Button>
         </div>
       </Modal>
