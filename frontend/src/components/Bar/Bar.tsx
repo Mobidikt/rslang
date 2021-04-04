@@ -11,7 +11,7 @@ import {
 } from '@ant-design/icons'
 import './Bar.scss'
 import useActions from '../../hooks/useActions'
-import logo from '../../assets/icons/RSLang.png'
+import logo from '../../assets/icons/logo.svg'
 
 const { Sider } = Layout
 
