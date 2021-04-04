@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useIntl } from 'react-intl'
 import { Layout, Menu } from 'antd'
 import { useLocation, useNavigate } from 'react-router'
 import {
@@ -15,6 +16,7 @@ import logo from '../../assets/icons/logo.svg'
 const { Sider } = Layout
 
 const Bar: React.FC = () => {
+  const intl = useIntl()
   const [collapsed, setCollapsed] = useState(false)
   const { setSelectedSection, setHeaderColor } = useActions()
   const location = useLocation().pathname
@@ -45,7 +47,7 @@ const Bar: React.FC = () => {
             setHeaderColor('#70D6FF')
           }}
         >
-          Tutorial
+          {intl.formatMessage({ id: 'Tutorial' })}
         </Menu.Item>
         <Menu.Item
           className="bar__link"
@@ -57,7 +59,7 @@ const Bar: React.FC = () => {
             setHeaderColor('#FF70A6')
           }}
         >
-          Dictionary
+          {intl.formatMessage({ id: 'Dictionary' })}
         </Menu.Item>
         <Menu.Item
           className="bar__link"
@@ -69,7 +71,7 @@ const Bar: React.FC = () => {
             setHeaderColor('#FF9770')
           }}
         >
-          Games
+          {intl.formatMessage({ id: 'Games' })}
         </Menu.Item>
         <Menu.Item
           className="bar__link"
@@ -81,7 +83,7 @@ const Bar: React.FC = () => {
             setHeaderColor('#FFD670')
           }}
         >
-          Statistics
+          {intl.formatMessage({ id: 'Statistics' })}
         </Menu.Item>
         <Menu.Item
           className="bar__link"
@@ -93,7 +95,7 @@ const Bar: React.FC = () => {
             setHeaderColor('#E9FF70')
           }}
         >
-          Settings
+          {intl.formatMessage({ id: 'Settings' })}
         </Menu.Item>
       </Menu>
     </Sider>

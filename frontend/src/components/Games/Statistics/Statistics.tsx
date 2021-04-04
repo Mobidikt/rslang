@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Button, Modal } from 'antd'
+import { Button, Modal, Progress } from 'antd'
 import './Statistics.scss'
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
 import { WordType } from '../../../store/types/lesson'
@@ -49,6 +49,10 @@ const Statistics: React.FC<StatisticsTypes> = ({ success, error, back }) => {
 
   return (
     <Modal title="Статистика игры" visible={isModalVisible} closable={false} footer={false}>
+      <Progress
+        type="circle"
+        percent={Math.round((success.length / (error.length + success.length)) * 100)}
+      />
       <div className="statistics-game__wrapper">
         <div className="statistics-game__success">
           {success.length > 0 ? (

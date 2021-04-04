@@ -1,4 +1,5 @@
 import React from 'react'
+import { useIntl } from 'react-intl'
 import { Form, Input, Button, Alert } from 'antd'
 import useActions from '../../../hooks/useActions'
 import './Login.scss'
@@ -17,6 +18,7 @@ interface LoginFormData {
 }
 
 const Login: React.FC = () => {
+  const intl = useIntl()
   const { fetchLogin } = useActions()
   const { errorMessage, isLoginError, isLoading } = useTypedSelector((state) => state.authReducer)
 
@@ -34,17 +36,25 @@ const Login: React.FC = () => {
         validateMessages={validateMessages}
         onFinish={onFinish}
       >
-        <Form.Item label="E-mail" name="email" rules={[{ type: 'email', required: true }]}>
+        <Form.Item
+          label={intl.formatMessage({ id: 'Email' })}
+          name="email"
+          rules={[{ type: 'email', required: true }]}
+        >
           <Input className="form__input" />
         </Form.Item>
 
-        <Form.Item label="Пароль" name="password" rules={[{ required: true }]}>
+        <Form.Item
+          label={intl.formatMessage({ id: 'password' })}
+          name="password"
+          rules={[{ required: true }]}
+        >
           <Input.Password className="form__input" />
         </Form.Item>
 
         <Form.Item>
           <Button size="large" htmlType="submit" className="form__btn" loading={isLoading}>
-            Войти
+            {intl.formatMessage({ id: 'Login' })}
           </Button>
         </Form.Item>
       </Form>

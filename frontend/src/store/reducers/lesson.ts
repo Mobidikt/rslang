@@ -37,12 +37,12 @@ const word = {
 const initialState: LessonState = {
   words: [word],
   lessons: [
-    { title: 'lesson 1', color: '#E9FF70' },
-    { title: 'lesson 2', color: '#FFD670' },
-    { title: 'lesson 3', color: '#FF9770' },
-    { title: 'lesson 4', color: '#FF70A6' },
-    { title: 'lesson 5', color: '#70D6FF' },
-    { title: 'lesson 6', color: '#C1FF9B' },
+    { title: 'lesson_1', color: '#E9FF70' },
+    { title: 'lesson_2', color: '#FFD670' },
+    { title: 'lesson_3', color: '#FF9770' },
+    { title: 'lesson_4', color: '#FF70A6' },
+    { title: 'lesson_5', color: '#70D6FF' },
+    { title: 'lesson_6', color: '#C1FF9B' },
   ],
   currentGroup: null,
   currentPage: getCurrentPageFromLocalStorage(),
