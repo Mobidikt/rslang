@@ -62,7 +62,7 @@ const GameSavannah: React.FC<GameSavannahType> = ({ words, onRestart, calcBackgr
       if (initialTopWordRef.current === 360) {
         clearInterval(interval)
         handleWrongAnswer()
-        if (currentWordIdx !== 9) {
+        if (currentWordIdx !== countWordsGame - 1) {
           setCurrentWordIdx((prev) => prev + 1)
         }
       }

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { List, Button, Modal, Tooltip, Popconfirm } from 'antd'
+import { List, Button, Modal, Tooltip } from 'antd'
 import {
   EyeOutlined,
   ArrowLeftOutlined,
@@ -19,6 +19,7 @@ import { WordType } from '../../store/types/lesson'
 const DictionaryCurrentMode: React.FC = () => {
   const { mode } = useParams()
   const [isModalVisible, setIsModalVisible] = useState(false)
+  const [countWordsOnPage, setCountWordsOnPage] = useState(5)
   const textMeaningRef = useRef<HTMLParagraphElement>(null)
   const textExampleRef = useRef<HTMLParagraphElement>(null)
   const [currentWord, setCurrentWord] = useState<WordAgregationType>()
@@ -91,7 +92,10 @@ const DictionaryCurrentMode: React.FC = () => {
         itemLayout="vertical"
         size="large"
         pagination={{
-          pageSize: 5,
+          onChange: (page, pageSize) => {
+            setCountWordsOnPage(pageSize || 5)
+          },
+          pageSize: countWordsOnPage,
         }}
         dataSource={words}
         renderItem={(word) => (
