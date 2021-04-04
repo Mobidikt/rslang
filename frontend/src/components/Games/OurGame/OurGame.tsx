@@ -1,6 +1,7 @@
 /* eslint-disable no-nested-ternary */
 import React, { useCallback, useEffect, useState } from 'react'
 import ReactDOM from 'react-dom'
+import { HeartFilled } from '@ant-design/icons'
 import { Switch, Rate, Button } from 'antd'
 import { FullScreen, useFullScreenHandle } from 'react-full-screen'
 import { v4 as uuidv4 } from 'uuid'
@@ -12,13 +13,12 @@ import getWordsForGame from '../../../utils/getWordsForGame'
 import config from '../../../config'
 import './OurGame.scss'
 import Statistics from '../Statistics/Statistics'
+import Result from '../Result/Result'
 import randomArr from '../utils/randomArr'
 import useTypedSelector from '../../../hooks/useTypedSelector'
 import FullScreenBtn from '../FullScreenBtn/FullScreenBtn'
 
 const OurGame: React.FC = () => {
-  const countWords = 5
-  let gameImage = null
   const { level, countWordsGame } = useTypedSelector((state) => state.gameReducer)
   const [words, setWords] = useState<WordType[]>([])
   const [game, setGame] = useState(false)
@@ -34,7 +34,6 @@ const OurGame: React.FC = () => {
   const [gameWords, setGameWords] = useState<WordType[]>([])
   const [arrGameWord, setArrGameWord] = useState<WordType[]>([])
   const [rounds, setRounds] = useState(0)
-  const [answer, setAnswer] = useState('')
 
   const handleFullScreen = useFullScreenHandle()
 
@@ -59,7 +58,7 @@ const OurGame: React.FC = () => {
   const gameplay = useCallback((array: Array<WordType>) => {
     try {
       const item = array[Math.floor(Math.random() * array.length)]
-      const phrase = item.textExample.replace(/'<b>'/g, ' <b>')
+      const phrase = item.textExample.replace(/'<b>'/g, ' <wbr><b>')
       setCurrentWord(item)
       setCurrentPhrase(phrase)
       getImages(array)
@@ -91,7 +90,7 @@ const OurGame: React.FC = () => {
             // eslint-disable-next-line
             element?.classList.remove('game-ourgame-right')
           })
-          console.log(rightWords)
+          console.log(element)
         } else {
           playSoundError()
           setWrongWords([...wrongWords, currentWord])
@@ -115,15 +114,15 @@ const OurGame: React.FC = () => {
       if (rounds < 4) {
         // eslint-disable-next-line
         event !== null ? checkWord(event.target, value) : checkWord(element, value)
-        const arrGame = words.splice(0, countWordsGame)
-        const arr = randomArr(arrGame, countWordsGame, '')
-        setGameWords(arrGame)
-        setArrGameWord(arr)
-        console.log(arrGameWord)
-        console.log(arrGame)
         setTimeout(() => {
+          const arrGame = words.splice(0, countWordsGame)
+          const arr = randomArr(arrGame, countWordsGame / 2, '')
+          setGameWords(arrGame)
+          setArrGameWord(arr)
+          console.log(arrGameWord)
+          console.log(arrGame)
           gameplay(arr)
-        }, 2000)
+        }, 1000)
         setRounds(rounds + 1)
       } else {
         setGame(false)
@@ -143,7 +142,7 @@ const OurGame: React.FC = () => {
   useEffect(() => {
     if (words.length > 0) {
       const arrGame = words.splice(0, countWordsGame)
-      const arr = randomArr(arrGame, countWordsGame, '')
+      const arr = randomArr(arrGame, countWordsGame / 2, '')
       setGameWords(arrGame)
       setArrGameWord(arr)
       gameplay(arr)
@@ -169,14 +168,14 @@ const OurGame: React.FC = () => {
         case '3':
         case '4':
         case '5':
-          handleAnswer(null, answer[parseInt(event.key, 10) - 1], element[num - 1])
+          handleAnswer(null, element[num - 1].id, element[num - 1])
           break
         default:
           console.log('default')
       }
     },
     // eslint-disable-next-line
-    [answer, handleAnswer],
+    [handleAnswer],
   )
   useEffect(() => {
     document.addEventListener('keydown', handleKeyPress)
@@ -192,7 +191,12 @@ const OurGame: React.FC = () => {
           <div className="game-ourgame-header-settings">
             <SoundComponent />
           </div>
-          <Rate disabled value={health} style={{ fontSize: '25px', color: '#161616' }} />
+          <Rate
+            disabled
+            value={health}
+            character={<HeartFilled />}
+            style={{ fontSize: '25px', color: '#161616' }}
+          />
         </div>
         <div className="game-ourgame-field">
           {currentPhrase && (
@@ -208,8 +212,6 @@ const OurGame: React.FC = () => {
                   key={word.word}
                   onClick={(event) => handleAnswer(event, word.word)}
                   type="button"
-                  // eslint-disable-next-line
-                  ref={(btn) => (gameImage = btn)}
                 >
                   <img
                     src={`${config.API_URL}/${word.image}`}
@@ -220,14 +222,14 @@ const OurGame: React.FC = () => {
                 </button>
               ))}
           </div>
+          <Result
+            successWords={rightWords}
+            countWordsGame={countWordsGame}
+            errorWords={wrongWords}
+          />
         </div>
       </div>
       {isFinish ? <Statistics success={rightWords} error={wrongWords} back={onRestart} /> : null}
-      <FullScreenBtn
-        fullScreen={fullScreen}
-        toggle={() => setFullScreen(!fullScreen)}
-        handleFullScreen={handleFullScreen}
-      />
     </FullScreen>
   )
 }
