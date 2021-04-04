@@ -1,18 +1,20 @@
 import React from 'react'
+import { useIntl } from 'react-intl'
 import { useNavigate } from 'react-router'
 import { Button } from 'antd'
 import './Lead.scss'
 import useActions from '../../hooks/useActions'
 
 const Lead: React.FC = () => {
+  const intl = useIntl()
   const navigate = useNavigate()
   const { setSelectedSection } = useActions()
   return (
     <section className="lead">
       <div className="lead__wrapper">
         <div className="lead__info">
-          <h1 className="lead__title">Learn an English</h1>
-          <p className="lead__subtitle">Our app can help you learn and faster and easier. </p>
+          <h1 className="lead__title">{intl.formatMessage({ id: 'Learn_English' })}</h1>
+          <p className="lead__subtitle">{intl.formatMessage({ id: 'easier' })}</p>
           <Button
             type="primary"
             className="lead__btn"
@@ -22,7 +24,7 @@ const Lead: React.FC = () => {
               setSelectedSection('Tutorial')
             }}
           >
-            START NOW
+            {intl.formatMessage({ id: 'START_NOW' })}
           </Button>
         </div>
       </div>

@@ -1,4 +1,5 @@
 import React from 'react'
+import { useIntl } from 'react-intl'
 import { Button } from 'antd'
 import './HeaderMain.scss'
 import { UserOutlined } from '@ant-design/icons'
@@ -8,8 +9,10 @@ import useTypedSelector from '../../hooks/useTypedSelector'
 import logo from '../../assets/icons/RSLang.png'
 import UserProfile from '../UserProfile/UserProfile'
 import getImgUrl from '../../utils/getImageUrl'
+import LanguageSelect from '../LanguageSelect/LanguageSelect'
 
 const HeaderMain: React.FC = () => {
+  const intl = useIntl()
   const { setIsVisibleAuthCard, logout, clearUserWords, setIsVisibleProfileCard } = useActions()
   const { token, username, userPhoto } = useTypedSelector((state) => state.authReducer)
   const scrollItem = (id: string) => {
@@ -22,17 +25,20 @@ const HeaderMain: React.FC = () => {
     <>
       <header className="header-main">
         <div className="header-main__wrapper">
-          <img src={logo} alt="logo" />
+          <div className="header-main__logo">
+            <img src={logo} alt="logo" />
+            <LanguageSelect />
+          </div>
           <div className="header-main__menu">
             <nav className="nav">
               <button className="nav__item" type="button" onClick={() => scrollItem('description')}>
-                Description
+                {intl.formatMessage({ id: 'About_app' })}
               </button>{' '}
               <button className="nav__item" type="button" onClick={() => scrollItem('video')}>
-                Video
+                {intl.formatMessage({ id: 'Video' })}
               </button>{' '}
               <button className="nav__item" type="button" onClick={() => scrollItem('team')}>
-                About team
+                {intl.formatMessage({ id: 'About_team' })}
               </button>
             </nav>
             {token ? (

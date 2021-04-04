@@ -47,11 +47,11 @@ const Settings: React.FC = () => {
 
   return (
     <div className="settings">
-      <h2 className="settings__text">Здесь вы можете настроить приложение под себя</h2>
+      <h2 className="settings__text">{intl.formatMessage({ id: 'here_customize' })}</h2>
       <div className="settings__inner">
         <Card>
           <div className="settings__box">
-            <h3 className="settings__title">BUTTON DISPLAY SETTINGS</h3>
+            <h3 className="settings__title">{intl.formatMessage({ id: 'BUTTON_SETTINGS' })}</h3>
             <div className="settings__box_checkbox">
               <Checkbox
                 onChange={setIsDiffucltBtnVisible}
@@ -111,7 +111,7 @@ const Settings: React.FC = () => {
               <Option value={10}>10</Option>
               <Option value={15}>15</Option>
             </Select>
-            <span>Words in game</span>
+            <span>{intl.formatMessage({ id: 'number_words_game' })}</span>
           </div>
         </Card>
       </div>

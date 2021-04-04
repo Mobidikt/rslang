@@ -58,8 +58,11 @@
     }
     &__box {
       margin: 0 auto;
-      width: 300px;
+      width: 100%;
       margin: 0 auto;
     }
+  }
+  .settings__title {
+    font-size: 20px !important;
   }
 }
