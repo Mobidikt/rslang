@@ -78,6 +78,22 @@ const removeDeletedPage = (page: number): LessonAction => ({
   payload: page,
 })
 
+const setIsDeleteBtnVisible = (): LessonAction => ({
+  type: LessonActionTypes.SET_IS_DELETE_BTN_VISIBLE,
+})
+
+const setIsDiffucltBtnVisible = (): LessonAction => ({
+  type: LessonActionTypes.SET_IS_DIFFICULT_BTN_VISIBLE,
+})
+
+const setIsTranslationSentenceVisible = (): LessonAction => ({
+  type: LessonActionTypes.SET_IS_TRANSLATION_SENTENCE_VISIBLE,
+})
+
+const setIsTranslationWordVisible = (): LessonAction => ({
+  type: LessonActionTypes.SET_IS_TRANSLATION_WORD_VISIBLE,
+})
+
 export default {
   setCurrentPage,
   setCurrentGroup,
@@ -94,4 +110,8 @@ export default {
   addDeletedPage,
   setFirstPage,
   removeDeletedPage,
+  setIsDeleteBtnVisible,
+  setIsDiffucltBtnVisible,
+  setIsTranslationSentenceVisible,
+  setIsTranslationWordVisible,
 }

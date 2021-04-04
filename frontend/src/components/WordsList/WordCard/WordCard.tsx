@@ -1,6 +1,7 @@
 import { Card } from 'antd'
 import React from 'react'
 import { useNavigate } from 'react-router'
+import useTypedSelector from '../../../hooks/useTypedSelector'
 import { WordType } from '../../../store/types/lesson'
 
 import './WordCard.scss'
@@ -11,6 +12,7 @@ type WordCardType = {
 }
 
 const WordCard: React.FC<WordCardType> = ({ word, isDifficult }) => {
+  const { isTranslationWordVisible } = useTypedSelector((state) => state.lessonReducer)
   const navigate = useNavigate()
   return (
     <Card
@@ -19,7 +21,7 @@ const WordCard: React.FC<WordCardType> = ({ word, isDifficult }) => {
       hoverable
       onClick={() => navigate(`/tutorial/${word.group}/${word.id}`)}
     >
-      {word.wordTranslate}
+      {isTranslationWordVisible ? word.wordTranslate : null}
     </Card>
   )
 }

@@ -1,6 +1,7 @@
 import React from 'react'
 import { Button } from 'antd'
 import './Title.scss'
+import '../Games.scss'
 import SettingsGame from '../Settings/Settings'
 import useTypedSelector from '../../../hooks/useTypedSelector'
 
@@ -35,8 +36,7 @@ const Title: React.FC<TitleTypes> = ({
       ))}
       <Button
         type="primary"
-        danger
-        className="title-game__btn"
+        className="game__btn"
         onClick={startGame}
         loading={loading}
         disabled={loading}

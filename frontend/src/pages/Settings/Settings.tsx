@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React, { useState } from 'react'
 import './Settings.scss'
-import { Checkbox, Select } from 'antd'
+import { Checkbox, Select, Card } from 'antd'
 import { CheckboxChangeEvent } from 'antd/es/checkbox'
 import useTypedSelector from '../../hooks/useTypedSelector'
 import useActions from '../../hooks/useActions'
@@ -17,7 +17,19 @@ const { Option } = Select
 
 const Settings: React.FC = () => {
   const { countWordsGame } = useTypedSelector((state) => state.gameReducer)
-  const { SetCountWordsGame } = useActions()
+  const {
+    isDeleteBtnVisible,
+    isDifficultBtnVisible,
+    isTranslationSentenceVisible,
+    isTranslationWordVisible,
+  } = useTypedSelector((state) => state.lessonReducer)
+  const {
+    SetCountWordsGame,
+    setIsDeleteBtnVisible,
+    setIsDiffucltBtnVisible,
+    setIsTranslationSentenceVisible,
+    setIsTranslationWordVisible,
+  } = useActions()
 
   const [settings, setSettings] = useState(defaultSettings)
 
@@ -32,63 +44,69 @@ const Settings: React.FC = () => {
 
   return (
     <div className="settings">
-      <h1>Settings</h1>
+      <h2 className="settings__text">Здесь вы можете настроить приложение под себя</h2>
       <div className="settings__inner">
-        <div className="settings__box">
-          <h3>BUTTON DISPLAY SETTINGS</h3>
-          <div className="settings__box_checkbox">
-            <Checkbox
-              onChange={checkboxHandler}
-              name="difficult_button"
-              className="checkbox"
-              checked={settings.difficult_button}
-            >
-              "Difficult" button
-            </Checkbox>
-            <Checkbox
-              onChange={checkboxHandler}
-              name="delete_button"
-              className="checkbox"
-              checked={settings.delete_button}
-            >
-              "Delete" button
-            </Checkbox>
+        <Card>
+          <div className="settings__box">
+            <h3 className="settings__title">BUTTON DISPLAY SETTINGS</h3>
+            <div className="settings__box_checkbox">
+              <Checkbox
+                onChange={setIsDiffucltBtnVisible}
+                name="difficult_button"
+                className="checkbox"
+                checked={isDifficultBtnVisible}
+              >
+                "Difficult" button
+              </Checkbox>
+              <Checkbox
+                onChange={setIsDeleteBtnVisible}
+                name="delete_button"
+                className="checkbox"
+                checked={isDeleteBtnVisible}
+              >
+                "Delete" button
+              </Checkbox>
+            </div>
           </div>
-        </div>
-        <div className="settings__box">
-          <h3>DISPLAY SETTINGS</h3>
-          <div className="settings__box_checkbox">
-            <Checkbox
-              onChange={checkboxHandler}
-              name="word_translation"
-              className="checkbox"
-              checked={settings.word_translation}
-            >
-              Word translation
-            </Checkbox>
-            <Checkbox
-              onChange={checkboxHandler}
-              name="sentence_translation"
-              className="checkbox"
-              checked={settings.sentence_translation}
-            >
-              Sentence translation with learning word
-            </Checkbox>
+        </Card>
+        <Card>
+          <div className="settings__box">
+            <h3 className="settings__title">DISPLAY SETTINGS</h3>
+            <div className="settings__box_checkbox">
+              <Checkbox
+                onChange={setIsTranslationWordVisible}
+                name="word_translation"
+                className="checkbox"
+                checked={isTranslationWordVisible}
+              >
+                Word translation
+              </Checkbox>
+              <Checkbox
+                onChange={setIsTranslationSentenceVisible}
+                name="sentence_translation"
+                className="checkbox"
+                checked={isTranslationSentenceVisible}
+              >
+                Sentence translation with learning word
+              </Checkbox>
+            </div>
           </div>
-        </div>
-        <div className="settings__box">
-          <h3>GAME SETTINGS</h3>
-          <Select
-            defaultValue={countWordsGame}
-            onChange={changeCountWords}
-            style={{ width: 60, marginRight: 10 }}
-          >
-            <Option value={5}>5</Option>
-            <Option value={10}>10</Option>
-            <Option value={15}>15</Option>
-          </Select>
-          <span>Words in game</span>
-        </div>
+        </Card>
+        <Card>
+          <div className="settings__box">
+            <h3 className="settings__title">GAME SETTINGS</h3>
+            <Select
+              defaultValue={countWordsGame}
+              onChange={changeCountWords}
+              style={{ width: 60, marginRight: 10 }}
+            >
+              <Option value={5}>5</Option>
+              <Option value={10}>10</Option>
+              <Option value={15}>15</Option>
+            </Select>
+            <span>Words in game</span>
+          </div>
+        </Card>
       </div>
     </div>
   )

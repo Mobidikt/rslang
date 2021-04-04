@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { FullScreen, useFullScreenHandle } from 'react-full-screen'
-import Button from 'antd/es/button/button'
-import Icon from '@ant-design/icons'
+import Icon, { HeartFilled } from '@ant-design/icons'
+import { Rate, Button } from 'antd'
 import './GameCall.scss'
+import '../Games.scss'
 import useTypedSelector from '../../../hooks/useTypedSelector'
 import { ReactComponent as volumeOnIcon } from '../../../assets/icons/volume-on.svg'
 import Title from '../Title/Title'
@@ -14,13 +14,12 @@ import getWordsForGame from '../../../utils/getWordsForGame'
 import renderArrAnswerWords from '../utils/renderArrAnswerWords'
 import { playSoundSuccess, playSoundError } from '../utils/soundEffect'
 import Statistics from '../Statistics/Statistics'
-import FullScreenBtn from '../FullScreenBtn/FullScreenBtn'
+import Result from '../Result/Result'
 
 const GameCall: React.FC = () => {
   const { level, countWordsGame } = useTypedSelector((state) => state.gameReducer)
   const [game, setGame] = useState(false)
   const [gameOver, setGameOver] = useState(false)
-  const [fullScreen, setFullScreen] = useState(false)
   const [words, setWords] = useState<WordType[]>([])
   const [gameWords, setGameWords] = useState<WordType[]>([])
   const [arrGameWord, setArrGameWord] = useState<WordType[]>([])
@@ -29,19 +28,13 @@ const GameCall: React.FC = () => {
   const [successWords, setSuccessWords] = useState<WordType[]>([])
   const [errorWords, setErrorWords] = useState<WordType[]>([])
   const [indexWord, setIndexWord] = useState<number>(0)
-  const [isloadingGame, setIsloadingGame] = useState(true)
-
-  const handleFullScreen = useFullScreenHandle()
-
-  const escFunction = useCallback(() => {
-    if (!document.fullscreenElement) {
-      setFullScreen(false)
-    }
-  }, [])
+  const [health, setHealth] = useState<number>(5)
+  const [isloadingGame, setIsloadingGame] = useState<boolean>(true)
 
   const startGame = () => {
     setErrorWords([])
     setSuccessWords([])
+    setHealth(5)
     setGame(true)
   }
   const initGame = () => {
@@ -68,6 +61,7 @@ const GameCall: React.FC = () => {
     setGame(false)
     setIsloadingGame(true)
     initGame()
+    setHealth(5)
     // eslint-disable-next-line
   }, [level])
 
@@ -80,13 +74,6 @@ const GameCall: React.FC = () => {
     }
   }, [words, countWordsGame])
 
-  useEffect(() => {
-    document.addEventListener('fullscreenchange', escFunction)
-    return () => {
-      document.removeEventListener('fullscreenchange', escFunction, false)
-    }
-  }, [fullScreen, escFunction])
-
   const playWord = useCallback(() => {
     if (currentWord) playSound(currentWord.audio)
   }, [currentWord])
@@ -97,40 +84,33 @@ const GameCall: React.FC = () => {
       if (currentWord)
         if (currentWord.word === word.word) {
           playSoundSuccess()
-          setSuccessWords([...successWords, currentWord])
+          setSuccessWords((prev) => [...prev, currentWord])
         } else {
           playSoundError()
-          setErrorWords([...errorWords, currentWord])
+          setErrorWords((prev) => [...prev, currentWord])
+          setHealth((prev) => prev - 1)
         }
     },
-    [currentWord, errorWords, successWords],
+    [currentWord],
   )
   const skipWord = () => {
     setIndexWord((prev) => prev + 1)
-    if (currentWord) setErrorWords([...errorWords, currentWord])
+    if (currentWord) {
+      setErrorWords((prev) => [...prev, currentWord])
+      setHealth((prev) => prev - 1)
+    }
   }
 
   useEffect(() => {
     if (currentWord && game) setTimeout(() => playWord(), 300)
   }, [currentWord, game, playWord])
+
   const renderCurrentWord = useCallback(
     (index: number) => {
       setCurrentWord(gameWords[index])
     },
     [gameWords],
   )
-
-  useEffect(() => {
-    if (indexWord === countWordsGame) {
-      setGame(false)
-      setGameOver(true)
-      initGame()
-    } else if (gameWords) {
-      renderCurrentWord(indexWord)
-      renderAnswerWords(indexWord)
-    }
-    // eslint-disable-next-line
-  }, [gameWords, indexWord, renderCurrentWord, renderAnswerWords])
 
   const handleKeyPress = useCallback(
     (event: KeyboardEvent) => {
@@ -143,70 +123,79 @@ const GameCall: React.FC = () => {
           checkWord(answerWords[parseInt(event.key, 10) - 1])
           break
         default:
-          console.log('default')
       }
     },
     [answerWords, checkWord],
   )
   useEffect(() => {
-    document.addEventListener('keydown', handleKeyPress)
+    if (indexWord === countWordsGame || health === 0) {
+      setGame(false)
+      setGameOver(true)
+      initGame()
+      setHealth(5)
+    } else if (gameWords) {
+      renderCurrentWord(indexWord)
+      renderAnswerWords(indexWord)
+    }
+    // eslint-disable-next-line
+  }, [gameWords, indexWord, renderCurrentWord, renderAnswerWords, countWordsGame, health])
+
+  useEffect(() => {
+    if (game) {
+      document.addEventListener('keydown', handleKeyPress)
+    } else document.removeEventListener('keydown', handleKeyPress)
     return () => {
       document.removeEventListener('keydown', handleKeyPress)
     }
-  }, [handleKeyPress])
+  }, [handleKeyPress, game])
 
   return (
-    <FullScreen handle={handleFullScreen} className="fullscreen-call">
-      <>
-        {game ? (
-          <div className="call">
-            <Button
-              className="call__btn_play-sound"
-              icon={<Icon className="sound-icon" component={volumeOnIcon} />}
-              onClick={playWord}
-            />
-            <div className="call__wrapper-btn">
-              {answerWords.map((word: WordType) => (
-                <Button
-                  type="primary"
-                  className="game__btn"
-                  key={word.word}
-                  onClick={() => checkWord(word)}
-                >
-                  {word.wordTranslate}
-                </Button>
-              ))}
-            </div>
-            <Button type="primary" className="game__btn" onClick={skipWord}>
-              Пропустить
-            </Button>
+    <>
+      {game ? (
+        <div className="call">
+          <Rate disabled value={health} character={<HeartFilled />} className="game__health" />
+          <Button
+            className="game__btn call__btn_play-sound"
+            icon={<Icon className="sound-icon" component={volumeOnIcon} />}
+            onClick={playWord}
+          />
+          <div className="call__wrapper-btn">
+            {answerWords.map((word: WordType, i: number) => (
+              <Button
+                type="primary"
+                className="game__btn"
+                key={word.word}
+                onClick={() => checkWord(word)}
+              >
+                {i + 1} {word.wordTranslate}
+              </Button>
+            ))}
           </div>
-        ) : (
-          <>
-            {gameOver ? (
-              <Statistics
-                success={successWords}
-                error={errorWords}
-                back={() => setGameOver(false)}
-              />
-            ) : (
-              <Title
-                title={GAMES_INFO.call.title}
-                description={GAMES_INFO.call.description}
-                settings={GAMES_INFO.call.settings}
-                loading={isloadingGame}
-                startGame={() => startGame()}
-              />
-            )}
-          </>
-        )}
-      </>
-      <FullScreenBtn
-        fullScreen={fullScreen}
-        toggle={() => setFullScreen(!fullScreen)}
-        handleFullScreen={handleFullScreen}
-      />
-    </FullScreen>
+          <Result
+            successWords={successWords}
+            countWordsGame={countWordsGame}
+            errorWords={errorWords}
+          />
+          <Button type="primary" className="game__btn" onClick={skipWord}>
+            Пропустить
+          </Button>
+        </div>
+      ) : (
+        <>
+          {gameOver ? (
+            <Statistics success={successWords} error={errorWords} back={() => setGameOver(false)} />
+          ) : (
+            <Title
+              title={GAMES_INFO.call.title}
+              description={GAMES_INFO.call.description}
+              settings={GAMES_INFO.call.settings}
+              loading={isloadingGame}
+              startGame={() => startGame()}
+            />
+          )}
+        </>
+      )}
+    </>
   )
 }
 

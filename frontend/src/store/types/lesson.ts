@@ -53,6 +53,10 @@ export interface LessonState {
   fromCurrentGroup: boolean;
   deletedPages: Array<number>;
   firstPage: number;
+  isDeleteBtnVisible: boolean;
+  isDifficultBtnVisible: boolean;
+  isTranslationWordVisible: boolean;
+  isTranslationSentenceVisible: boolean;
 }
 
 export enum LessonActionTypes {
@@ -71,6 +75,10 @@ export enum LessonActionTypes {
   ADD_DELETED_PAGE = 'LESSON/ADD_DELETED_PAGE',
   DELETE_DELETED_PAGE = 'LESSON/DELETE_DELETED_PAGE',
   SET_FIRST_PAGE = 'LESSON/SET_FIRST_PAGE',
+  SET_IS_DELETE_BTN_VISIBLE = 'LESSON/SET_IS_DELETE_BTN_VISIBLE',
+  SET_IS_DIFFICULT_BTN_VISIBLE = 'LESSON/SET_IS_DIFFICULT_BTN_VISIBLE',
+  SET_IS_TRANSLATION_WORD_VISIBLE = 'LESSON/SET_IS_TRANSLATION_WORD_VISIBLE',
+  SET_IS_TRANSLATION_SENTENCE_VISIBLE = 'LESSON/SET_IS_TRANSLATION_SENTENCE_VISIBLE',
 }
 
 type SetCurrentWordIsDifficultAction = {
@@ -146,6 +154,22 @@ type DeleteDeletedPage = {
   payload: number,
 }
 
+type SetIsDeleteBtnVisible = {
+  type: LessonActionTypes.SET_IS_DELETE_BTN_VISIBLE,
+}
+
+type SetIsDifficultBtnVisible = {
+  type: LessonActionTypes.SET_IS_DIFFICULT_BTN_VISIBLE,
+}
+
+type SetIsTranslationWordVisible = {
+  type: LessonActionTypes.SET_IS_TRANSLATION_WORD_VISIBLE,
+}
+
+type SetIsTranslationSentencedVisible = {
+  type: LessonActionTypes.SET_IS_TRANSLATION_SENTENCE_VISIBLE,
+}
+
 export type LessonAction =
   | SetCurrentPageAction
   | SetCurrentGroupAction
@@ -162,3 +186,7 @@ export type LessonAction =
   | SetDeletedPage
   | SetFirstPage
   | DeleteDeletedPage
+  | SetIsDeleteBtnVisible
+  | SetIsDifficultBtnVisible
+  | SetIsTranslationWordVisible
+  | SetIsTranslationSentencedVisible

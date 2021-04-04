@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Layout, Menu } from 'antd'
 import { useLocation, useNavigate } from 'react-router'
-import Icon, {
+import {
   FileTextOutlined,
   SettingOutlined,
   BarChartOutlined,
