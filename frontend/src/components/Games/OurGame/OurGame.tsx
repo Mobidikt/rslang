@@ -1,5 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import React, { useCallback, useEffect, useState } from 'react'
+import ReactDOM from 'react-dom'
 import { Switch, Rate, Button } from 'antd'
 import { FullScreen, useFullScreenHandle } from 'react-full-screen'
 import { v4 as uuidv4 } from 'uuid'
@@ -17,6 +18,7 @@ import FullScreenBtn from '../FullScreenBtn/FullScreenBtn'
 
 const OurGame: React.FC = () => {
   const countWords = 5
+  let gameImage = null
   const { level, countWordsGame } = useTypedSelector((state) => state.gameReducer)
   const [words, setWords] = useState<WordType[]>([])
   const [game, setGame] = useState(false)
@@ -54,18 +56,17 @@ const OurGame: React.FC = () => {
       .catch((err) => console.log(err))
   }
 
-  const gameplay = (array: Array<WordType>) => {
+  const gameplay = useCallback((array: Array<WordType>) => {
     try {
       const item = array[Math.floor(Math.random() * array.length)]
       const phrase = item.textExample.replace(/'<b>'/g, ' <b>')
       setCurrentWord(item)
       setCurrentPhrase(phrase)
       getImages(array)
-      console.log(words)
     } catch (error) {
       console.log(error)
     }
-  }
+  }, [])
 
   const start = () => {
     setIsLoading(false)
@@ -73,11 +74,10 @@ const OurGame: React.FC = () => {
     setRightWords([])
     setWrongWords([])
     setRounds(0)
-    gameplay(arrGameWord)
   }
 
   const checkWord = useCallback(
-    (element: HTMLElement, word: string) => {
+    (element: any, word: string) => {
       console.log(currentWord?.word)
       console.log(word)
       if (currentWord)
@@ -85,9 +85,11 @@ const OurGame: React.FC = () => {
           playSoundSuccess()
           setRightWords([...rightWords, currentWord])
           // eslint-disable-next-line
-          element.classList.add('game-ourgame-right')
-          element?.addEventListener('transitionend', () => {
-            element.classList.remove('game-ourgame-right')
+          element?.classList.add('game-ourgame-right')
+          // eslint-disable-next-line
+          element?.addEventListener('transitionend', function () {
+            // eslint-disable-next-line
+            element?.classList.remove('game-ourgame-right')
           })
           console.log(rightWords)
         } else {
@@ -95,6 +97,11 @@ const OurGame: React.FC = () => {
           setWrongWords([...wrongWords, currentWord])
           // eslint-disable-next-line
           element.classList.add('game-ourgame-wrong')
+          // eslint-disable-next-line
+          element?.addEventListener('transitionend', function () {
+            // eslint-disable-next-line
+            element?.classList.remove('game-ourgame-wrong')
+          })
           setHealth(health - health / words.length / countWordsGame)
           console.log(wrongWords)
         }
@@ -103,28 +110,28 @@ const OurGame: React.FC = () => {
     [currentWord, wrongWords, rightWords, health],
   )
 
-  const handleAnswer = (event: any, value: string, key = null): void => {
-    if (rounds < 4) {
-      // eslint-disable-next-line
-      const idAnswer = event.target.id
-      setAnswer(value)
-      // eslint-disable-next-line
-      checkWord(event.target, idAnswer || value || answer)
-      const arrGame = words.splice(
-        countWordsGame * rounds,
-        countWordsGame * rounds + countWordsGame,
-      )
-      const arr = randomArr(words, countWordsGame, '')
-      setGameWords(arrGame)
-      setArrGameWord(arr)
-      console.log(arrGameWord)
-      gameplay(arr)
-      setRounds(rounds + 1)
-    } else {
-      setGame(false)
-      setFinish(true)
-    }
-  }
+  const handleAnswer = useCallback(
+    (event: any = null, value: string, element = null): void => {
+      if (rounds < 4) {
+        // eslint-disable-next-line
+        event !== null ? checkWord(event.target, value) : checkWord(element, value)
+        const arrGame = words.splice(0, countWordsGame)
+        const arr = randomArr(arrGame, countWordsGame, '')
+        setGameWords(arrGame)
+        setArrGameWord(arr)
+        console.log(arrGameWord)
+        console.log(arrGame)
+        setTimeout(() => {
+          gameplay(arr)
+        }, 2000)
+        setRounds(rounds + 1)
+      } else {
+        setGame(false)
+        setFinish(true)
+      }
+    },
+    [arrGameWord, checkWord, countWordsGame, gameplay, rounds, words],
+  )
 
   useEffect(() => {
     setGame(false)
@@ -136,7 +143,7 @@ const OurGame: React.FC = () => {
   useEffect(() => {
     if (words.length > 0) {
       const arrGame = words.splice(0, countWordsGame)
-      const arr = randomArr(words, countWordsGame, '')
+      const arr = randomArr(arrGame, countWordsGame, '')
       setGameWords(arrGame)
       setArrGameWord(arr)
       gameplay(arr)
@@ -148,11 +155,12 @@ const OurGame: React.FC = () => {
     start()
     // eslint-disable-next-line
     init()
+    gameplay(arrGameWord)
   }
 
   const handleKeyPress = useCallback(
     (event: KeyboardEvent) => {
-      const element = document.querySelectorAll('.game-ourgame-image')
+      const element = document.querySelectorAll('.game-image')
       // eslint-disable-next-line
       const num: number = Number(event.key)
       switch (event.key) {
@@ -161,13 +169,14 @@ const OurGame: React.FC = () => {
         case '3':
         case '4':
         case '5':
-          checkWord(element[num], answer[parseInt(event.key, 10) - 1])
+          handleAnswer(null, answer[parseInt(event.key, 10) - 1], element[num - 1])
           break
         default:
           console.log('default')
       }
     },
-    [answer, checkWord],
+    // eslint-disable-next-line
+    [answer, handleAnswer],
   )
   useEffect(() => {
     document.addEventListener('keydown', handleKeyPress)
@@ -199,8 +208,15 @@ const OurGame: React.FC = () => {
                   key={word.word}
                   onClick={(event) => handleAnswer(event, word.word)}
                   type="button"
+                  // eslint-disable-next-line
+                  ref={(btn) => (gameImage = btn)}
                 >
-                  <img src={`${config.API_URL}/${word.image}`} className="game-image" alt="" />
+                  <img
+                    src={`${config.API_URL}/${word.image}`}
+                    className="game-image"
+                    id={word.word}
+                    alt=""
+                  />
                 </button>
               ))}
           </div>

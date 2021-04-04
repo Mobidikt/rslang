@@ -125,13 +125,13 @@
     outline: none;
     border: none;
     background: transparent;
-    transition: .05s ease-in-out;
   }
 
   .game-ourgame-image img {
     object-fit: cover;
     border-radius: 25px;
     width: 25vw;
+    transition: .2s ease-in-out;
   }
 
   .game-ourgame-right {
