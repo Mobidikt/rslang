@@ -1,6 +1,12 @@
+* {
+  box-sizing: border-box;
+}
+
 .game-ourgame {
-  width: 100%;
+  width: 80vw;
+  height: 90vh;
   padding: 10px 20px;
+  position: relative;
   &-header {
 
     display: flex;
@@ -14,99 +20,18 @@
         margin-right: 20px;
       }
     }
-  }
 
-
-  .sprint-game {
-    height: 100%;
-    padding: 10px 20px;
-    &-rules {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      width: 100%;
-      height: 100%;
-      padding: 40px;
-      color: #161616;
-      text-align: center;
-      h1 {
-        margin-top: 90px;
-      }
-      p {
-        font-size: 28px;
-        line-height: 38px;
-      }
-      &__btn {
-        background: #FF9770;
-        border: none;
-        box-shadow: 3px 3px 5px rgba(29, 22, 22, 0.15);
-        border-radius: 8px;
-        color: #161616;
-        width: 144px;
-        height: 56px;
-        margin-top: 55px;
-        &:hover {
-          background: #bb6b56;
-        }
-      }
-  
-      &__level {
-        display: flex;
-        align-items: center;
-        font-size: 28px;
-      }
-    }
-  
-    &-start {
-      position: relative;
-      height: 100%;
-      &__inner {
-        width: 506px;
-        height: 458px;
-        margin: 0 auto;
-        background: rgba(249, 249, 249, 0.35);
-        border-radius: 25px;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translateX(-50%)translateY(-50%);
-        display: flex;
-        flex-direction: column;
-        justify-content: space-around;
-        transition: all 0.5s ease-in;
-      }
-      &__settings {
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        padding: 50px 0;
-      }
-  
-      &__words {
-        text-align: center;
-        font-size: 24px;
-        line-height: 28px;
-        margin-bottom: 50px;
-      }
-  
-      &__buttons {
-        display: flex;
-        justify-content: space-around;
-        margin-bottom: 20px;
-      }
-  
-      &__statistics {
-        width: 506px;
-        height: 458px;
-        margin: 0 auto;
-        background: rgba(249, 249, 249, 0.35);
-        border-radius: 25px;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translateX(-50%)translateY(-50%);
-        z-index: 5;
-      }
+    &__statistics {
+      width: 55vw;
+      height: 60vh;
+      margin: 0 auto;
+      background: rgba(249, 249, 249, 0.35);
+      border-radius: 25px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translateX(-50%)translateY(-50%);
+      z-index: 5;
     }
   }
 
@@ -115,26 +40,44 @@
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    height: 80vh;
+    height: 40vh;
   }
 
   .game-ourgame-image {
-    width: 25vw;
-    height: 25vh;
+    max-width: 12vw;
+    height: 20vh;
     appearance: none;
     outline: none;
     border: none;
     background: transparent;
+    max-width: 180px;
   }
 
   .game-ourgame-field h3 {
     display: block;
   }
 
+  .game-ourgame-field {
+    width: calc(75vw + 20px);
+    height: 70vh;
+    margin: 0 auto;
+    background: rgba(249, 249, 249, 0.35);
+    border-radius: 25px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%)translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    transition: all 0.5s ease-in;
+  }
+
   .game-ourgame-image img {
     object-fit: cover;
     border-radius: 25px;
-    width: 25vw;
+    max-width: 12vw;
+    height: 20vh;
     transition: .2s ease-in-out;
   }
 
@@ -177,6 +120,26 @@
   .button-wrapper {
     display: flex;
     align-items: center;
+  }
+
+  .game-result-board {
+    align-self: center;
+    border: 1px solid transparent;
+    font-family: 'Raleway', sans-serif;
+  }
+
+  .game-result-board__item--true {
+    border: 1px solid transparent;
+    background-color: rgba(9, 245, 99, 0.678);
+  }
+
+  .game-result-board__item--false {
+    border: 1px solid transparent;
+    background-color: rgba(251, 49, 59, 0.678);
+  }
+
+  .game__btn:hover {
+    background-color: rgb(255, 151, 112);
   }
 }
 

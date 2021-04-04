@@ -46,7 +46,7 @@ const OurGame: React.FC = () => {
   }
 
   const init = () => {
-    getWordsForGame(level - 1, countWordsGame * 5)
+    getWordsForGame(level - 1, countWordsGame * 12.5)
       .then((data) => {
         const wordsFromResponse = data
         setWords(wordsFromResponse)
@@ -111,7 +111,7 @@ const OurGame: React.FC = () => {
 
   const handleAnswer = useCallback(
     (event: any = null, value: string, element = null): void => {
-      if (rounds < 4) {
+      if (rounds < 10) {
         // eslint-disable-next-line
         event !== null ? checkWord(event.target, value) : checkWord(element, value)
         setTimeout(() => {
@@ -152,6 +152,7 @@ const OurGame: React.FC = () => {
 
   const onRestart = () => {
     start()
+    setFinish(false)
     // eslint-disable-next-line
     init()
     gameplay(arrGameWord)
