@@ -16,7 +16,6 @@ import Statistics from '../Statistics/Statistics'
 /**
  * hooks
  */
-import useInterval from '../../../hooks/useInterval'
 import useTypedSelector from '../../../hooks/useTypedSelector'
 /**
  * utils

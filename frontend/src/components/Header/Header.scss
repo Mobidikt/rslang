@@ -49,6 +49,8 @@
 
 .header-user {
   display: flex;
+  align-items: center;
+  min-height: 35px;
 }
 
 @media(max-width: 700px) {

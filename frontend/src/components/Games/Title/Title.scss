@@ -4,6 +4,7 @@
     align-items: center;
     justify-content: center;
     height: 100%;
+    padding: 0 20px;
 }
 .title-game__title {
     font-family: 'Nunito';
@@ -29,4 +30,16 @@
     letter-spacing: 0.02em;
     color: #161616;
     text-shadow: 3px 3px 5px rgba(29, 22, 22, 0.15);
+}
+@media screen and (max-width: 600px) {
+    .title-game {
+        &__title {
+            font-size: 30px;
+            line-height: 38px;
+        }
+        &__text {
+            font-size: 20px;
+            line-height: 28px;
+        }
+    }
 }
