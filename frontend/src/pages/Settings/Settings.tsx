@@ -59,7 +59,7 @@ const Settings: React.FC = () => {
                 className="checkbox"
                 checked={isDifficultBtnVisible}
               >
-                "Difficult" button
+                {intl.formatMessage({ id: 'btn_difficult' })}
               </Checkbox>
               <Checkbox
                 onChange={setIsDeleteBtnVisible}
@@ -67,7 +67,7 @@ const Settings: React.FC = () => {
                 className="checkbox"
                 checked={isDeleteBtnVisible}
               >
-                "Delete" button
+                {intl.formatMessage({ id: 'btn_delete' })}
               </Checkbox>
             </div>
           </div>
@@ -82,7 +82,7 @@ const Settings: React.FC = () => {
                 className="checkbox"
                 checked={isTranslationWordVisible}
               >
-                Word translation
+                {intl.formatMessage({ id: 'word_translation' })}
               </Checkbox>
               <Checkbox
                 onChange={setIsTranslationSentenceVisible}
@@ -90,7 +90,7 @@ const Settings: React.FC = () => {
                 className="checkbox"
                 checked={isTranslationSentenceVisible}
               >
-                Sentence translation with learning word
+                {intl.formatMessage({ id: 'translation_sentence' })}
               </Checkbox>
               <div>
                 <LanguageSelect />
@@ -101,7 +101,7 @@ const Settings: React.FC = () => {
         </Card>
         <Card>
           <div className="settings__box">
-            <h3 className="settings__title">GAME SETTINGS</h3>
+            <h3 className="settings__title">{intl.formatMessage({ id: 'game_setting' })}</h3>
             <Select
               defaultValue={countWordsGame}
               onChange={changeCountWords}

@@ -41,12 +41,12 @@ const Header: React.FC = () => {
 
             <span className="header__username">{username}</span>
             <Button className="btn logout" onClick={logoutUserClick}>
-              Выйти
+              {intl.formatMessage({ id: 'Exit' })}
             </Button>
           </div>
         ) : (
           <Button className="btn" onClick={setIsVisibleAuthCard}>
-            Авторизоваться
+            {intl.formatMessage({ id: 'Authorization' })}
           </Button>
         )}
       </header>
