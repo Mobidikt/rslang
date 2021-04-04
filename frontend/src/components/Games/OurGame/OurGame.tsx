@@ -1,244 +1,209 @@
-/* eslint-disable no-nested-ternary */
-import React, { useCallback, useEffect, useState } from 'react'
-import ReactDOM from 'react-dom'
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { HeartFilled } from '@ant-design/icons'
-import { Switch, Rate, Button } from 'antd'
-import { FullScreen, useFullScreenHandle } from 'react-full-screen'
-import { v4 as uuidv4 } from 'uuid'
-import { WordType } from '../../../store/types/lesson'
-import SoundComponent from '../SoundComponent/SoundComponent'
-import { playSoundError, playSoundSuccess } from '../utils/soundEffect'
-import getWordsForGame from '../../../utils/getWordsForGame'
-// eslint-disable-next-line
-import config from '../../../config'
+import { Rate, Button } from 'antd'
+import '../GameCall/GameCall.scss'
+import '../Games.scss'
 import './OurGame.scss'
+import useTypedSelector from '../../../hooks/useTypedSelector'
+import Title from '../Title/Title'
+import { GAMES_INFO } from '../utils/gamesInfo'
+import randomArr from '../utils/randomArr'
+import { WordType } from '../../../store/types/lesson'
+import getWordsForGame from '../../../utils/getWordsForGame'
+import renderArrAnswerWords from '../utils/renderArrAnswerWords'
+import { playSoundSuccess, playSoundError } from '../utils/soundEffect'
 import Statistics from '../Statistics/Statistics'
 import Result from '../Result/Result'
-import randomArr from '../utils/randomArr'
-import useTypedSelector from '../../../hooks/useTypedSelector'
-import FullScreenBtn from '../FullScreenBtn/FullScreenBtn'
+import config from '../../../config'
 
 const OurGame: React.FC = () => {
   const { level, countWordsGame } = useTypedSelector((state) => state.gameReducer)
-  const [words, setWords] = useState<WordType[]>([])
   const [game, setGame] = useState(false)
-  const [images, setImages] = useState<string[]>([])
-  const [isFinish, setFinish] = useState(false)
-  const [fullScreen, setFullScreen] = useState(false)
-  const [isLoading, setIsLoading] = useState(true)
-  const [rightWords, setRightWords] = useState<WordType[]>([])
-  const [wrongWords, setWrongWords] = useState<WordType[]>([])
-  const [health, setHealth] = useState(5)
-  const [currentPhrase, setCurrentPhrase] = useState<string>()
-  const [currentWord, setCurrentWord] = useState<WordType>()
+  const [gameOver, setGameOver] = useState(false)
+  const [words, setWords] = useState<WordType[]>([])
   const [gameWords, setGameWords] = useState<WordType[]>([])
   const [arrGameWord, setArrGameWord] = useState<WordType[]>([])
-  const [rounds, setRounds] = useState(0)
+  const [currentWord, setCurrentWord] = useState<WordType>()
+  const [answerWords, setAnswerWords] = useState<WordType[]>([])
+  const [successWords, setSuccessWords] = useState<WordType[]>([])
+  const [errorWords, setErrorWords] = useState<WordType[]>([])
+  const [indexWord, setIndexWord] = useState<number>(0)
+  const [health, setHealth] = useState<number>(5)
+  const [isloadingGame, setIsloadingGame] = useState<boolean>(true)
+  const textExampleRef = useRef<HTMLSpanElement>(null)
 
-  const handleFullScreen = useFullScreenHandle()
-
-  const getImages = (array: Array<WordType>): void => {
-    const img: Array<string> = []
-    // eslint-disable-next-line
-    array.map((el) => img.push(el.image))
-    setImages(img)
-    console.log(array)
+  const startGame = () => {
+    setErrorWords([])
+    setSuccessWords([])
+    setHealth(5)
+    setGame(true)
   }
-
-  const init = () => {
-    getWordsForGame(level - 1, countWordsGame * 12.5)
+  const initGame = () => {
+    getWordsForGame(level - 1, countWordsGame * 5)
       .then((data) => {
         const wordsFromResponse = data
         setWords(wordsFromResponse)
-        setIsLoading(false)
+        setIsloadingGame(false)
+        setIndexWord(0)
       })
       .catch((err) => console.log(err))
   }
-
-  const gameplay = useCallback((array: Array<WordType>) => {
-    try {
-      const item = array[Math.floor(Math.random() * array.length)]
-      const phrase = item.textExample.replace(/'<b>'/g, ' <wbr><b>')
-      setCurrentWord(item)
-      setCurrentPhrase(phrase)
-      getImages(array)
-    } catch (error) {
-      console.log(error)
-    }
-  }, [])
-
-  const start = () => {
-    setIsLoading(false)
-    setGame(true)
-    setRightWords([])
-    setWrongWords([])
-    setRounds(0)
-  }
-
-  const checkWord = useCallback(
-    (element: any, word: string) => {
-      console.log(currentWord?.word)
-      console.log(word)
-      if (currentWord)
-        if (currentWord?.word === word) {
-          playSoundSuccess()
-          setRightWords([...rightWords, currentWord])
-          // eslint-disable-next-line
-          element?.classList.add('game-ourgame-right')
-          // eslint-disable-next-line
-          element?.addEventListener('transitionend', function () {
-            // eslint-disable-next-line
-            element?.classList.remove('game-ourgame-right')
-          })
-          console.log(element)
-        } else {
-          playSoundError()
-          setWrongWords([...wrongWords, currentWord])
-          // eslint-disable-next-line
-          element.classList.add('game-ourgame-wrong')
-          // eslint-disable-next-line
-          element?.addEventListener('transitionend', function () {
-            // eslint-disable-next-line
-            element?.classList.remove('game-ourgame-wrong')
-          })
-          setHealth(health - health / words.length / countWordsGame)
-          console.log(wrongWords)
-        }
-    },
-    // eslint-disable-next-line
-    [currentWord, wrongWords, rightWords, health],
-  )
-
-  const handleAnswer = useCallback(
-    (event: any = null, value: string, element = null): void => {
-      if (rounds < 10) {
-        // eslint-disable-next-line
-        event !== null ? checkWord(event.target, value) : checkWord(element, value)
-        setTimeout(() => {
-          const arrGame = words.splice(0, countWordsGame)
-          const arr = randomArr(arrGame, countWordsGame / 2, '')
-          setGameWords(arrGame)
-          setArrGameWord(arr)
-          console.log(arrGameWord)
-          console.log(arrGame)
-          gameplay(arr)
-        }, 1000)
-        setRounds(rounds + 1)
-      } else {
-        setGame(false)
-        setFinish(true)
+  const renderAnswerWords = useCallback(
+    (index: number) => {
+      if (gameWords.length !== 0 && arrGameWord.length !== 0) {
+        const wordsAnswer = renderArrAnswerWords(gameWords, arrGameWord, index)
+        setAnswerWords(randomArr(wordsAnswer, 5, ''))
       }
     },
-    [arrGameWord, checkWord, countWordsGame, gameplay, rounds, words],
+    [arrGameWord, gameWords],
   )
 
   useEffect(() => {
     setGame(false)
-    setIsLoading(true)
-    init()
+    setIsloadingGame(true)
+    initGame()
+    setHealth(5)
     // eslint-disable-next-line
   }, [level])
 
   useEffect(() => {
-    if (words.length > 0) {
+    if (words) {
       const arrGame = words.splice(0, countWordsGame)
-      const arr = randomArr(arrGame, countWordsGame / 2, '')
+      const arr = randomArr(words, countWordsGame * 4, '')
       setGameWords(arrGame)
       setArrGameWord(arr)
-      gameplay(arr)
     }
-    // eslint-disable-next-line
   }, [words, countWordsGame])
 
-  const onRestart = () => {
-    start()
-    setFinish(false)
-    // eslint-disable-next-line
-    init()
-    gameplay(arrGameWord)
+  const checkWord = useCallback(
+    (word: WordType) => {
+      setIndexWord((prev) => prev + 1)
+      if (currentWord)
+        if (currentWord.word === word.word) {
+          playSoundSuccess()
+          setSuccessWords((prev) => [...prev, currentWord])
+        } else {
+          playSoundError()
+          setErrorWords((prev) => [...prev, currentWord])
+          setHealth((prev) => prev - 1)
+        }
+    },
+    [currentWord],
+  )
+  const skipWord = () => {
+    setIndexWord((prev) => prev + 1)
+    if (currentWord) {
+      setErrorWords((prev) => [...prev, currentWord])
+      setHealth((prev) => prev - 1)
+    }
   }
+
+  const renderCurrentWord = useCallback(
+    (index: number) => {
+      if (gameWords.length > 0) {
+        setCurrentWord(gameWords[index])
+      }
+    },
+    [gameWords],
+  )
 
   const handleKeyPress = useCallback(
     (event: KeyboardEvent) => {
-      const element = document.querySelectorAll('.game-image')
-      // eslint-disable-next-line
-      const num: number = Number(event.key)
       switch (event.key) {
         case '1':
         case '2':
         case '3':
         case '4':
         case '5':
-          handleAnswer(null, element[num - 1].id, element[num - 1])
+          checkWord(answerWords[parseInt(event.key, 10) - 1])
           break
         default:
-          console.log('default')
       }
     },
-    // eslint-disable-next-line
-    [handleAnswer],
+    [answerWords, checkWord],
   )
   useEffect(() => {
-    document.addEventListener('keydown', handleKeyPress)
+    if (indexWord === countWordsGame || health === 0) {
+      setGame(false)
+      setGameOver(true)
+      initGame()
+      setHealth(5)
+    } else if (gameWords) {
+      renderCurrentWord(indexWord)
+      renderAnswerWords(indexWord)
+    }
+    // eslint-disable-next-line
+  }, [gameWords, indexWord, renderCurrentWord, renderAnswerWords, countWordsGame, health])
+
+  useEffect(() => {
+    if (game) {
+      document.addEventListener('keydown', handleKeyPress)
+    } else document.removeEventListener('keydown', handleKeyPress)
     return () => {
       document.removeEventListener('keydown', handleKeyPress)
     }
-  }, [handleKeyPress])
-
+  }, [handleKeyPress, game])
+  useEffect(() => {
+    console.log(textExampleRef)
+    if (textExampleRef.current) {
+      textExampleRef.current.innerHTML = gameWords[indexWord].textExample || ''
+    }
+    // eslint-disable-next-line
+  }, [game, indexWord])
   return (
-    <FullScreen handle={handleFullScreen} className="fullscreen-ourgame">
-      <div className="game-ourgame">
-        <div className="game-ourgame-header">
-          <div className="game-ourgame-header-settings">
-            <SoundComponent />
-          </div>
-          <Rate
-            disabled
-            value={health}
-            character={<HeartFilled />}
-            style={{ fontSize: '25px', color: '#161616' }}
-          />
-        </div>
-        <div className="game-ourgame-field">
-          {currentPhrase && (
-            // eslint-disable-next-line
-            <h3 dangerouslySetInnerHTML={{ __html: currentPhrase }}></h3>
-          )}
+    <>
+      {game ? (
+        <div className="call">
+          <Rate disabled value={health} character={<HeartFilled />} className="game__health" />
+          <span className="word-info-text__example" ref={textExampleRef} />
           <div className="game-images-wrapper">
-            {arrGameWord &&
-              arrGameWord.map((word: WordType) => (
-                <button
-                  className="game-ourgame-image"
-                  // eslint-disable-next-line
-                  key={word.word}
-                  onClick={(event) => handleAnswer(event, word.word)}
-                  type="button"
-                >
-                  <img
-                    src={`${config.API_URL}/${word.image}`}
-                    className="game-image"
-                    id={word.word}
-                    alt=""
-                  />
-                </button>
-              ))}
+            {answerWords.map((word: WordType) => (
+              <button
+                type="button"
+                className="game-ourgame-image"
+                key={word.word}
+                onClick={() => checkWord(word)}
+              >
+                <img
+                  src={`${config.API_URL}/${word.image}`}
+                  className="game-image"
+                  id={word.word}
+                  alt=""
+                />
+              </button>
+            ))}
           </div>
           <Result
-            successWords={rightWords}
+            successWords={successWords}
             countWordsGame={countWordsGame}
-            errorWords={wrongWords}
+            errorWords={errorWords}
           />
+          <Button type="primary" className="game__btn" onClick={skipWord}>
+            Пропустить
+          </Button>
         </div>
-      </div>
-      {isFinish ? (
-        <Statistics
-          success={rightWords}
-          error={wrongWords}
-          currentGame="ourGame"
-          back={onRestart}
-        />
-      ) : null}
-    </FullScreen>
+      ) : (
+        <>
+          {gameOver ? (
+            <Statistics
+              success={successWords}
+              error={errorWords}
+              currentGame="ourGame"
+              back={() => setGameOver(false)}
+            />
+          ) : (
+            <Title
+              title={GAMES_INFO.ourgame.title}
+              description={GAMES_INFO.ourgame.description}
+              settings={GAMES_INFO.ourgame.settings}
+              loading={isloadingGame}
+              startGame={() => startGame()}
+            />
+          )}
+        </>
+      )}
+    </>
   )
 }
 
