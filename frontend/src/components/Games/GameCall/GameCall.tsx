@@ -34,6 +34,7 @@ const GameCall: React.FC = () => {
   const startGame = () => {
     setErrorWords([])
     setSuccessWords([])
+    setHealth(5)
     setGame(true)
   }
   const initGame = () => {
@@ -83,24 +84,27 @@ const GameCall: React.FC = () => {
       if (currentWord)
         if (currentWord.word === word.word) {
           playSoundSuccess()
-          setSuccessWords([...successWords, currentWord])
+          setSuccessWords((prev) => [...prev, currentWord])
         } else {
           playSoundError()
-          setErrorWords([...errorWords, currentWord])
-          setHealth(health - 1)
+          setErrorWords((prev) => [...prev, currentWord])
+          setHealth((prev) => prev - 1)
         }
     },
-    // eslint-disable-next-line
-    [currentWord, errorWords, successWords],
+    [currentWord],
   )
   const skipWord = () => {
     setIndexWord((prev) => prev + 1)
-    if (currentWord) setErrorWords([...errorWords, currentWord])
+    if (currentWord) {
+      setErrorWords((prev) => [...prev, currentWord])
+      setHealth((prev) => prev - 1)
+    }
   }
 
   useEffect(() => {
     if (currentWord && game) setTimeout(() => playWord(), 300)
   }, [currentWord, game, playWord])
+
   const renderCurrentWord = useCallback(
     (index: number) => {
       setCurrentWord(gameWords[index])
@@ -134,22 +138,22 @@ const GameCall: React.FC = () => {
       renderAnswerWords(indexWord)
     }
     // eslint-disable-next-line
-  }, [gameWords, indexWord, renderCurrentWord, renderAnswerWords])
+  }, [gameWords, indexWord, renderCurrentWord, renderAnswerWords, countWordsGame, health])
 
   useEffect(() => {
-    if (gameOver) {
-      document.removeEventListener('keydown', handleKeyPress)
-    } else document.addEventListener('keydown', handleKeyPress)
+    if (game) {
+      document.addEventListener('keydown', handleKeyPress)
+    } else document.removeEventListener('keydown', handleKeyPress)
     return () => {
       document.removeEventListener('keydown', handleKeyPress)
     }
-  }, [handleKeyPress, gameOver])
+  }, [handleKeyPress, game])
 
   return (
     <>
       {game ? (
         <div className="call">
-          <Rate disabled value={health} character={<HeartFilled />} className="game-call__health" />
+          <Rate disabled value={health} character={<HeartFilled />} className="game__health" />
           <Button
             className="game__btn call__btn_play-sound"
             icon={<Icon className="sound-icon" component={volumeOnIcon} />}

@@ -170,17 +170,6 @@
   }
 }
 
-.full-screen-icon {
-  svg {
-    width: 30px;
-    height: 30px;
-    &:hover {
-      width: 32px;
-      height: 32px;
-    }
-  }
-}
-
 .button-wrapper {
   display: flex;
   align-items: center;
@@ -192,17 +181,4 @@
     height: 26.25px;
     width: 31.5px;
   }
-}
-
-.sprint-btn {
-  width: 145px;
-  height: 56px;
-  border: 2px solid #FF9770;
-  filter: drop-shadow(3px 3px 5px rgba(29, 22, 22, 0.15));
-  border-radius: 8px;
-  color: #1D1D1D;
-  background: transparent;
-  font-size: 24px;
-  line-height: 28px;
-  cursor: pointer;
 }
