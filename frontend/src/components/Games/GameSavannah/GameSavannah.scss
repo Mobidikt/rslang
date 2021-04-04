@@ -26,12 +26,14 @@
     &__droppedWord{
       position: absolute;
       top: 190px;
+      font-size: 30px !important;
     }
     &-answers {
-      margin-top: 150px;
+      margin-top: 270px;
       display: flex;
       flex-direction: column;
       align-items: center;
+      margin-bottom: 50px;
     }
   }
 }

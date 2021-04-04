@@ -15,7 +15,7 @@ const AuthCard: React.FC = () => {
     <div>
       <Modal
         className="modal"
-        title={isLogin ? 'Авторизоваться' : 'Регистрация'}
+        title={isLogin ? 'Авторизация' : 'Регистрация'}
         visible={isVisibleAuthCard}
         onCancel={setIsVisibleAuthCard}
         footer={false}

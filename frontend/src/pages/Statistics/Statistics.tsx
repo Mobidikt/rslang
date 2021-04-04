@@ -10,14 +10,33 @@ const Statistics: React.FC = () => {
   const { userId } = useTypedSelector((state) => state.authReducer)
   const { userWords } = useTypedSelector((state) => state.dictionaryReducer)
   const [statistics, setStatistics] = useState<Array<GetStatisticsType>>([])
+  const [statisticsForSecondChart, setStaticticsForSecontChart] = useState<GetStatisticsType[]>([])
   const [isEpmty, setIsEmpty] = useState<boolean>(false)
+
+  const getWordsForSecondStatistic = useCallback((): Array<GetStatisticsType> => {
+    const arr: Array<GetStatisticsType> = []
+    for (let i = 0; i < statistics.length; i += 1) {
+      if (i === 0) {
+        arr.push(statistics[i])
+      } else {
+        const newStatistic: GetStatisticsType = {
+          count: statistics[i].count + arr[i - 1].count,
+          date: statistics[i].date,
+        }
+        arr.push(newStatistic)
+      }
+    }
+    return arr
+  }, [statistics])
 
   const getStatistics = useCallback(async () => {
     if (userId) {
       const statistic = await StatisticsApi.get(userId)
       setStatistics(statistic)
+      setStaticticsForSecontChart(getWordsForSecondStatistic())
     }
-  }, [userId])
+    // eslint-disable-next-line
+  }, [userId, getWordsForSecondStatistic])
 
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
@@ -33,7 +52,7 @@ const Statistics: React.FC = () => {
   }, [userWords])
 
   const config = {
-    data: statistics,
+    data: statisticsForSecondChart,
     height: 400,
     xField: 'date',
     yField: 'count',
