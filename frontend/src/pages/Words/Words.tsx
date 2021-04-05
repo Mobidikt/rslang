@@ -37,13 +37,14 @@ const Word: React.FC = () => {
 
   const handleNextGroup = () => {
     setCurrentPage(0)
-    setSelectedSection(`Lessons - Lesson ${+groupId + 2}`)
+    setSelectedSection(`Lessons__Lesson_${+groupId + 2}`)
+    console.log(`Lessons__Lesson_${+groupId + 2}`)
     navigate(`/tutorial/${+groupId + 1}`)
   }
 
   const handlePrevGroup = () => {
     setCurrentPage(0)
-    setSelectedSection(`Lessons - Lesson ${+groupId}`)
+    setSelectedSection(`Lessons__Lesson_${+groupId}`)
     navigate(`/tutorial/${+groupId - 1}`)
   }
 

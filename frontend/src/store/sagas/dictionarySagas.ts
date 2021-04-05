@@ -9,7 +9,7 @@ import {
   DeleteUserWordAction,
 } from '../types/dictionary'
 import actions from '../actions/dictionary'
-import WordApi from '../../services/WordApi'
+import WordApi, { UpdateGamesCountAnswersType } from '../../services/WordApi'
 import StatisticsApi from '../../services/StatisticsApi'
 
 function* fetchUserWords(action: FetchUserWordsAction) {
@@ -26,12 +26,25 @@ function* fetchUserWords(action: FetchUserWordsAction) {
 }
 
 function* addWord(action: AddWordAction) {
-  const { userId, wordId, word, difficulty } = action.payload
+  const { userId, wordId, word, difficulty, currentGame } = action.payload
+  const games = {
+    sprint: 0,
+    savannah: 0,
+    audioCall: 0,
+    ourGame: 0,
+  }
+  if (currentGame) {
+    games[currentGame] = 1
+  }
+
   try {
     yield put(actions.requestedAddWord())
-    yield call(() => WordApi.save(userId, wordId, difficulty))
+
+    yield call(() => WordApi.save(userId, wordId, difficulty, currentGame))
+
     yield call(() => StatisticsApi.add(userId))
-    const wordWithDifficulty = { ...word, _id: word.id, userWord: { difficulty } }
+
+    const wordWithDifficulty = { ...word, _id: word.id, userWord: { difficulty, games } }
     yield put(actions.requestedAddWordSuccessed(wordWithDifficulty))
     yield put(actions.groupWords())
   } catch (e) {
@@ -40,11 +53,23 @@ function* addWord(action: AddWordAction) {
 }
 
 function* updateUserWord(action: UpdateUserWordAction) {
-  const { wordId, userId, word, difficulty } = action.payload
+  const { wordId, userId, word, difficulty, currentGame } = action.payload
   try {
     yield put(actions.requestedUpdateUserWord())
+    let games
+    let updaterWord
+    if (currentGame) {
+      const data: UpdateGamesCountAnswersType = yield call(() =>
+        WordApi.updateGamesCountAnswers(userId, wordId, currentGame),
+      )
+      games = data.games
+    }
     yield call(() => WordApi.update(userId, wordId, difficulty))
-    const updaterWord = { ...word, _id: word.id, userWord: { difficulty } }
+    if (currentGame) {
+      updaterWord = { ...word, _id: word.id, userWord: { difficulty, games } }
+    } else {
+      updaterWord = { ...word, _id: word.id, userWord: { difficulty } }
+    }
 
     yield put(actions.requestedUpdateUserWordSuccessed(updaterWord))
     yield put(actions.groupWords())

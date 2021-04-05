@@ -34,7 +34,7 @@ const DictionaryCurrentMode: React.FC = () => {
   const { setSelectedSection, updateUserWord, deleteUserWord } = useActions()
 
   useEffect(() => {
-    setSelectedSection(`Dictionary - ${mode} words`)
+    setSelectedSection(`Dictionary_${mode}_words`)
     // eslint-disable-next-line
   }, [])
 
@@ -66,7 +66,7 @@ const DictionaryCurrentMode: React.FC = () => {
         ...word,
         id: word._id,
       }
-      updateUserWord(userId, word._id, wordTypeWord, difficulty)
+      updateUserWord(userId, word._id, wordTypeWord, difficulty, '')
     }
   }
 

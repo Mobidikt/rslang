@@ -17,6 +17,12 @@ export type WordAgregationType = {
   wordTranslate: string,
   userWord: {
     difficulty: string,
+    games?: {
+      savannah: number,
+      sprint: number,
+      audioCall: number,
+      ourGame: number,
+    },
   },
 }
 
@@ -87,6 +93,7 @@ export interface AddWordAction {
     wordId: string,
     word: WordType,
     difficulty: 'difficult' | 'learned' | 'deleted',
+    currentGame: 'sprint' | 'ourGame' | 'audioCall' | 'savannah' | '',
   };
 }
 
@@ -111,6 +118,7 @@ export interface UpdateUserWordAction {
     wordId: string,
     word: WordType,
     difficulty: 'difficult' | 'learned' | 'deleted',
+    currentGame: 'sprint' | 'ourGame' | 'audioCall' | 'savannah' | '',
   };
 }
 

@@ -159,6 +159,7 @@ const GameSavannah: React.FC<GameSavannahType> = ({ words, onRestart, calcBackgr
         <Statistics
           success={trueAnswersArr.current}
           error={wrongAnswersArr.current}
+          currentGame="savannah"
           back={onRestart}
         />
       ) : (

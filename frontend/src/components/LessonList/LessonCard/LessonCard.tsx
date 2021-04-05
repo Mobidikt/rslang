@@ -21,7 +21,7 @@ const LessonCard: React.FC<LessonCardType> = ({ lesson }) => {
   const handleNavigate = () => {
     setCurrentPage(0)
     navigate(`/tutorial/${idx}`)
-    setSelectedSection(`Lessons - Lesson ${idx + 1}`)
+    setSelectedSection(`Lessons_Lesson_${idx + 1}`)
   }
   return (
     <Card
