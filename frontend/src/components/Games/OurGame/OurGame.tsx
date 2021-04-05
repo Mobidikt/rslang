@@ -154,34 +154,36 @@ const OurGame: React.FC = () => {
   return (
     <>
       {game ? (
-        <div className="call">
+        <div className="game-ourgame">
           <Rate disabled value={health} character={<HeartFilled />} className="game__health" />
-          <span className="word-info-text__example" ref={textExampleRef} />
-          <div className="game-images-wrapper">
-            {answerWords.map((word: WordType) => (
-              <button
-                type="button"
-                className="game-ourgame-image"
-                key={word.word}
-                onClick={() => checkWord(word)}
-              >
-                <img
-                  src={`${config.API_URL}/${word.image}`}
-                  className="game-image"
-                  id={word.word}
-                  alt=""
-                />
-              </button>
-            ))}
+          <div className="game-ourgame-field">
+            <span className="word-info-text__example" ref={textExampleRef} />
+            <div className="game-images-wrapper">
+              {answerWords.map((word: WordType) => (
+                <button
+                  type="button"
+                  className="game-ourgame-image"
+                  key={word.word}
+                  onClick={() => checkWord(word)}
+                >
+                  <img
+                    src={`${config.API_URL}/${word.image}`}
+                    className="game-image"
+                    id={word.word}
+                    alt=""
+                  />
+                </button>
+              ))}
+            </div>
+            <Result
+              successWords={successWords}
+              countWordsGame={countWordsGame}
+              errorWords={errorWords}
+            />
+            <Button type="primary" className="game__btn" onClick={skipWord}>
+              Пропустить
+            </Button>
           </div>
-          <Result
-            successWords={successWords}
-            countWordsGame={countWordsGame}
-            errorWords={errorWords}
-          />
-          <Button type="primary" className="game__btn" onClick={skipWord}>
-            Пропустить
-          </Button>
         </div>
       ) : (
         <>
