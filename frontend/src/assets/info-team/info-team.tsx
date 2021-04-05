@@ -1,5 +1,6 @@
 import KirillPhoto from '../image/kirill.jpg'
 import AnzhelaPhoto from '../image/anzhela.jpg'
+import ArtsemPhoto from '../image/artsem.jpg'
 
 const infoTeam: {
   name: string,
@@ -34,7 +35,7 @@ const infoTeam: {
   },
   {
     name: 'Artsem Makarov',
-    photo: 'https://i.pinimg.com/originals/54/c6/68/54c6680d3a14edf2c20c654b4970fbec.jpg',
+    photo: ArtsemPhoto,
     profession: 'Web-developer',
     info:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
