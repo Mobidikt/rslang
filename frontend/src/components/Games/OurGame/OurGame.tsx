@@ -91,6 +91,20 @@ const OurGame: React.FC = () => {
     },
     [currentWord],
   )
+
+  const handleAnimation = (event: any = null, value: string, element = null): void => {
+    // eslint-disable-next-line
+    event !== null ? checkWord(event.target, value) : checkWord(element, value)
+    setTimeout(() => {
+      const arrGame = words.splice(0, countWordsGame)
+      const arr = randomArr(arrGame, countWordsGame / 2, '')
+      setGameWords(arrGame)
+      setArrGameWord(arr)
+      console.log(arrGameWord)
+      console.log(arrGame)
+    }, 1000)
+  }
+
   const skipWord = () => {
     setIndexWord((prev) => prev + 1)
     if (currentWord) {
