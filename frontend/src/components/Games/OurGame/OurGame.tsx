@@ -76,15 +76,11 @@ const OurGame: React.FC = () => {
     }
   }, [words, countWordsGame])
 
-  const handleAnimation = (element: any = null, answer: string): void => {
+  const handleAnimation = (el: any = null, ans: string): void => {
     // eslint-disable-next-line
-    element?.classList.add(`game-ourgame-${answer}`)
-    console.log(element)
+    el?.classList.add(`ourgame-${ans}`)
     // eslint-disable-next-line
-    element?.addEventListener('transitionend', function () {
-      // eslint-disable-next-line
-      element?.classList.remove(`game-ourgame-${answer}`)
-    })
+    el.addEventListener('transitionend', () => el.classList.remove(`ourgame-${ans}`))
   }
 
   const checkWord = useCallback(
@@ -125,8 +121,7 @@ const OurGame: React.FC = () => {
   const handleKeyPress = useCallback(
     (event: KeyboardEvent) => {
       const element = document.querySelectorAll('.game-image')
-      // eslint-disable-next-line
-      const num: number = Number(event.key)
+      const num = Number(event.key)
       switch (event.key) {
         case '1':
         case '2':

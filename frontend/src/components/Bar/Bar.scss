@@ -1,19 +1,20 @@
 .bar__link{
-    // font-family: 'Nunito';
+    font-family: 'Nunito';
     // font-style: normal;
     // font-weight: normal;
-    // font-size: 36px;
+    font-size: 20px;
     // line-height: 49px;
     // display: flex;
     // align-items: center;
     // text-align: center;
-    // letter-spacing: 0.02em;
+    letter-spacing: 0.02em;
     color: white;
+    transition: .1s ease-in-out;
 }
 .ant-menu-item-selected {
-    background: #1890ff !important;
+    background: #0f2d49 !important;
     &:hover {
-        color: #033c72;
+        color: #003668;
     }
 }
 
