@@ -31,7 +31,7 @@ const Bar: React.FC = () => {
         <Menu.Item
           className="bar__link logo"
           key="/"
-          icon={<img src={logo} alt="logo" />}
+          icon={<img src={logo} alt="logo" style={{ color: '#f3f3f3', fontSize: '42px' }} />}
           onClick={() => {
             navigate('/welcome')
             setSelectedSection('Rslang')
