@@ -18,6 +18,30 @@
     }
 }
 
+.ant-menu-item-selected.bar__link_blue .anticon,
+.ant-menu-item-selected.bar__link_blue .anticon + span{
+    color: #70D6FF;
+}
+
+.ant-menu-item-selected.bar__link_pink .anticon,
+.ant-menu-item-selected.bar__link_pink .anticon + span{
+    color: #FF70A6;
+}
+
+.ant-menu-item-selected.bar__link_orange .anticon,
+.ant-menu-item-selected.bar__link_orange .anticon + span{
+    color: #FF9770;
+}
+
+.ant-menu-item-selected.bar__link_light-orange .anticon,
+.ant-menu-item-selected.bar__link_light-orange .anticon + span{
+    color: #FFD670;
+}
+
+.ant-menu-item-selected.bar__link_yellow .anticon,
+.ant-menu-item-selected.bar__link_yellow .anticon + span {
+    color: #E9FF70;
+}
 
 .ant-layout-sider-children {
     background: #282C34;

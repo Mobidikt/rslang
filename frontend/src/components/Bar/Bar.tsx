@@ -18,11 +18,6 @@ const { Sider } = Layout
 const Bar: React.FC = () => {
   const intl = useIntl()
   const [collapsed, setCollapsed] = useState(false)
-  const [currColor1, setCurrColor1] = useState('#70D6FF')
-  const [currColor2, setCurrColor2] = useState('#f3f3f3')
-  const [currColor3, setCurrColor3] = useState('#f3f3f3')
-  const [currColor4, setCurrColor4] = useState('#f3f3f3')
-  const [currColor5, setCurrColor5] = useState('#f3f3f3')
   const [font, setFont] = useState('28px')
   const { setSelectedSection, setHeaderColor } = useActions()
   const location = useLocation().pathname
@@ -31,16 +26,9 @@ const Bar: React.FC = () => {
     setCollapsed(!collapsed)
   }
 
-  const handleColor = (func: any, color: string) => {
-    const colors = [setCurrColor1, setCurrColor2, setCurrColor3, setCurrColor4, setCurrColor5]
-    colors.map((el) => el('#f3f3f3'))
-    // eslint-disable-next-line
-    func(color)
-  }
-
   return (
     <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
-      <Menu className="menu" defaultSelectedKeys={[`${location}`]} mode="inline">
+      <Menu className="menu" defaultSelectedKeys={[`${location}`]} theme="dark" mode="inline">
         <Menu.Item
           className="bar__link logo"
           key="/"
@@ -51,72 +39,62 @@ const Bar: React.FC = () => {
           }}
         />
         <Menu.Item
-          className="bar__link"
+          className="bar__link bar__link_blue"
           key="/tutorial"
-          icon={<FileTextOutlined style={{ color: currColor1, fontSize: font }} />}
+          icon={<FileTextOutlined style={{ fontSize: font }} />}
           onClick={() => {
             navigate('/tutorial')
             setSelectedSection('Tutorial')
             setHeaderColor('#70D6FF')
-            handleColor(setCurrColor1, '#70D6FF')
           }}
-          style={{ color: currColor1 }}
         >
           {intl.formatMessage({ id: 'Tutorial' })}
         </Menu.Item>
         <Menu.Item
-          className="bar__link"
+          className="bar__link bar__link_pink"
           key="/dictionary"
-          icon={<WalletOutlined style={{ color: currColor2, fontSize: font }} />}
+          icon={<WalletOutlined style={{ fontSize: font }} />}
           onClick={() => {
             navigate('/dictionary')
             setSelectedSection('Dictionary')
             setHeaderColor('#FF70A6')
-            handleColor(setCurrColor2, '#FF70A6')
           }}
-          style={{ color: currColor2 }}
         >
           {intl.formatMessage({ id: 'Dictionary' })}
         </Menu.Item>
         <Menu.Item
-          className="bar__link"
+          className="bar__link bar__link_orange"
           key="/games"
-          icon={<DribbbleOutlined style={{ color: currColor3, fontSize: font }} />}
+          icon={<DribbbleOutlined style={{ fontSize: font }} />}
           onClick={() => {
             navigate('/games')
             setSelectedSection('Games')
             setHeaderColor('#FF9770')
-            handleColor(setCurrColor3, '#FF9770')
           }}
-          style={{ color: currColor3 }}
         >
           {intl.formatMessage({ id: 'Games' })}
         </Menu.Item>
         <Menu.Item
-          className="bar__link"
+          className="bar__link bar__link_light-orange"
           key="/statistics"
-          icon={<BarChartOutlined style={{ color: currColor4, fontSize: font }} />}
+          icon={<BarChartOutlined style={{ fontSize: font }} />}
           onClick={() => {
             navigate('/statistics')
             setSelectedSection('Statistics')
             setHeaderColor('#FFD670')
-            handleColor(setCurrColor4, '#FFD670')
           }}
-          style={{ color: currColor4 }}
         >
           {intl.formatMessage({ id: 'Statistics' })}
         </Menu.Item>
         <Menu.Item
-          className="bar__link"
+          className="bar__link bar__link_yellow"
           key="/settings"
-          icon={<SettingOutlined style={{ color: currColor5, fontSize: font }} />}
+          icon={<SettingOutlined style={{ fontSize: font }} />}
           onClick={() => {
             navigate('/settings')
             setSelectedSection('Settings')
             setHeaderColor('#E9FF70')
-            handleColor(setCurrColor5, '#E9FF70')
           }}
-          style={{ color: currColor5 }}
         >
           {intl.formatMessage({ id: 'Settings' })}
         </Menu.Item>
