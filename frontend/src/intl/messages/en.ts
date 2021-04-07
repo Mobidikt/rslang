@@ -21,6 +21,7 @@ export default {
     sprint: 'Sprint',
     gameOur: 'Game our',
     Long_Statistics: 'Long-Term Statistics',
+    Short_Statistics: 'Short-term statistics',
     not_words: `You don't have any learned words yet`,
     statistics_authorized: 'Statistics are only available to authorized users',
     dictionary_authorized: 'The dictionary is only available to authorized users',

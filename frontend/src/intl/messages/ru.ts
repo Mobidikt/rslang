@@ -21,6 +21,7 @@ export default {
     sprint: 'Спринт',
     gameOur: 'Своя игра',
     Long_Statistics: 'Долгосрочная Статистика',
+    Short_Statistics: 'Краткосрочная статистика',
     not_words: 'У вас ещё нет изученных слов',
     statistics_authorized: 'Статистика доступна только авторизованным пользователям',
     dictionary_authorized: 'Словарь доступен только авторизованным пользователям',
