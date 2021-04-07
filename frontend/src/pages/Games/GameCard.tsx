@@ -24,7 +24,7 @@ const GameCard: React.FC<GameCardTypes> = ({ url, img, title }: GameCardTypes) =
   const titleCard = intl.formatMessage({ id: title })
   return (
     <Card className="games__card" cover={<img alt="example" src={img} />} onClick={handleClick}>
-      <Meta title={titleCard} />
+      <Meta title={titleCard} className="games__meta__title" />
     </Card>
   )
 }

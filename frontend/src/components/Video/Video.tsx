@@ -2,7 +2,7 @@ import React from 'react'
 import './Video.scss'
 
 const Video: React.FC = () => {
-  let videoSrc: string = 'https://www.youtube.com/watch?v=VSW7cSMdKiA'
+  const videoSrc = 'https://www.youtube.com/watch?v=VSW7cSMdKiA'
 
   return (
     <section className="video" id="video">
