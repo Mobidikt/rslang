@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useIntl } from 'react-intl'
 import { Layout, Menu } from 'antd'
 import { useLocation, useNavigate } from 'react-router'
@@ -18,6 +18,7 @@ const { Sider } = Layout
 const Bar: React.FC = () => {
   const intl = useIntl()
   const [collapsed, setCollapsed] = useState(false)
+  const [winWidth, setWidth] = useState(window.innerWidth)
   const [font, setFont] = useState('28px')
   const { setSelectedSection, setHeaderColor } = useActions()
   const location = useLocation().pathname
@@ -26,9 +27,34 @@ const Bar: React.FC = () => {
     setCollapsed(!collapsed)
   }
 
-  return (
-    <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
-      <Menu className="menu" defaultSelectedKeys={[`${location}`]} theme="dark" mode="inline">
+  useEffect(() => {
+    let isMounted = true
+    window.addEventListener('resize', () => {
+      setWidth(window.innerWidth)
+      console.log(winWidth)
+    })
+    if (winWidth < 640) {
+      setFont('24px')
+    } else {
+      setFont('28px')
+    }
+    return () => {
+      window.removeEventListener('resize', () => {
+        isMounted = false
+        console.log('removing window listener')
+      })
+    }
+    // eslint-disable-next-line
+  }, [])
+
+  const menu = () => {
+    return (
+      <Menu
+        className="menu"
+        defaultSelectedKeys={[`${location}`]}
+        theme="dark"
+        mode={winWidth > 640 ? 'inline' : 'horizontal'}
+      >
         <Menu.Item
           className="bar__link logo"
           key="/"
@@ -99,7 +125,33 @@ const Bar: React.FC = () => {
           {intl.formatMessage({ id: 'Settings' })}
         </Menu.Item>
       </Menu>
-    </Sider>
+    )
+  }
+  console.log(collapsed)
+
+  return (
+    <>
+      {winWidth > 640 && (
+        <Sider
+          collapsible
+          collapsed={collapsed}
+          onCollapse={onCollapse}
+          breakpoint="lg"
+          collapsedWidth="80"
+          onBreakpoint={(broken) => {
+            console.log(broken)
+          }}
+          style={{
+            width: winWidth > 640 ? '80px' : '200px',
+            maxWidth: winWidth > 640 ? '100vw' : '200px',
+            minWidth: winWidth > 640 ? '100vw' : '200px',
+          }}
+        >
+          {menu()}
+        </Sider>
+      )}
+      {winWidth < 640 && <div className="bottom_bar">{menu()}</div>}
+    </>
   )
 }
 export default Bar
