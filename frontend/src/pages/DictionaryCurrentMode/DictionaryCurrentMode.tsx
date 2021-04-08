@@ -146,9 +146,7 @@ const DictionaryCurrentMode: React.FC = () => {
                 />
               ) : null,
             ].filter((btn) => btn !== null)}
-            extra={
-              <img width={250} className="word_img" alt="wordImage" src={getImgUrl(word.image)} />
-            }
+            extra={<img className="word_img" alt="wordImage" src={getImgUrl(word.image)} />}
           >
             <List.Item.Meta
               title={
