@@ -49,6 +49,12 @@
 }
 
 @media (max-width: 622px) {
+  .app-footer {
+    margin-bottom: 100px;
+  }
+}
+
+@media (max-width: 622px) {
   .app-footer-list {
     flex-direction: column;
   }
