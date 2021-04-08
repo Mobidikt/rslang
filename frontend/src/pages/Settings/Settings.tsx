@@ -94,7 +94,7 @@ const Settings: React.FC = () => {
               </Checkbox>
               <div>
                 <LanguageSelect />
-                {intl.formatMessage({ id: 'interface_language' })}
+                <span className="lang">{intl.formatMessage({ id: 'interface_language' })}</span>
               </div>
             </div>
           </div>

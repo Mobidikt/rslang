@@ -1,6 +1,7 @@
 .word {
   padding: 30px;
   &-info {
+    margin-top: 10px;
     display: flex;
     justify-content: space-between;
     width: 90%;
@@ -46,12 +47,46 @@
   }
 }
 
-.back_btn {
-  // margin-bottom: 20px;
+.word-info-games_input {
+  border: 1px solid #1890ff;
+
+  &:hover {
+    border: 1px solid #1890ff !important;
+  }
 }
+
+.hard__mark {
+  width: 80px;
+  height: 80px;
+}
+
 
 .ant-input-disabled {
   border-radius: 10px;
   color: black !important;
   cursor: default !important;
+}
+
+
+@media (max-width: 1000px) {
+  .word {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .word-info {
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    &__img {
+      width: 300px;
+      margin: 0;
+    }
+    &-wrapper {
+      margin: 0;
+      flex-direction: column;
+      align-items: center;
+    }
+  }
 }
