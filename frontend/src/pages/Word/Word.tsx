@@ -9,6 +9,7 @@ import useTypedSelector from '../../hooks/useTypedSelector'
 import playSound from '../../utils/playSound'
 import './Word.scss'
 import { WordAgregationType } from '../../store/types/dictionary'
+import difficultMark from '../../assets/image/difficult_mark.png'
 
 const Word: React.FC = () => {
   const { groupId, id } = useParams()
@@ -169,7 +170,11 @@ const Word: React.FC = () => {
             value={currentUserWord?.userWord.games?.ourGame || 0}
           />
         </div>
+        {currentWordIsDifficult ? (
+          <img className="hard__mark" src={difficultMark} alt="difficultWord" />
+        ) : null}
       </div>
+
       <div className="word-buttons">
         {isDifficultBtnVisible ? (
           <Button
