@@ -42,22 +42,17 @@ const GameSavannah: React.FC<GameSavannahType> = ({ words, onRestart, calcBackgr
     el?.classList.add(`savannah-${ans}`)
     el.addEventListener('transitionend', () => el.classList.remove(`savannah-${ans}`))
   }
-  const handleWrongAnswer = useCallback(
-    (element?) => {
-      setHelth((prev) => prev - 1)
-      initialTopWordRef.current = 190
-      wrongAnswersArr.current.push(wordsForGame[currentWordIdx].answer)
-      handleAnimation(element, 'wrong')
-      if (!isMute) {
-        playSoundError()
-      }
-    },
-    [isMute, wordsForGame, currentWordIdx],
-  )
+  const handleWrongAnswer = useCallback(() => {
+    setHelth((prev) => prev - 1)
+    initialTopWordRef.current = 190
+    wrongAnswersArr.current.push(wordsForGame[currentWordIdx].answer)
+    if (!isMute) {
+      playSoundError()
+    }
+  }, [isMute, wordsForGame, currentWordIdx])
 
   const handleTrueAnswer = useCallback(
-    (element?) => {
-      handleAnimation(element, 'right')
+    () => {
       initialTopWordRef.current = 190
       trueAnswersArr.current.push(wordsForGame[currentWordIdx].answer)
       calcBackgroundY(trueAnswersArr.current.length)
@@ -125,13 +120,13 @@ const GameSavannah: React.FC<GameSavannahType> = ({ words, onRestart, calcBackgr
   }, [helth])
 
   const handleAnswerClick = useCallback(
-    (wordText: string, element: any) => {
+    (wordText: string) => {
       if (isFinish) return
 
       if (wordText === wordsForGame[currentWordIdx].answer.word) {
-        handleTrueAnswer(element)
+        handleTrueAnswer()
       } else {
-        handleWrongAnswer(element)
+        handleWrongAnswer()
       }
       if (currentWordIdx === countWordsGame - 1) setIsFinish(true)
       if (currentWordIdx !== countWordsGame - 1) {
@@ -143,15 +138,13 @@ const GameSavannah: React.FC<GameSavannahType> = ({ words, onRestart, calcBackgr
 
   const handleKeyPress = useCallback(
     (event: KeyboardEvent) => {
-      const element = document.querySelectorAll('.game-image')
-      const num = Number(event.key)
       switch (event.key) {
         case '1':
         case '2':
         case '3':
         case '4':
         case '5':
-          handleAnswerClick(mixedCurrentWords[parseInt(event.key, 10) - 1].word, element[num - 1])
+          handleAnswerClick(mixedCurrentWords[parseInt(event.key, 10) - 1].word)
           break
         default:
       }
@@ -206,7 +199,7 @@ const GameSavannah: React.FC<GameSavannahType> = ({ words, onRestart, calcBackgr
                     type="primary"
                     className="game__btn"
                     key={word.id}
-                    onClick={(event) => handleAnswerClick(word.word, event.target)}
+                    onClick={() => handleAnswerClick(word.word)}
                   >
                     {i + 1} {isEN ? word.word : word.wordTranslate}
                   </Button>
