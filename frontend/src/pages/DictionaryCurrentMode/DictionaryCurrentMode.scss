@@ -4,17 +4,19 @@
 
 .word_img {
   border-radius: 15px;
-  height: 120px;
-  width: 190px;
+  height: 150px;
 }
 
 .dictionary-container-list {
+  margin-top: 10px;
   background: rgb(249, 249, 249);
 }
 
 .dictionary-container-list-card {
   border-bottom: 1px solid #d6d6d6 !important;
-  height: 160px;
+  display: flex;
+  align-items: center;
+  // height: 180px;
 
   &__title {
     font-weight: 500;
@@ -48,10 +50,14 @@
   }
 }
 
-// .ant-modal-content {
-//   min-width: 500px;
-// }
+@media(max-width:800px) {
+  .dictionary-container-list-card {
+    flex-direction: column;
+    justify-content: center !important;
+    align-items: center !important;
+  }
 
-// .ant-modal-body {
-//   padding: 20px 20px;
-// }
+  .word_img {
+    margin-top: 15px;
+  }
+}

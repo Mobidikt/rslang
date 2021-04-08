@@ -76,21 +76,29 @@ const OurGame: React.FC = () => {
     }
   }, [words, countWordsGame])
 
+  const handleAnimation = (el: HTMLButtonElement, ans: string): void => {
+    el?.classList.add(`ourgame-${ans}`)
+    el.addEventListener('transitionend', () => el.classList.remove(`ourgame-${ans}`))
+  }
+
   const checkWord = useCallback(
-    (word: WordType) => {
+    (word: WordType, element: any) => {
       setIndexWord((prev) => prev + 1)
       if (currentWord)
         if (currentWord.word === word.word) {
           playSoundSuccess()
           setSuccessWords((prev) => [...prev, currentWord])
+          handleAnimation(element, 'right')
         } else {
           playSoundError()
           setErrorWords((prev) => [...prev, currentWord])
           setHealth((prev) => prev - 1)
+          handleAnimation(element, 'wrong')
         }
     },
     [currentWord],
   )
+
   const skipWord = () => {
     setIndexWord((prev) => prev + 1)
     if (currentWord) {
@@ -110,13 +118,15 @@ const OurGame: React.FC = () => {
 
   const handleKeyPress = useCallback(
     (event: KeyboardEvent) => {
+      const element = document.querySelectorAll('.game-image')
+      const num = Number(event.key)
       switch (event.key) {
         case '1':
         case '2':
         case '3':
         case '4':
         case '5':
-          checkWord(answerWords[parseInt(event.key, 10) - 1])
+          checkWord(answerWords[parseInt(event.key, 10) - 1], element[num - 1])
           break
         default:
       }
@@ -130,8 +140,10 @@ const OurGame: React.FC = () => {
       initGame()
       setHealth(5)
     } else if (gameWords) {
-      renderCurrentWord(indexWord)
-      renderAnswerWords(indexWord)
+      setTimeout(() => {
+        renderCurrentWord(indexWord)
+        renderAnswerWords(indexWord)
+      }, 2000)
     }
     // eslint-disable-next-line
   }, [gameWords, indexWord, renderCurrentWord, renderAnswerWords, countWordsGame, health])
@@ -154,7 +166,7 @@ const OurGame: React.FC = () => {
   return (
     <>
       {game ? (
-        <div className="call">
+        <div className="game-ourgame">
           <Rate disabled value={health} character={<HeartFilled />} className="game__health" />
           <span className="word-info-text__example" ref={textExampleRef} />
           <div className="game-images-wrapper">
@@ -163,7 +175,7 @@ const OurGame: React.FC = () => {
                 type="button"
                 className="game-ourgame-image"
                 key={word.word}
-                onClick={() => checkWord(word)}
+                onClick={(event) => checkWord(word, event.target)}
               >
                 <img
                   src={`${config.API_URL}/${word.image}`}
@@ -174,14 +186,6 @@ const OurGame: React.FC = () => {
               </button>
             ))}
           </div>
-          <Result
-            successWords={successWords}
-            countWordsGame={countWordsGame}
-            errorWords={errorWords}
-          />
-          <Button type="primary" className="game__btn" onClick={skipWord}>
-            Пропустить
-          </Button>
         </div>
       ) : (
         <>

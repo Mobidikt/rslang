@@ -2,6 +2,7 @@ import React from 'react'
 import './Video.scss'
 
 const Video: React.FC = () => {
+  
   const videoSrc = 'https://www.youtube.com/embed/VSW7cSMdKiA'
 
   return (

@@ -6,7 +6,6 @@
     padding: 5px;
     text-align: center;
     margin-bottom: 50px;
-    font-weight: 900 !important;
     color: rgb(107, 106, 106) !important;
   }
   h1 {
@@ -39,10 +38,10 @@
 }
 
 
-
-.settings__title {
-  font-weight: 800 !important;
+.lang {
+  margin-left: 5px;
 }
+
 
 .ant-checkbox-wrapper {
   &.ant-checkbox-wrapper {

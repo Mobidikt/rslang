@@ -57,8 +57,10 @@ const Statistics: React.FC<StatisticsTypes> = ({ success, error, back, currentGa
   return (
     <Modal title="Статистика игры" visible={isModalVisible} closable={false} footer={false}>
       <Progress
+        strokeColor="green"
         type="circle"
         percent={Math.round((success.length / (error.length + success.length)) * 100)}
+        className="progress"
       />
       <div className="statistics-game__wrapper">
         <div className="statistics-game__success">
