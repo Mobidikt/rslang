@@ -105,7 +105,7 @@ const Statistics: React.FC = () => {
             <TabPane tab={intl.formatMessage({ id: 'Short_Statistics' })} key="2">
               <div className="statistics__card_wrapper">
                 <Card className="statistics__card">
-                  <h4>Savannah</h4>
+                  <h4>{intl.formatMessage({ id: 'savannah' })}</h4>
                   <div className="timer">
                     <div className="timer__number">75</div>
                     <svg
@@ -137,7 +137,7 @@ const Statistics: React.FC = () => {
                   </p>
                 </Card>
                 <Card className="statistics__card">
-                  <h4>Audiocall</h4>
+                  <h4>{intl.formatMessage({ id: 'audiocall' })}</h4>
                   <div className="timer">
                     <div className="timer__number">75</div>
                     <svg
@@ -169,7 +169,7 @@ const Statistics: React.FC = () => {
                   </p>
                 </Card>
                 <Card className="statistics__card">
-                  <h4>Sprint</h4>
+                  <h4>{intl.formatMessage({ id: 'sprint' })}</h4>
                   <div className="timer">
                     <div className="timer__number">75</div>
                     <svg
@@ -201,7 +201,7 @@ const Statistics: React.FC = () => {
                   </p>
                 </Card>
                 <Card className="statistics__card">
-                  <h4>Ourgame</h4>
+                  <h4>{intl.formatMessage({ id: 'gameOur' })}</h4>
                   <div className="timer">
                     <div className="timer__number">75</div>
                     <svg
