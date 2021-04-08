@@ -78,10 +78,10 @@ const Statistics: React.FC = () => {
         <>
           <h2>{intl.formatMessage({ id: 'Long_Statistics' })}</h2>
           <div className="statistics__words">
-            Studied words for a day <h4>45</h4>
+            {intl.formatMessage({ id: 'Statistics__words' })} <h4>45</h4>
           </div>
           <div className="statistics__procent">
-            Procent of right answers <h4>78</h4>
+            {intl.formatMessage({ id: 'Statistics__procent' })} <h4>78</h4>
           </div>
           <Tabs defaultActiveKey="1" type="card" size="middle">
             <TabPane tab={intl.formatMessage({ id: 'Long_Statistics' })} key="1">
@@ -130,10 +130,12 @@ const Statistics: React.FC = () => {
                     </svg>
                   </div>
                   <p>
-                    Right answers <span className="text__big">23</span>
+                    {intl.formatMessage({ id: 'Statistics__right_words' })}{' '}
+                    <span className="text__big">23</span>
                   </p>
                   <p>
-                    Session <span className="text__big">14</span>
+                    {intl.formatMessage({ id: 'Statistics__session' })}{' '}
+                    <span className="text__big">14</span>
                   </p>
                 </Card>
                 <Card className="statistics__card">
@@ -162,10 +164,12 @@ const Statistics: React.FC = () => {
                     </svg>
                   </div>
                   <p>
-                    Right answers <span className="text__big">23</span>
+                    {intl.formatMessage({ id: 'Statistics__right_words' })}{' '}
+                    <span className="text__big">23</span>
                   </p>
                   <p>
-                    Session <span className="text__big">14</span>
+                    {intl.formatMessage({ id: 'Statistics__session' })}{' '}
+                    <span className="text__big">14</span>
                   </p>
                 </Card>
                 <Card className="statistics__card">
@@ -194,10 +198,12 @@ const Statistics: React.FC = () => {
                     </svg>
                   </div>
                   <p>
-                    Right answers <span className="text__big">23</span>
+                    {intl.formatMessage({ id: 'Statistics__right_words' })}{' '}
+                    <span className="text__big">23</span>
                   </p>
                   <p>
-                    Session <span className="text__big">14</span>
+                    {intl.formatMessage({ id: 'Statistics__session' })}{' '}
+                    <span className="text__big">14</span>
                   </p>
                 </Card>
                 <Card className="statistics__card">
@@ -226,10 +232,12 @@ const Statistics: React.FC = () => {
                     </svg>
                   </div>
                   <p>
-                    Right answers <span className="text__big">23</span>
+                    {intl.formatMessage({ id: 'Statistics__right_words' })}{' '}
+                    <span className="text__big">23</span>
                   </p>
                   <p>
-                    Session <span className="text__big">14</span>
+                    {intl.formatMessage({ id: 'Statistics__session' })}{' '}
+                    <span className="text__big">14</span>
                   </p>
                 </Card>
               </div>

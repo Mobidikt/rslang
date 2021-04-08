@@ -53,7 +53,7 @@ const Bar: React.FC = () => {
         className="menu"
         defaultSelectedKeys={[`${location}`]}
         theme="dark"
-        mode={winWidth > 640 ? 'inline' : 'horizontal'}
+        mode={winWidth > 840 ? 'inline' : 'horizontal'}
       >
         <Menu.Item
           className="bar__link logo"
@@ -140,11 +140,6 @@ const Bar: React.FC = () => {
           collapsedWidth="80"
           onBreakpoint={(broken) => {
             console.log(broken)
-          }}
-          style={{
-            width: winWidth > 640 ? '80px' : '200px',
-            maxWidth: winWidth > 640 ? '100vw' : '200px',
-            minWidth: winWidth > 640 ? '100vw' : '200px',
           }}
         >
           {menu()}

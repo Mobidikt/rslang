@@ -38,23 +38,38 @@ const GameSavannah: React.FC<GameSavannahType> = ({ words, onRestart, calcBackgr
 
   const { isMute, countWordsGame } = useTypedSelector((state) => state.gameReducer)
 
-  const handleWrongAnswer = useCallback(() => {
-    setHelth((prev) => prev - 1)
-    initialTopWordRef.current = 190
-    wrongAnswersArr.current.push(wordsForGame[currentWordIdx].answer)
-    if (!isMute) {
-      playSoundError()
-    }
-  }, [isMute, wordsForGame, currentWordIdx])
+  const handleAnimation = (el: HTMLButtonElement, ans: string): void => {
+    el?.classList.add(`savannah-${ans}`)
+    el.addEventListener('transitionend', () => el.classList.remove(`savannah-${ans}`))
+  }
+  const handleWrongAnswer = useCallback(
+    (element?) => {
+      setHelth((prev) => prev - 1)
+      initialTopWordRef.current = 190
+      wrongAnswersArr.current.push(wordsForGame[currentWordIdx].answer)
+      handleAnimation(element, 'wrong')
+      if (!isMute) {
+        playSoundError()
+      }
+    },
+    [isMute, wordsForGame, currentWordIdx],
+  )
 
-  const handleTrueAnswer = useCallback(() => {
-    initialTopWordRef.current = 190
-    trueAnswersArr.current.push(wordsForGame[currentWordIdx].answer)
-    calcBackgroundY(trueAnswersArr.current.length)
-    if (!isMute) {
-      playSoundSuccess()
-    }
-  }, [isMute, wordsForGame, currentWordIdx, calcBackgroundY])
+  const handleTrueAnswer = useCallback(
+    (element?) => {
+      handleAnimation(element, 'right')
+      setTimeout(() => {
+        initialTopWordRef.current = 190
+        trueAnswersArr.current.push(wordsForGame[currentWordIdx].answer)
+        calcBackgroundY(trueAnswersArr.current.length)
+        if (!isMute) {
+          playSoundSuccess()
+        }
+      }, 2000)
+    },
+    // eslint-disable-next-line
+    [isMute, wordsForGame, currentWordIdx, calcBackgroundY],
+  )
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -112,13 +127,13 @@ const GameSavannah: React.FC<GameSavannahType> = ({ words, onRestart, calcBackgr
   }, [helth])
 
   const handleAnswerClick = useCallback(
-    (wordText: string) => {
+    (wordText: string, element: any) => {
       if (isFinish) return
 
       if (wordText === wordsForGame[currentWordIdx].answer.word) {
-        handleTrueAnswer()
+        handleTrueAnswer(element)
       } else {
-        handleWrongAnswer()
+        handleWrongAnswer(element)
       }
       if (currentWordIdx === countWordsGame - 1) setIsFinish(true)
       if (currentWordIdx !== countWordsGame - 1) {
@@ -130,13 +145,15 @@ const GameSavannah: React.FC<GameSavannahType> = ({ words, onRestart, calcBackgr
 
   const handleKeyPress = useCallback(
     (event: KeyboardEvent) => {
+      const element = document.querySelectorAll('.game-image')
+      const num = Number(event.key)
       switch (event.key) {
         case '1':
         case '2':
         case '3':
         case '4':
         case '5':
-          handleAnswerClick(mixedCurrentWords[parseInt(event.key, 10) - 1].word)
+          handleAnswerClick(mixedCurrentWords[parseInt(event.key, 10) - 1].word, element[num - 1])
           break
         default:
       }
@@ -191,7 +208,7 @@ const GameSavannah: React.FC<GameSavannahType> = ({ words, onRestart, calcBackgr
                     type="primary"
                     className="game__btn"
                     key={word.id}
-                    onClick={() => handleAnswerClick(word.word)}
+                    onClick={(event) => handleAnswerClick(word.word, event.target)}
                   >
                     {i + 1} {isEN ? word.word : word.wordTranslate}
                   </Button>
