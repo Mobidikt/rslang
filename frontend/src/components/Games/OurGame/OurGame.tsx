@@ -76,10 +76,8 @@ const OurGame: React.FC = () => {
     }
   }, [words, countWordsGame])
 
-  const handleAnimation = (el: any = null, ans: string): void => {
-    // eslint-disable-next-line
+  const handleAnimation = (el: HTMLButtonElement, ans: string): void => {
     el?.classList.add(`ourgame-${ans}`)
-    // eslint-disable-next-line
     el.addEventListener('transitionend', () => el.classList.remove(`ourgame-${ans}`))
   }
 
