@@ -58,14 +58,12 @@ const GameSavannah: React.FC<GameSavannahType> = ({ words, onRestart, calcBackgr
   const handleTrueAnswer = useCallback(
     (element?) => {
       handleAnimation(element, 'right')
-      setTimeout(() => {
-        initialTopWordRef.current = 190
-        trueAnswersArr.current.push(wordsForGame[currentWordIdx].answer)
-        calcBackgroundY(trueAnswersArr.current.length)
-        if (!isMute) {
-          playSoundSuccess()
-        }
-      }, 2000)
+      initialTopWordRef.current = 190
+      trueAnswersArr.current.push(wordsForGame[currentWordIdx].answer)
+      calcBackgroundY(trueAnswersArr.current.length)
+      if (!isMute) {
+        playSoundSuccess()
+      }
     },
     // eslint-disable-next-line
     [isMute, wordsForGame, currentWordIdx, calcBackgroundY],
