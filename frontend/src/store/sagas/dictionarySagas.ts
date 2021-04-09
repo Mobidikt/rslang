@@ -26,7 +26,7 @@ function* fetchUserWords(action: FetchUserWordsAction) {
 }
 
 function* addWord(action: AddWordAction) {
-  const { userId, wordId, word, difficulty, currentGame } = action.payload
+  const { userId, wordId, word, difficulty, currentGame, isRight } = action.payload
   const games = {
     sprint: 0,
     savannah: 0,
@@ -40,7 +40,7 @@ function* addWord(action: AddWordAction) {
   try {
     yield put(actions.requestedAddWord())
 
-    yield call(() => WordApi.save(userId, wordId, difficulty, currentGame))
+    yield call(() => WordApi.save(userId, wordId, difficulty, currentGame, isRight))
 
     yield call(() => StatisticsApi.add(userId))
 
@@ -53,14 +53,14 @@ function* addWord(action: AddWordAction) {
 }
 
 function* updateUserWord(action: UpdateUserWordAction) {
-  const { wordId, userId, word, difficulty, currentGame } = action.payload
+  const { wordId, userId, word, difficulty, currentGame, isRight } = action.payload
   try {
     yield put(actions.requestedUpdateUserWord())
     let games
     let updaterWord
     if (currentGame) {
       const data: UpdateGamesCountAnswersType = yield call(() =>
-        WordApi.updateGamesCountAnswers(userId, wordId, currentGame),
+        WordApi.updateGamesCountAnswers(userId, wordId, currentGame, isRight),
       )
       games = data.games
     }

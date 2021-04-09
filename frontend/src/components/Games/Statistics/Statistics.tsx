@@ -1,3 +1,4 @@
+/* eslint-disable no-lonely-if */
 import React, { useState, useEffect } from 'react'
 import { Button, Modal, Progress } from 'antd'
 import './Statistics.scss'
@@ -26,12 +27,16 @@ const Statistics: React.FC<StatisticsTypes> = ({ success, error, back, currentGa
       for (let i = 0; i < words.length; i += 1) {
         if (!userWords.find((word) => word._id === words[i].id)) {
           if (i < success.length) {
-            addWord(userId, words[i].id, words[i], 'learned', currentGame)
+            addWord(userId, words[i].id, words[i], 'learned', currentGame, true)
           } else {
-            addWord(userId, words[i].id, words[i], 'learned', '')
+            addWord(userId, words[i].id, words[i], 'learned', '', false)
           }
         } else {
-          updateUserWord(userId, words[i].id, words[i], 'learned', currentGame)
+          if (success.find((el) => el.id === words[i].id)) {
+            updateUserWord(userId, words[i].id, words[i], 'learned', currentGame, true)
+          } else {
+            updateUserWord(userId, words[i].id, words[i], 'learned', currentGame, false)
+          }
         }
       }
     }

@@ -42,6 +42,7 @@ const GameSavannah: React.FC<GameSavannahType> = ({ words, onRestart, calcBackgr
     el?.classList.add(`savannah-${ans}`)
     el.addEventListener('transitionend', () => el.classList.remove(`savannah-${ans}`))
   }
+
   const handleWrongAnswer = useCallback(() => {
     setHelth((prev) => prev - 1)
     initialTopWordRef.current = 190
