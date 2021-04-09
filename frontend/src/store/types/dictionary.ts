@@ -94,6 +94,7 @@ export interface AddWordAction {
     word: WordType,
     difficulty: 'difficult' | 'learned' | 'deleted',
     currentGame: 'sprint' | 'ourGame' | 'audioCall' | 'savannah' | '',
+    isRight: boolean,
   };
 }
 
@@ -119,6 +120,7 @@ export interface UpdateUserWordAction {
     word: WordType,
     difficulty: 'difficult' | 'learned' | 'deleted',
     currentGame: 'sprint' | 'ourGame' | 'audioCall' | 'savannah' | '',
+    isRight: boolean,
   };
 }
 

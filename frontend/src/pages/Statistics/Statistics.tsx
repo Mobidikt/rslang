@@ -5,8 +5,23 @@ import { Tabs, Card } from 'antd'
 import { Line } from '@ant-design/charts'
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts'
 import './Statistics.scss'
-import StatisticsApi, { GetStatisticsType } from '../../services/StatisticsApi'
+import StatisticsApi, {
+  GetStatisticsType,
+  GetForShortTermStatistics,
+} from '../../services/StatisticsApi'
 import useTypedSelector from '../../hooks/useTypedSelector'
+import gameCall from '../../assets/image/gameCall.png'
+import gameOur from '../../assets/image/gameOur.png'
+import gameSavannah from '../../assets/image/gameSavannah.png'
+import gameSprint from '../../assets/image/gameSprint.png'
+import SavannaGame from '../SavannaGamePage/SavannaGamePage'
+
+type StatisticsForGames = {
+  savanahh: number,
+  ourGame: number,
+  sprint: number,
+  audioCall: number,
+}
 
 const Statistics: React.FC = () => {
   const intl = useIntl()
@@ -14,34 +29,66 @@ const Statistics: React.FC = () => {
   const { userId } = useTypedSelector((state) => state.authReducer)
   const { userWords } = useTypedSelector((state) => state.dictionaryReducer)
   const [statistics, setStatistics] = useState<Array<GetStatisticsType>>([])
+  const [shortStatistics, setShortStatistics] = useState<Array<GetForShortTermStatistics>>([])
+  const [shortStatisticsForGames, setShortStatisticsForGames] = useState<StatisticsForGames>()
   const [statisticsForSecondChart, setStaticticsForSecontChart] = useState<GetStatisticsType[]>([])
   const [isEpmty, setIsEmpty] = useState<boolean>(false)
+  const [countLearnedWordsPerDay, setCountLearnedWordsPerDay] = useState<number>(0)
+  const [procentRightWordsPerDay, setProcentRightWordsPerDay] = useState<number>(0)
   const [circleDashArray, setCircleDashArray] = useState('100')
-
-  const getWordsForSecondStatistic = useCallback((): Array<GetStatisticsType> => {
-    const arr: Array<GetStatisticsType> = []
-    for (let i = 0; i < statistics.length; i += 1) {
-      if (i === 0) {
-        arr.push(statistics[i])
-      } else {
-        const newStatistic: GetStatisticsType = {
-          count: statistics[i].count + arr[i - 1].count,
-          date: statistics[i].date,
-        }
-        arr.push(newStatistic)
-      }
-    }
-    return arr
-  }, [statistics])
 
   const getStatistics = useCallback(async () => {
     if (userId) {
       const statistic = await StatisticsApi.get(userId)
+      const shortStatistic: Array<GetForShortTermStatistics> = await StatisticsApi.getForShortTermStatistics(
+        userId,
+      )
+      setCountLearnedWordsPerDay(shortStatistic.length)
+      const rightAnswers = shortStatistic.filter((el) => el.isRight === true)
+      const percent = (rightAnswers.length / shortStatistic.length) * 100
+      setProcentRightWordsPerDay(percent)
       setStatistics(statistic)
-      setStaticticsForSecontChart(getWordsForSecondStatistic())
+
+      const statisticsForGames: StatisticsForGames = {
+        savanahh: 0,
+        ourGame: 0,
+        sprint: 0,
+        audioCall: 0,
+      }
+      for (let i = 0; i < shortStatistic.length; i += 1) {
+        if (i === 0) {
+          const { audioCall, ourGame, savannah, sprint } = shortStatistic[i].games
+          statisticsForGames.audioCall = audioCall
+          statisticsForGames.ourGame = ourGame
+          statisticsForGames.savanahh = savannah
+          statisticsForGames.sprint = sprint
+        } else {
+          const { audioCall, ourGame, savannah, sprint } = shortStatistic[i].games
+          statisticsForGames.audioCall += audioCall
+          statisticsForGames.ourGame += ourGame
+          statisticsForGames.savanahh += savannah
+          statisticsForGames.sprint += sprint
+        }
+      }
+
+      setShortStatisticsForGames(statisticsForGames)
+
+      const arr: Array<GetStatisticsType> = []
+      for (let i = 0; i < statistic.length; i += 1) {
+        if (i === 0) {
+          arr.push(statistic[i])
+        } else {
+          const newStatistic: GetStatisticsType = {
+            count: statistic[i].count + arr[i - 1].count,
+            date: statistic[i].date,
+          }
+          arr.push(newStatistic)
+        }
+      }
+      setStaticticsForSecontChart(arr)
     }
     // eslint-disable-next-line
-  }, [userId, getWordsForSecondStatistic])
+  }, [userId])
 
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
@@ -76,13 +123,6 @@ const Statistics: React.FC = () => {
     <div className="statistics">
       {userId ? (
         <>
-          <h2>{intl.formatMessage({ id: 'Long_Statistics' })}</h2>
-          <div className="statistics__words">
-            Studied words for a day <h4>45</h4>
-          </div>
-          <div className="statistics__procent">
-            Procent of right answers <h4>78</h4>
-          </div>
           <Tabs defaultActiveKey="1" type="card" size="middle">
             <TabPane tab={intl.formatMessage({ id: 'Long_Statistics' })} key="1">
               {isEpmty ? (
@@ -103,133 +143,74 @@ const Statistics: React.FC = () => {
               )}
             </TabPane>
             <TabPane tab={intl.formatMessage({ id: 'Short_Statistics' })} key="2">
+              <div className="statistics__words">
+                {intl.formatMessage({ id: 'Statistics__words' })}:<h4>{countLearnedWordsPerDay}</h4>
+              </div>
+              <div className="statistics__procent">
+                {intl.formatMessage({ id: 'Statistics__procent' })}:
+                <h4>{procentRightWordsPerDay}%</h4>
+              </div>
               <div className="statistics__card_wrapper">
-                <Card className="statistics__card">
-                  <h4>Savannah</h4>
-                  <div className="timer">
-                    <div className="timer__number">75</div>
-                    <svg
-                      className="base-timer__svg"
-                      viewBox="0 0 100 100"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <g className="base-timer__circle">
-                        <circle className="base-timer__path-elapsed" cx="50" cy="50" r="45" />
-                        <path
-                          id="base-timer-path-remaining"
-                          strokeDasharray={circleDashArray}
-                          className="base-timer__path-remaining"
-                          d="
-                            M 50, 50
-                            m -45, 0
-                            a 45,45 0 1,0 90,0
-                            a 45,45 0 1,0 -90,0
-                          "
-                        />
-                      </g>
-                    </svg>
-                  </div>
+                <Card
+                  className="statistics__card"
+                  cover={
+                    <img
+                      className="statistics__img"
+                      alt="example"
+                      src="https://cdn.hipwallpaper.com/i/30/95/ZhbyOs.jpg"
+                    />
+                  }
+                >
+                  <h4>{intl.formatMessage({ id: 'savannah' })}</h4>
                   <p>
-                    Right answers <span className="text__big">23</span>
-                  </p>
-                  <p>
-                    Session <span className="text__big">14</span>
+                    {intl.formatMessage({ id: 'Statistics__right_words' })}{' '}
+                    <span className="text__big">{shortStatisticsForGames?.savanahh}</span>
                   </p>
                 </Card>
-                <Card className="statistics__card">
-                  <h4>Audiocall</h4>
-                  <div className="timer">
-                    <div className="timer__number">75</div>
-                    <svg
-                      className="base-timer__svg"
-                      viewBox="0 0 100 100"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <g className="base-timer__circle">
-                        <circle className="base-timer__path-elapsed" cx="50" cy="50" r="45" />
-                        <path
-                          id="base-timer-path-remaining"
-                          strokeDasharray={circleDashArray}
-                          className="base-timer__path-remaining"
-                          d="
-                            M 50, 50
-                            m -45, 0
-                            a 45,45 0 1,0 90,0
-                            a 45,45 0 1,0 -90,0
-                          "
-                        />
-                      </g>
-                    </svg>
-                  </div>
+                <Card
+                  className="statistics__card"
+                  cover={
+                    <img
+                      className="statistics__img"
+                      alt="example"
+                      src="https://million-wallpapers.ru/wallpapers/3/14/10313123744109410199/music-naushniki-by-dr-dre-pleer-muzyka-brand-beats-i.jpg"
+                    />
+                  }
+                >
+                  <h4>{intl.formatMessage({ id: 'audiocall' })}</h4>
+                  {intl.formatMessage({ id: 'Statistics__right_words' })}{' '}
+                  <span className="text__big">{shortStatisticsForGames?.audioCall}</span>
+                </Card>
+                <Card
+                  className="statistics__card"
+                  cover={
+                    <img
+                      className="statistics__img"
+                      alt="example"
+                      src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Men_100_m_French_Athletics_Championships_2013_t154126.jpg/1200px-Men_100_m_French_Athletics_Championships_2013_t154126.jpg"
+                    />
+                  }
+                >
+                  <h4>{intl.formatMessage({ id: 'sprint' })}</h4>
                   <p>
-                    Right answers <span className="text__big">23</span>
-                  </p>
-                  <p>
-                    Session <span className="text__big">14</span>
+                    {intl.formatMessage({ id: 'Statistics__right_words' })}{' '}
+                    <span className="text__big">{shortStatisticsForGames?.sprint}</span>
                   </p>
                 </Card>
-                <Card className="statistics__card">
-                  <h4>Sprint</h4>
-                  <div className="timer">
-                    <div className="timer__number">75</div>
-                    <svg
-                      className="base-timer__svg"
-                      viewBox="0 0 100 100"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <g className="base-timer__circle">
-                        <circle className="base-timer__path-elapsed" cx="50" cy="50" r="45" />
-                        <path
-                          id="base-timer-path-remaining"
-                          strokeDasharray={circleDashArray}
-                          className="base-timer__path-remaining"
-                          d="
-                            M 50, 50
-                            m -45, 0
-                            a 45,45 0 1,0 90,0
-                            a 45,45 0 1,0 -90,0
-                          "
-                        />
-                      </g>
-                    </svg>
-                  </div>
+                <Card
+                  className="statistics__card"
+                  cover={
+                    <img
+                      className="statistics__img"
+                      alt="example"
+                      src="https://www.regalraum.com/media/catalog/category-imagewall-EN/shelves/free-standing-shelves/bookshelf/white-bookcase/booksheves-white-showcase-bookshelves-white-metal.jpg"
+                    />
+                  }
+                >
+                  <h4>{intl.formatMessage({ id: 'gameOur' })}</h4>
                   <p>
-                    Right answers <span className="text__big">23</span>
-                  </p>
-                  <p>
-                    Session <span className="text__big">14</span>
-                  </p>
-                </Card>
-                <Card className="statistics__card">
-                  <h4>Ourgame</h4>
-                  <div className="timer">
-                    <div className="timer__number">75</div>
-                    <svg
-                      className="base-timer__svg"
-                      viewBox="0 0 100 100"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <g className="base-timer__circle">
-                        <circle className="base-timer__path-elapsed" cx="50" cy="50" r="45" />
-                        <path
-                          id="base-timer-path-remaining"
-                          strokeDasharray={circleDashArray}
-                          className="base-timer__path-remaining"
-                          d="
-                            M 50, 50
-                            m -45, 0
-                            a 45,45 0 1,0 90,0
-                            a 45,45 0 1,0 -90,0
-                          "
-                        />
-                      </g>
-                    </svg>
-                  </div>
-                  <p>
-                    Right answers <span className="text__big">23</span>
-                  </p>
-                  <p>
-                    Session <span className="text__big">14</span>
+                    {intl.formatMessage({ id: 'Statistics__right_words' })}{' '}
+                    <span className="text__big">{shortStatisticsForGames?.ourGame}</span>
                   </p>
                 </Card>
               </div>

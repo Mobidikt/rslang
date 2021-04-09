@@ -36,4 +36,16 @@
       margin-bottom: 50px;
     }
   }
+
+  .game_btn {
+    transition: .15s ease-in-out;
+  }
+
+  .savannah-wrong {
+    box-shadow: 0px 0px 9px 5px rgba(255, 151, 112, 0.75);
+  }
+
+  .savannah-wrong {
+    box-shadow: 0px 0px 9px 5px rgba(92, 92, 92, 0.75);
+  }
 }

@@ -13,6 +13,28 @@ const get = async (userId: string): Promise<Array<GetStatisticsType>> => {
   return data
 }
 
+export type GetForShortTermStatistics = {
+  wordId: string,
+  userId: string,
+  isRight: boolean,
+  userWordDate: string,
+  games: {
+    savannah: number,
+    sprint: number,
+    audioCall: number,
+    ourGame: number,
+  },
+}
+
+const getForShortTermStatistics = async (
+  userId: string,
+): Promise<Array<GetForShortTermStatistics>> => {
+  const { data } = await axios.get<Array<GetForShortTermStatistics>>(
+    `${config.API_URL}/users/${userId}/words/get/statistic`,
+  )
+  return data
+}
+
 type AddResponseType = {
   userId: string,
   learnedWord: number,
@@ -27,4 +49,5 @@ const add = async (userId: string): Promise<AddResponseType> => {
 export default {
   get,
   add,
+  getForShortTermStatistics,
 }

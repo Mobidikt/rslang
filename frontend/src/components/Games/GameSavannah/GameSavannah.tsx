@@ -38,6 +38,11 @@ const GameSavannah: React.FC<GameSavannahType> = ({ words, onRestart, calcBackgr
 
   const { isMute, countWordsGame } = useTypedSelector((state) => state.gameReducer)
 
+  const handleAnimation = (el: HTMLButtonElement, ans: string): void => {
+    el?.classList.add(`savannah-${ans}`)
+    el.addEventListener('transitionend', () => el.classList.remove(`savannah-${ans}`))
+  }
+
   const handleWrongAnswer = useCallback(() => {
     setHelth((prev) => prev - 1)
     initialTopWordRef.current = 190
@@ -47,14 +52,18 @@ const GameSavannah: React.FC<GameSavannahType> = ({ words, onRestart, calcBackgr
     }
   }, [isMute, wordsForGame, currentWordIdx])
 
-  const handleTrueAnswer = useCallback(() => {
-    initialTopWordRef.current = 190
-    trueAnswersArr.current.push(wordsForGame[currentWordIdx].answer)
-    calcBackgroundY(trueAnswersArr.current.length)
-    if (!isMute) {
-      playSoundSuccess()
-    }
-  }, [isMute, wordsForGame, currentWordIdx, calcBackgroundY])
+  const handleTrueAnswer = useCallback(
+    () => {
+      initialTopWordRef.current = 190
+      trueAnswersArr.current.push(wordsForGame[currentWordIdx].answer)
+      calcBackgroundY(trueAnswersArr.current.length)
+      if (!isMute) {
+        playSoundSuccess()
+      }
+    },
+    // eslint-disable-next-line
+    [isMute, wordsForGame, currentWordIdx, calcBackgroundY],
+  )
 
   useEffect(() => {
     const interval = setInterval(() => {
