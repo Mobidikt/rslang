@@ -1,5 +1,10 @@
 .main {
-    background: url(../../assets/image/bgLanding.svg) no-repeat center top / cover;
+    background: url(../../assets/image/bgLanding/english.svg) no-repeat left 15% top 10% / 40%,
+                url(../../assets/image/bgLanding/study.svg) no-repeat right 15% top 20% / 40%,
+                url(../../assets/image/bgLanding/communicate.svg) no-repeat left 15% top 35% / 40%,
+                url(../../assets/image/bgLanding/work.svg) no-repeat right 15% top 60% / 40%,
+                url(../../assets/image/bgLanding/travel.svg) no-repeat left 15% top 72% / 40%,
+                url(../../assets/image/bgLanding/have_fun.svg) no-repeat right 15% top 90% / 40%;
 }
 
 .header-main__logo img {

@@ -1,7 +1,9 @@
 .header-main {
   padding: 1em 0 0;
   width: 100%;
-  border-bottom: 1px solid;
+  background-color: #fff;
+  box-shadow: 3px 3px 5px rgba(29, 22, 22, 0.15);
+  overflow: hidden;
   &__menu{
     display: flex;
     flex-direction: column;
@@ -39,10 +41,10 @@
   margin-bottom: 5px;
   &__item{
     font-family: 'Raleway';
-font-style: normal;
-font-weight: normal;
-font-size: 24px;
-line-height: 28px;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 24px;
+    line-height: 28px;
     cursor: pointer;
     background: transparent;
     border: none;
@@ -55,6 +57,33 @@ line-height: 28px;
 @media (max-width: 600px) {
   .nav__item {
     font-size: 20px;
-line-height: 20px;
+    line-height: 20px;
+  }
+
+  .header-main__logo {
+    flex-direction: row;
+    height: 80%;
+  }
+
+  .header-main__logo button,
+  .header-user .logout {
+    margin-left: 1rem;
+  }
+
+  .header-main__menu {
+    align-items: center;
+    width: 80vw;
+    margin: 0 auto;
+  }
+
+  .header-main__menu nav {
+    width: 80vw;
+    margin-left: -30vw;
+    align-self: center;
+  }
+
+  .header-main__menu .header-user {
+    order: -1;
+    width: 20vw;
   }
 }

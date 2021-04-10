@@ -29,8 +29,19 @@
   font-family: Nunito;
   font-style: normal;
   font-weight: normal;
-  font-size: 28px;
-  line-height: 38px;
+  font-size: Min(Max(20px, 4vw), 26px);
+  line-height: 1.5;
   letter-spacing: 0.02em;
   text-align: center;
+}
+
+@media (max-width: 640px) {
+  .games-container {
+    flex-direction: column;
+  }
+
+  .ant-card.games__card, 
+  .games__card .ant-card-body {
+    width: 65vw;
+  }
 }

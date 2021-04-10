@@ -60,11 +60,19 @@
 
 @media (max-width: 876px) {
   .lead{
-    background-position: right 10% bottom 45%;
+    background-position: right 10% top 0;
+    padding: 0;
+    height: calc(460px + 60vh);
     &__wrapper {  
       width: 90%;
     }
+
+    &__info {
+      height: 60vh;
+      margin-top: 200vh;
+    }
   }
+  
 }
 @media (max-width: 500px) {
   .lead{
