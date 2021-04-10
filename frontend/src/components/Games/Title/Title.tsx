@@ -1,4 +1,5 @@
 import React from 'react'
+import { useIntl } from 'react-intl'
 import { Button } from 'antd'
 import './Title.scss'
 import '../Games.scss'
@@ -13,25 +14,20 @@ type TitleTypes = {
   loading: boolean,
 }
 
-const Title: React.FC<TitleTypes> = ({
-  title,
-  description,
-  settings,
-  startGame,
-  loading,
-}: TitleTypes) => {
+const Title: React.FC<TitleTypes> = ({ title, description, settings, startGame, loading }) => {
+  const intl = useIntl()
   const { fromCurrentGroup } = useTypedSelector((state) => state.lessonReducer)
   return (
     <div className="title-game">
-      <h2 className="title-game__title">{title}</h2>
+      <h2 className="title-game__title">{intl.formatMessage({ id: title })}</h2>
       {description.map((item) => (
         <p className="title-game__text" key={item}>
-          {item}
+          {intl.formatMessage({ id: item })}
         </p>
       ))}
       {settings.map((setting) => (
         <p className="title-game__text" key={setting}>
-          {setting}
+          {intl.formatMessage({ id: setting })}
         </p>
       ))}
       <Button
@@ -41,7 +37,7 @@ const Title: React.FC<TitleTypes> = ({
         loading={loading}
         disabled={loading}
       >
-        START
+        {intl.formatMessage({ id: 'start' })}
       </Button>
       {fromCurrentGroup ? null : <SettingsGame />}
     </div>

@@ -10,11 +10,6 @@ import StatisticsApi, {
   GetForShortTermStatistics,
 } from '../../services/StatisticsApi'
 import useTypedSelector from '../../hooks/useTypedSelector'
-import gameCall from '../../assets/image/gameCall.png'
-import gameOur from '../../assets/image/gameOur.png'
-import gameSavannah from '../../assets/image/gameSavannah.png'
-import gameSprint from '../../assets/image/gameSprint.png'
-import SavannaGame from '../SavannaGamePage/SavannaGamePage'
 
 type StatisticsForGames = {
   savanahh: number,
@@ -29,13 +24,11 @@ const Statistics: React.FC = () => {
   const { userId } = useTypedSelector((state) => state.authReducer)
   const { userWords } = useTypedSelector((state) => state.dictionaryReducer)
   const [statistics, setStatistics] = useState<Array<GetStatisticsType>>([])
-  const [shortStatistics, setShortStatistics] = useState<Array<GetForShortTermStatistics>>([])
   const [shortStatisticsForGames, setShortStatisticsForGames] = useState<StatisticsForGames>()
   const [statisticsForSecondChart, setStaticticsForSecontChart] = useState<GetStatisticsType[]>([])
   const [isEpmty, setIsEmpty] = useState<boolean>(false)
   const [countLearnedWordsPerDay, setCountLearnedWordsPerDay] = useState<number>(0)
   const [procentRightWordsPerDay, setProcentRightWordsPerDay] = useState<number>(0)
-  const [circleDashArray, setCircleDashArray] = useState('100')
 
   const getStatistics = useCallback(async () => {
     if (userId) {
