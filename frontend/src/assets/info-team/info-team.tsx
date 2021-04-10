@@ -10,35 +10,31 @@ const infoTeam: {
   git: string,
 }[] = [
   {
-    name: 'Krill Metsker',
+    name: 'kirill_name',
     photo: KirillPhoto,
-    profession: 'Teamlead, web-developer',
-    info:
-      'В процессе работы над проектом отвечал за: построение архитектуры приложения; разработка титульной страницы приложения; видео презентация приложения; разработка общего компонентов для игр "настроки игры" и "статистика игры"; разработка игры "Аудиовызов"; улучшение качества кода, рефакторинг кода',
+    profession: 'Teamlead_Web_developer',
+    info: 'info_kirill',
     git: 'https://github.com/Mobidikt',
   },
   {
-    name: 'Andrey Gavrilov',
+    name: 'andrey_name',
     photo: 'https://i.pinimg.com/originals/54/c6/68/54c6680d3a14edf2c20c654b4970fbec.jpg',
-    profession: 'Web-developer',
-    info:
-      'В процессе работы над проектом отвечал за: авторизация, серверная валидация данных; хранение на сервере и вывод данных  о краткосрочной и долгосрочной статистики; построение графиков долгосрочной статистики, разработка игры "Саванна"; разработка Учебника и Словаря',
+    profession: 'Web_developer',
+    info: 'info_andrey',
     git: 'https://github.com/IKLOA',
   },
   {
-    name: 'Anzhela Abitova',
+    name: 'anzhela_name',
     photo: AnzhelaPhoto,
-    profession: 'Web-developer, Web-designer',
-    info:
-      'В процессе работы над проектом отвечала за: стилизацию приложения, разработка макетов в Figma; разработка игры "Наша игра"; разработка секции "О приложение"; доработка адаптива по всему приложению',
+    profession: 'Web_developer_Web_designer',
+    info: 'info_anzhela',
     git: 'https://github.com/anzhelaAbitova',
   },
   {
-    name: 'Artsem Makarov',
+    name: 'artsem_name',
     photo: ArtsemPhoto,
-    profession: 'Web-developer',
-    info:
-      'В процессе работы над проектом отвечала за: страницу настроек; разработка общего компонента для игр "титульная страница игр"; разработка игры "Спринт"; разработка тестов; разработка секции "Видео".',
+    profession: 'Web_developer',
+    info: 'info_artsem',
     git: 'https://github.com/ArtyomMakarov',
   },
 ]

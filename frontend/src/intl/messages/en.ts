@@ -93,5 +93,22 @@ export default {
       'After the start of the game, you will see word and translation. You need to choose is it right or wrong.',
     win_strike: 'Win strike',
     start: 'START',
+    kirill_name: 'Krill Metsker',
+    andrey_name: 'Andrey Gavrilov',
+    anzhela_name: 'Anzhela Abitova',
+    artsem_name: 'Artsem Makarov',
+    Web_developer: 'Web-developer',
+    Web_developer_Web_designer: 'Web-developer, Web-designer',
+    Teamlead_Web_developer: 'Teamlead, Web-developer',
+    info_andrey:
+      'In the process of working on the project, he was responsible for: authorization, server validation of data; storage on the server and output of data on short-term and long-term statistics; plotting long-term statistics, developing the game "Savanna"; developing a Textbook and Dictionary.',
+    info_kirill:
+      'In the process of working on the project, he was responsible for: building the application architecture; developing the application title page; video presentation of the application; developing common components for the games "game settings" and "game statistics"; developing the game "Audio Call"; improving the code quality, refactoring the code.',
+    info_anzhela:
+      'In the process of working on the project, she was responsible for: styling the application, developing layouts in Figma; developing the game "Our Game"; developing the section "About the application"; finalizing the adaptive for the entire application.',
+    info_artsem:
+      'In the process of working on the project, she was responsible for: the settings page; development of the general component for games "title page of games"; development of the game "Sprint"; development of tests; development of the "Video" section.',
+    Our_team: 'Our team',
+    video: 'Video',
   },
 }
