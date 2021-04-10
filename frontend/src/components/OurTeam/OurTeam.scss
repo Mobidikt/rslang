@@ -4,9 +4,13 @@
         width: 90%;
         margin: 0 auto;
     }
-    &__title {
-        margin: 0 0 70px;
-        text-align: center;
+    .team__title {
+            font-style: normal;
+            font-weight: normal;
+            font-size: 48px;
+            line-height: 65px;
+            align-items: center;
+            text-align: center;
     }
     &__developers{
         display: flex;

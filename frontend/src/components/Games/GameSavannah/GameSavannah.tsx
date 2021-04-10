@@ -194,7 +194,7 @@ const GameSavannah: React.FC<GameSavannahType> = ({ words, onRestart, calcBackgr
                 : null}
             </div>
             <div className="game-savannah-field-answers">
-              <div>
+              <div className="game__wrapper-btn">
                 {mixedCurrentWords.map((word, i) => (
                   <Button
                     type="primary"
