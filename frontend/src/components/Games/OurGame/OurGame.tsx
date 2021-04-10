@@ -15,6 +15,7 @@ import { playSoundSuccess, playSoundError } from '../utils/soundEffect'
 import Statistics from '../Statistics/Statistics'
 import Result from '../Result/Result'
 import config from '../../../config'
+import WinStrike from '../WinStrike/WinStrike'
 
 const OurGame: React.FC = () => {
   const { level, countWordsGame } = useTypedSelector((state) => state.gameReducer)
@@ -29,6 +30,7 @@ const OurGame: React.FC = () => {
   const [errorWords, setErrorWords] = useState<WordType[]>([])
   const [indexWord, setIndexWord] = useState<number>(0)
   const [health, setHealth] = useState<number>(5)
+  const [strike, setStrike] = useState<number>(0)
   const [isloadingGame, setIsloadingGame] = useState<boolean>(true)
   const textExampleRef = useRef<HTMLSpanElement>(null)
 
@@ -36,6 +38,7 @@ const OurGame: React.FC = () => {
     setErrorWords([])
     setSuccessWords([])
     setHealth(5)
+    setStrike(0)
     setGame(true)
   }
   const initGame = () => {
@@ -63,6 +66,7 @@ const OurGame: React.FC = () => {
     setIsloadingGame(true)
     initGame()
     setHealth(5)
+    setStrike(0)
     // eslint-disable-next-line
   }, [level])
 
@@ -82,10 +86,12 @@ const OurGame: React.FC = () => {
         if (currentWord.word === word.word) {
           playSoundSuccess()
           setSuccessWords((prev) => [...prev, currentWord])
+          setStrike((prev) => prev + 1)
         } else {
           playSoundError()
           setErrorWords((prev) => [...prev, currentWord])
           setHealth((prev) => prev - 1)
+          setStrike(0)
         }
     },
     [currentWord],
@@ -95,6 +101,7 @@ const OurGame: React.FC = () => {
     if (currentWord) {
       setErrorWords((prev) => [...prev, currentWord])
       setHealth((prev) => prev - 1)
+      setStrike(0)
     }
   }
 
@@ -153,6 +160,7 @@ const OurGame: React.FC = () => {
     <>
       {game ? (
         <div className="call">
+          <WinStrike strike={strike} />
           <Rate disabled value={health} character={<HeartFilled />} className="game__health" />
           <span className="word-info-text__example" ref={textExampleRef} />
           <div className="game-images-wrapper">
