@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useIntl } from 'react-intl'
 import { Layout, Menu } from 'antd'
 import { useLocation, useNavigate } from 'react-router'
@@ -18,8 +18,6 @@ const { Sider } = Layout
 const Bar: React.FC = () => {
   const intl = useIntl()
   const [collapsed, setCollapsed] = useState(false)
-  const [winWidth, setWidth] = useState(window.innerWidth)
-  const [font, setFont] = useState('28px')
   const { setSelectedSection, setHeaderColor } = useActions()
   const location = useLocation().pathname
   const navigate = useNavigate()
@@ -27,34 +25,9 @@ const Bar: React.FC = () => {
     setCollapsed(!collapsed)
   }
 
-  useEffect(() => {
-    let isMounted = true
-    window.addEventListener('resize', () => {
-      setWidth(window.innerWidth)
-      console.log(winWidth)
-    })
-    if (winWidth < 640) {
-      setFont('24px')
-    } else {
-      setFont('28px')
-    }
-    return () => {
-      window.removeEventListener('resize', () => {
-        isMounted = false
-        console.log('removing window listener')
-      })
-    }
-    // eslint-disable-next-line
-  }, [])
-
-  const menu = () => {
-    return (
-      <Menu
-        className="menu"
-        defaultSelectedKeys={[`${location}`]}
-        theme="dark"
-        mode={winWidth > 840 ? 'inline' : 'horizontal'}
-      >
+  return (
+    <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
+      <Menu className="menu" defaultSelectedKeys={[`${location}`]} mode="inline">
         <Menu.Item
           className="bar__link logo"
           key="/"
@@ -67,7 +40,7 @@ const Bar: React.FC = () => {
         <Menu.Item
           className="bar__link bar__link_blue"
           key="/tutorial"
-          icon={<FileTextOutlined style={{ fontSize: font }} />}
+          icon={<FileTextOutlined />}
           onClick={() => {
             navigate('/tutorial')
             setSelectedSection('Tutorial')
@@ -79,7 +52,7 @@ const Bar: React.FC = () => {
         <Menu.Item
           className="bar__link bar__link_pink"
           key="/dictionary"
-          icon={<WalletOutlined style={{ fontSize: font }} />}
+          icon={<WalletOutlined />}
           onClick={() => {
             navigate('/dictionary')
             setSelectedSection('Dictionary')
@@ -91,7 +64,7 @@ const Bar: React.FC = () => {
         <Menu.Item
           className="bar__link bar__link_orange"
           key="/games"
-          icon={<DribbbleOutlined style={{ fontSize: font }} />}
+          icon={<DribbbleOutlined />}
           onClick={() => {
             navigate('/games')
             setSelectedSection('Games')
@@ -103,7 +76,7 @@ const Bar: React.FC = () => {
         <Menu.Item
           className="bar__link bar__link_light-orange"
           key="/statistics"
-          icon={<BarChartOutlined style={{ fontSize: font }} />}
+          icon={<BarChartOutlined />}
           onClick={() => {
             navigate('/statistics')
             setSelectedSection('Statistics')
@@ -115,7 +88,7 @@ const Bar: React.FC = () => {
         <Menu.Item
           className="bar__link bar__link_yellow"
           key="/settings"
-          icon={<SettingOutlined style={{ fontSize: font }} />}
+          icon={<SettingOutlined />}
           onClick={() => {
             navigate('/settings')
             setSelectedSection('Settings')
@@ -125,28 +98,8 @@ const Bar: React.FC = () => {
           {intl.formatMessage({ id: 'Settings' })}
         </Menu.Item>
       </Menu>
-    )
-  }
-  console.log(collapsed)
-
-  return (
-    <>
-      {winWidth > 640 && (
-        <Sider
-          collapsible
-          collapsed={collapsed}
-          onCollapse={onCollapse}
-          breakpoint="lg"
-          collapsedWidth="80"
-          onBreakpoint={(broken) => {
-            console.log(broken)
-          }}
-        >
-          {menu()}
-        </Sider>
-      )}
-      {winWidth < 640 && <div className="bottom_bar">{menu()}</div>}
-    </>
+    </Sider>
   )
 }
+
 export default Bar

@@ -144,7 +144,6 @@ const OurGame: React.FC = () => {
     }
   }, [handleKeyPress, game])
   useEffect(() => {
-    console.log(textExampleRef)
     if (textExampleRef.current) {
       textExampleRef.current.innerHTML = gameWords[indexWord].textExample || ''
     }

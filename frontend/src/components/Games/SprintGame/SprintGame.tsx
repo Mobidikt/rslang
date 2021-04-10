@@ -267,11 +267,19 @@ const SprintGame: React.FC = () => {
               </p>
             </div>
             <div className="sprint-game-start__buttons">
-              <Button type="primary" className="game__btn" onClick={() => handleAnswerClick(true)}>
+              <Button
+                type="primary"
+                className="game__btn sprint__btn"
+                onClick={() => handleAnswerClick(true)}
+              >
                 <ArrowLeftOutlined className="arrow-icon" />
                 RIGHT
               </Button>
-              <Button type="primary" className="game__btn" onClick={() => handleAnswerClick(false)}>
+              <Button
+                type="primary"
+                className="game__btn sprint__btn"
+                onClick={() => handleAnswerClick(false)}
+              >
                 WRONG
                 <ArrowRightOutlined className="arrow-icon" />
               </Button>
@@ -279,29 +287,24 @@ const SprintGame: React.FC = () => {
           </div>
         </>
       ) : (
-        <div className="sprint-game-start">
+        <>
           {gameOver ? (
-            <div className="sprint-game-start__statistics">
-              <Statistics
-                success={successWords}
-                error={errorWords}
-                currentGame="sprint"
-                back={() => handleBackClick()}
-              />
-            </div>
+            <Statistics
+              success={successWords}
+              error={errorWords}
+              currentGame="sprint"
+              back={() => handleBackClick()}
+            />
           ) : (
-            <div className="sprint-game-rules">
-              <Title
-                title={GAMES_INFO.sprint.title}
-                description={GAMES_INFO.sprint.description}
-                settings={GAMES_INFO.sprint.settings}
-                loading={isloadingGame}
-                startGame={() => startGame()}
-              />
-              <SettingsGame />
-            </div>
+            <Title
+              title={GAMES_INFO.sprint.title}
+              description={GAMES_INFO.sprint.description}
+              settings={GAMES_INFO.sprint.settings}
+              loading={isloadingGame}
+              startGame={() => startGame()}
+            />
           )}
-        </div>
+        </>
       )}
     </div>
   )
