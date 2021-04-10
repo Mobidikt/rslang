@@ -26,9 +26,10 @@ const addWord = (
   word: WordType,
   difficulty: 'difficult' | 'learned' | 'deleted',
   currentGame: 'sprint' | 'ourGame' | 'audioCall' | 'savannah' | '',
+  isRight: boolean,
 ): DictionaryAction => ({
   type: DictionaryActionTypes.ADD_WORD,
-  payload: { userId, wordId, word, difficulty, currentGame },
+  payload: { userId, wordId, word, difficulty, currentGame, isRight },
 })
 
 const requestedAddWord = (): DictionaryAction => ({
@@ -60,9 +61,10 @@ const updateUserWord = (
   word: WordType,
   difficulty: 'difficult' | 'learned' | 'deleted',
   currentGame: 'sprint' | 'ourGame' | 'audioCall' | 'savannah' | '',
+  isRight: boolean,
 ): DictionaryAction => ({
   type: DictionaryActionTypes.UPDATE_USER_WORD,
-  payload: { userId, wordId, word, difficulty, currentGame },
+  payload: { userId, wordId, word, difficulty, currentGame, isRight },
 })
 
 const requestedUpdateUserWord = (): DictionaryAction => ({

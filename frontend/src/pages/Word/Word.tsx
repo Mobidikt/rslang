@@ -65,9 +65,9 @@ const Word: React.FC = () => {
       if (currentWord) {
         if (isInUserWords(id)) {
           const difficulty = currentWordIsDifficult ? 'learned' : 'difficult'
-          updateUserWord(userId, id, currentWord, difficulty, '')
+          updateUserWord(userId, id, currentWord, difficulty, '', true)
         } else {
-          addWord(userId, id, currentWord, 'difficult', '')
+          addWord(userId, id, currentWord, 'difficult', '', true)
         }
         // eslint-disable-next-line
         message.success('Слово успешно изменено')
@@ -82,9 +82,9 @@ const Word: React.FC = () => {
     if (userId) {
       if (currentWord) {
         if (isInUserWords(id)) {
-          updateUserWord(userId, id, currentWord, 'deleted', '')
+          updateUserWord(userId, id, currentWord, 'deleted', '', false)
         } else {
-          addWord(userId, id, currentWord, 'deleted', '')
+          addWord(userId, id, currentWord, 'deleted', '', false)
         }
       }
       // eslint-disable-next-line

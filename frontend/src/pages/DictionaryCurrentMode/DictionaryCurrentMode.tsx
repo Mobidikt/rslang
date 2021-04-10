@@ -66,7 +66,7 @@ const DictionaryCurrentMode: React.FC = () => {
         ...word,
         id: word._id,
       }
-      updateUserWord(userId, word._id, wordTypeWord, difficulty, '')
+      updateUserWord(userId, word._id, wordTypeWord, difficulty, '', true)
     }
   }
 

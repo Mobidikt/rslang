@@ -51,12 +51,14 @@ const save = async (
   wordId: string,
   mode: 'difficult' | 'learned' | 'deleted',
   currentGame: 'sprint' | 'ourGame' | 'audioCall' | 'savannah' | '',
+  isRight: boolean,
 ): Promise<SaveResponseType> => {
   const data = await axios.post<SaveResponseType>(
     `${config.API_URL}/users/${userId}/words/${wordId}`,
     {
       difficulty: mode,
       currentGame,
+      isRight,
     },
   )
   return data.data
@@ -89,11 +91,13 @@ const updateGamesCountAnswers = async (
   userId: string,
   wordId: string,
   currentGame: 'sprint' | 'ourGame' | 'audioCall' | 'savannah',
+  isRight: boolean,
 ): Promise<UpdateGamesCountAnswersType> => {
   const { data } = await axios.patch<UpdateGamesCountAnswersType>(
     `${config.API_URL}/users/${userId}/words/${wordId}`,
     {
       currentGame,
+      isRight,
     },
   )
   return data
