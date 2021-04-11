@@ -20,6 +20,7 @@
 
     button {
       border-radius: 10px;
+      border: 1px solid #70d6ff;
     }
   }
 
@@ -30,9 +31,20 @@
     button {
       margin-right: 5px;
       width: 105px;
+      transition: .15s ease-in-out;
+      &:hover {
+        box-shadow: 3px 3px 5px rgba(29, 22, 22, 0.15);
+      }
     }
   }
 
+  .ant-card {
+    border-radius: 8px;
+  }
+
+  .words-navigation button:last-child {
+    margin-left: 1rem;
+  }
 }
 
 
@@ -53,10 +65,18 @@
     }
 
     &-games {
-      display: flex;
-      flex-direction: column;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-row-gap: 0.5rem;
+      margin-bottom: 1rem;
     }
 
-   
+    &-games h4 {
+      grid-column: 1 / 3;
+    }
+
+    &-games * {
+      justify-self: center;
+    }
   }
 }

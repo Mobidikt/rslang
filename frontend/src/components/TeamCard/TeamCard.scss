@@ -9,6 +9,7 @@
     }
     &__name {
         margin: 0 10px 0 0;
+        line-height: 1!important;
     }
     &__photo {
         border-radius: 50%;
@@ -16,6 +17,7 @@
         width: 205px;
         object-fit: cover;
         margin-right: 10px;
+        align-self: center;
     }
     &__link_git {
         display: block;
@@ -28,11 +30,16 @@
     }
 }
 
-@media (max-width: 876px) {
+@media (max-width: 890px) {
   .developer {
     width: 100%;
     &__photo {
         margin-right: 30px;
+    }
+    &__info {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
   } 
 }

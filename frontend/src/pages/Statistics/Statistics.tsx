@@ -10,10 +10,10 @@ import StatisticsApi, {
   GetForShortTermStatistics,
 } from '../../services/StatisticsApi'
 import useTypedSelector from '../../hooks/useTypedSelector'
-import gameCall from '../../assets/image/gameCall.png'
-import gameOur from '../../assets/image/gameOur.png'
-import gameSavannah from '../../assets/image/gameSavannah.png'
-import gameSprint from '../../assets/image/gameSprint.png'
+import gameCall from '../../assets/image/gameCallSBG.png'
+import gameOur from '../../assets/image/gameOurSBG.png'
+import gameSavannah from '../../assets/image/gameSavannahSBG.png'
+import gameSprint from '../../assets/image/gameSprintSBG.png'
 import SavannaGame from '../SavannaGamePage/SavannaGamePage'
 
 type StatisticsForGames = {
@@ -35,7 +35,8 @@ const Statistics: React.FC = () => {
   const [isEpmty, setIsEmpty] = useState<boolean>(false)
   const [countLearnedWordsPerDay, setCountLearnedWordsPerDay] = useState<number>(0)
   const [procentRightWordsPerDay, setProcentRightWordsPerDay] = useState<number>(0)
-  const [circleDashArray, setCircleDashArray] = useState('100')
+  const [winWidth, setWidth] = useState(window.innerWidth)
+  const [font, setFont] = useState('28px')
 
   const getStatistics = useCallback(async () => {
     if (userId) {
@@ -119,6 +120,26 @@ const Statistics: React.FC = () => {
     },
   }
 
+  useEffect(() => {
+    let isMounted = true
+    window.addEventListener('resize', () => {
+      setWidth(window.innerWidth)
+      console.log(winWidth)
+    })
+    if (winWidth < 640) {
+      setFont('24px')
+    } else {
+      setFont('28px')
+    }
+    return () => {
+      window.removeEventListener('resize', () => {
+        isMounted = false
+        console.log('removing window listener')
+      })
+    }
+    // eslint-disable-next-line
+  }, [])
+
   return (
     <div className="statistics">
       {userId ? (
@@ -129,7 +150,7 @@ const Statistics: React.FC = () => {
                 <h2>{intl.formatMessage({ id: 'not_words' })}</h2>
               ) : (
                 <div className="statistics-container">
-                  <ResponsiveContainer width="45%" height={400}>
+                  <ResponsiveContainer width={winWidth > 640 ? '45%' : '80%'} height={400}>
                     <BarChart data={statistics}>
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis dataKey="date" />
@@ -153,13 +174,7 @@ const Statistics: React.FC = () => {
               <div className="statistics__card_wrapper">
                 <Card
                   className="statistics__card"
-                  cover={
-                    <img
-                      className="statistics__img"
-                      alt="example"
-                      src="https://cdn.hipwallpaper.com/i/30/95/ZhbyOs.jpg"
-                    />
-                  }
+                  cover={<img className="statistics__img" alt="example" src={gameSavannah} />}
                 >
                   <h4>{intl.formatMessage({ id: 'savannah' })}</h4>
                   <p>
@@ -169,27 +184,17 @@ const Statistics: React.FC = () => {
                 </Card>
                 <Card
                   className="statistics__card"
-                  cover={
-                    <img
-                      className="statistics__img"
-                      alt="example"
-                      src="https://million-wallpapers.ru/wallpapers/3/14/10313123744109410199/music-naushniki-by-dr-dre-pleer-muzyka-brand-beats-i.jpg"
-                    />
-                  }
+                  cover={<img className="statistics__img" alt="example" src={gameCall} />}
                 >
                   <h4>{intl.formatMessage({ id: 'audiocall' })}</h4>
-                  {intl.formatMessage({ id: 'Statistics__right_words' })}{' '}
-                  <span className="text__big">{shortStatisticsForGames?.audioCall}</span>
+                  <p>
+                    {intl.formatMessage({ id: 'Statistics__right_words' })}{' '}
+                    <span className="text__big">{shortStatisticsForGames?.audioCall}</span>
+                  </p>
                 </Card>
                 <Card
                   className="statistics__card"
-                  cover={
-                    <img
-                      className="statistics__img"
-                      alt="example"
-                      src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Men_100_m_French_Athletics_Championships_2013_t154126.jpg/1200px-Men_100_m_French_Athletics_Championships_2013_t154126.jpg"
-                    />
-                  }
+                  cover={<img className="statistics__img" alt="example" src={gameSprint} />}
                 >
                   <h4>{intl.formatMessage({ id: 'sprint' })}</h4>
                   <p>
@@ -199,13 +204,7 @@ const Statistics: React.FC = () => {
                 </Card>
                 <Card
                   className="statistics__card"
-                  cover={
-                    <img
-                      className="statistics__img"
-                      alt="example"
-                      src="https://www.regalraum.com/media/catalog/category-imagewall-EN/shelves/free-standing-shelves/bookshelf/white-bookcase/booksheves-white-showcase-bookshelves-white-metal.jpg"
-                    />
-                  }
+                  cover={<img className="statistics__img" alt="example" src={gameOur} />}
                 >
                   <h4>{intl.formatMessage({ id: 'gameOur' })}</h4>
                   <p>
