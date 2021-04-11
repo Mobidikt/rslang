@@ -109,6 +109,7 @@ const DictionaryCurrentMode: React.FC = () => {
 
               mode === 'learned' ? (
                 <Button
+                  className="btn__difficult"
                   onClick={() =>
                     handleChangeStatusWord(
                       word,

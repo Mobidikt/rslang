@@ -1,5 +1,8 @@
 .word {
   padding: 30px;
+  &-link_back {
+    margin: 1rem auto;
+  }
   &-info {
     margin-top: 10px;
     display: flex;
@@ -40,6 +43,7 @@
   }
 
   &-buttons {
+    margin: 2rem auto;
     &__btn {
       margin-right: 10px;
       border-radius: 15px;

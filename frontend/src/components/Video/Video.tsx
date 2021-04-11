@@ -3,8 +3,8 @@ import { useIntl } from 'react-intl'
 import './Video.scss'
 
 const Video: React.FC = () => {
-  const intl = useIntl()
   const videoSrc = 'https://www.youtube.com/embed/VSW7cSMdKiA'
+  const intl = useIntl()
 
   return (
     <section className="video" id="video">

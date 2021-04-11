@@ -34,3 +34,14 @@
     }
 
 }
+@media (max-width: 640px) {
+    .description__card,
+    .description .ant-card-body {
+        width: 100%;
+    }
+
+    .description__text {
+        width: 100%;
+        max-width: 100%;
+    }
+}

@@ -2,24 +2,24 @@
   background-color: #E5E5E5;
   h1 {
     font-family: 'Nunito';
-    font-style: normal;
-    font-weight: normal;
-    font-size: 56px;
-    line-height: 71px;
+    font-size: Min(Max(36px, 8vw), 56px);
+    line-height: 1.5;
+    letter-spacing: 0.02em;
   }
   h2 {
     font-family: 'Nunito';
     font-style: normal;
     font-weight: normal;
-    font-size: 48px;
-    line-height: 61px;
+    font-size: Min(Max(28px, 6vw), 48px);
+    line-height: 1.5;
+    letter-spacing: 0.02em;
   }
   h3 {
     font-family: 'Nunito';
     font-style: normal;
     font-weight: normal;
-    font-size: 36px;
-    line-height: 49px;
+    font-size: Min(Max(24px, 5vw), 36px);
+    line-height: 1.5;
     display: flex;
     align-items: center;
     text-align: center;
@@ -27,11 +27,11 @@
   }
 
   h4 {
-    font-family: Nunito;
+    font-family: 'Nunito';
     font-style: normal;
     font-weight: normal;
-    font-size: 28px;
-    line-height: 38px;
+    font-size: Min(Max(20px, 4vw), 28px);
+    line-height: 1.5;
     letter-spacing: 0.02em;
   }
 }
@@ -41,10 +41,13 @@
   min-height: 35px;
 }
 
-@media (max-width: 600px) {
-  .App {
-    h2 {
-    font-size: 20px;
+@media (max-width: 640px) {
+  .description__cards_wrapper {
+    flex-direction: column;
   }
-}
+
+  .ant-card,
+  .ant-card-body {
+    width: 100%;
+  }
 }
