@@ -31,7 +31,6 @@ const Bar: React.FC = () => {
     let isMounted = true
     window.addEventListener('resize', () => {
       setWidth(window.innerWidth)
-      console.log(winWidth)
     })
     if (winWidth < 640) {
       setFont('24px')
@@ -41,7 +40,6 @@ const Bar: React.FC = () => {
     return () => {
       window.removeEventListener('resize', () => {
         isMounted = false
-        console.log('removing window listener')
       })
     }
     // eslint-disable-next-line
@@ -127,7 +125,6 @@ const Bar: React.FC = () => {
       </Menu>
     )
   }
-  console.log(collapsed)
 
   return (
     <>
@@ -138,9 +135,7 @@ const Bar: React.FC = () => {
           onCollapse={onCollapse}
           breakpoint="lg"
           collapsedWidth="80"
-          onBreakpoint={(broken) => {
-            console.log(broken)
-          }}
+          onBreakpoint={(broken) => {}}
         >
           {menu()}
         </Sider>

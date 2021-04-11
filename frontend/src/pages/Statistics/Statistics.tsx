@@ -125,7 +125,6 @@ const Statistics: React.FC = () => {
     let isMounted = true
     window.addEventListener('resize', () => {
       setWidth(window.innerWidth)
-      console.log(winWidth)
     })
     if (winWidth < 640) {
       setFont('24px')
@@ -135,7 +134,6 @@ const Statistics: React.FC = () => {
     return () => {
       window.removeEventListener('resize', () => {
         isMounted = false
-        console.log('removing window listener')
       })
     }
     // eslint-disable-next-line
