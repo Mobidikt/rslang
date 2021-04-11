@@ -1,6 +1,6 @@
 import React from 'react'
-import './Video.scss'
 import { useIntl } from 'react-intl'
+import './Video.scss'
 
 const Video: React.FC = () => {
   const videoSrc = 'https://www.youtube.com/embed/VSW7cSMdKiA'
@@ -9,7 +9,7 @@ const Video: React.FC = () => {
   return (
     <section className="video" id="video">
       <div className="video__wrapper">
-        <h2 className="video__title">{intl.formatMessage({ id: 'Video' })}</h2>
+        <h2 className="video__title">{intl.formatMessage({ id: 'video' })}</h2>
         <div className="video__iframe">
           <iframe
             title="video-country"

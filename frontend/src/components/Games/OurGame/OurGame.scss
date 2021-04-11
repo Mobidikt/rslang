@@ -15,9 +15,9 @@
   box-sizing: border-box;
   cursor: pointer;
   object-fit: cover;
-  min-width: 200px;
+  min-width: 100px;
   width: 20%;
-  height: 100px;
+  height: 200px;
   outline: none;
   border: none;
   background: transparent;
@@ -26,55 +26,41 @@
     box-shadow: rgba(249, 249, 249, 0.35);
   } 
 }
+.word-info-text__example {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: normal;
+  font-size: 36px;
+  line-height: 49px;
+  display: block;
+  align-items: center;
+  text-align: center;
+  letter-spacing: 0.02em;
+}
 .game-image {
+  object-fit: cover;
+  height: 100%;
   width: 100%;
+}
+@media(max-width: 999px) {
+  .word-info-text__example {
+    font-size: 25px;
+    line-height: 29px;
+  }
+  .game-ourgame-image {
+    height: 150px;
+  }
+}
+@media(max-width: 799px) {
+  .game-ourgame-image {
+    height: 100px;
+  }
 }
 .game-ourgame {
   width: 80vw;
   height: 90vh;
   padding: 10px 20px;
   position: relative;
-  &-header {
-
-    display: flex;
-    justify-content: space-between;
-
-    &-settings {
-      display: flex;
-      align-items: center;
-
-      button {
-        margin-right: 20px;
-      }
-    }
-
-
-    &__statistics {
-      width: 55vw;
-      height: 60vh;
-      margin: 0 auto;
-      background: rgba(249, 249, 249, 0.35);
-      border-radius: 25px;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translateX(-50%)translateY(-50%);
-      z-index: 5;
-    }
-  } 
-
-  .word-info-text__example {
-    font-family: 'Nunito';
-    font-style: normal;
-    font-weight: normal;
-    font-size: 36px;
-    line-height: 49px;
-    display: block;
-    align-items: center;
-    text-align: center;
-    letter-spacing: 0.02em;
-  }
-
   .game-ourgame-field {
     width: calc(75vw + 20px);
     height: 70vh;

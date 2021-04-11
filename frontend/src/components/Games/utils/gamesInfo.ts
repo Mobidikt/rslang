@@ -1,34 +1,23 @@
 /* eslint-disable */
 export const GAMES_INFO = {
   call: {
-    title: 'Аудиовызов',
-    description: [
-      'Мини-игра «Аудиовызов» - это тренировка, развивающая навыки речи и перевода.',
-      'Вы слышите слово и видите пять вариантов перевода. Выбрать правильный ответ можно двумя способами:',
-    ],
-    settings: ['1. Кликните по нему мышью.', '2. Используйте клавиши 1, 2, 3, 4, 5.'],
+    title: 'game_call',
+    description: ['game_call_description_first', 'game_call_description_second'],
+    settings: ['use_mouse', 'use_number'],
   },
   sprint: {
-    title: 'SPRINT',
-    description: [
-      'After the start of the game, you will see word and translation. You need to choose is it right or wrong.',
-    ],
-    settings: ['1. Use mouse to choose.', '2. Use the keys Left and Right.'],
+    title: 'game_sprint',
+    description: ['game_sprint_description_first'],
+    settings: ['use_mouse', 'use_right_left'],
   },
   savannah: {
-    title: 'Саванна',
-    description: [
-      'Мини-игра «Саванна» - это тренировка по переводу пассивного изученного словаря в активную стадию.',
-      'После запуска игры вы увидите падающее слово на английском (или русском, если режим игры RU-> EN) и пять варианта перевода. Выбрать правильный ответ можно двумя способами:',
-    ],
-    settings: ['1. Кликните по нему мышью.', '2. Используйте клавиши 1, 2, 3, 4, 5'],
+    title: 'game_savannah',
+    description: ['game_savannah_description_first', 'game_savannah_description_second'],
+    settings: ['use_mouse', 'use_number'],
   },
   ourgame: {
-    title: 'Наша игра',
-    description: [
-      'Мини-игра «Наша игра» - это тренировка, которая помогает визуализировать английские слов.',
-      'После запуска игры вы увидите слово на английском языке и пять варианта изображения. Выбрать правильный ответ можно двумя способами:',
-    ],
-    settings: ['1. Кликните по нему мышью.', '2. Используйте клавиши 1, 2, 3, 4, 5'],
+    title: 'game_ourgame',
+    description: ['game_ourgame_description_first', 'game_ourgame_description_second'],
+    settings: ['use_mouse', 'use_number'],
   },
 }

@@ -70,5 +70,45 @@ export default {
     Dictionary_deleted_words: 'Dictionary deleted words',
     Dictionary_learned_words: 'Dictionary learned words',
     Dictionary_difficult_words: 'Dictionary difficult words',
+    game_call: 'Audio call',
+    game_sprint: 'Sprint',
+    game_savannah: 'Savannah',
+    game_ourgame: 'Our game',
+    use_mouse: '1. Use mouse to choose.',
+    use_number: '2. Используйте клавиши 1, 2, 3, 4, 5',
+    use_right_left: '2. Use the keys Left and Right.',
+    game_call_description_first:
+      'The mini-game "Audio Call" is a training session that develops speech and translation skills.',
+    game_call_description_second:
+      'You hear the word and see five translation options. There are two ways to choose the correct answer:',
+    game_savannah_description_first:
+      'The mini-game "Savanna" is a training for translating a passive learned dictionary into an active stage.',
+    game_savannah_description_second:
+      'After starting the game, you will see a falling word in English (or Russian, if the game mode is RU - > EN) and five translation options. There are two ways to choose the correct answer:',
+    game_ourgame_description_first:
+      'The mini-game "Our Game" is a training that helps you visualize English words.',
+    game_ourgame_description_second:
+      'After starting the game, you will see a word in English and five image options. There are two ways to choose the correct answer:',
+    game_sprint_description_first:
+      'After the start of the game, you will see word and translation. You need to choose is it right or wrong.',
+    win_strike: 'Win strike',
+    start: 'START',
+    kirill_name: 'Krill Metsker',
+    andrey_name: 'Andrey Gavrilov',
+    anzhela_name: 'Anzhela Abitova',
+    artsem_name: 'Artsem Makarov',
+    Web_developer: 'Web-developer',
+    Web_developer_Web_designer: 'Web-developer, Web-designer',
+    Teamlead_Web_developer: 'Teamlead, Web-developer',
+    info_andrey:
+      'In the process of working on the project, he was responsible for: authorization, server validation of data; storage on the server and output of data on short-term and long-term statistics; plotting long-term statistics, developing the game "Savanna"; developing a Textbook and Dictionary.',
+    info_kirill:
+      'In the process of working on the project, he was responsible for: building the application architecture; developing the application title page; video presentation of the application; developing common components for the games "game settings" and "game statistics"; developing the game "Audio Call"; improving the code quality, refactoring the code.',
+    info_anzhela:
+      'In the process of working on the project, she was responsible for: styling the application, developing layouts in Figma; developing the game "Our Game"; developing the section "About the application"; finalizing the adaptive for the entire application.',
+    info_artsem:
+      'In the process of working on the project, she was responsible for: the settings page; development of the general component for games "title page of games"; development of the game "Sprint"; development of tests; development of the "Video" section.',
+    Our_team: 'Our team',
+    video: 'Video',
   },
 }

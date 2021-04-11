@@ -1,5 +1,8 @@
 .game__btn{
     font-family: 'Nunito';
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-style: normal;
     font-weight: normal;
     font-size: 28px;
@@ -9,7 +12,7 @@
     box-shadow: 3px 3px 5px rgba(29, 22, 22, 0.15);
     border-radius: 8px;
     color: #161616;
-    min-width: 140px;
+    min-width: 100px;
     padding: 5px 20px;
     min-height: 56px;
     margin-top: 20px;
@@ -46,9 +49,32 @@
       }
     }
 }
+.game__wrapper-btn{
+    margin: 20px auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    width: 90%;
+}
 .game__health {
     position: absolute;
     top: 2%;
     right: 3%;
     font-size: 25px;
+}
+@media(max-width: 799px) {
+    .game__btn{
+        font-size: 20px;
+        line-height: 20px;
+    }
+}
+@media(max-width: 599px) {
+    .game__btn{
+        padding: 3px 10px;
+        font-size: 14px;
+        line-height: 14px;
+        .arrow-icon{
+            margin: 0;
+        }
+    }
 }

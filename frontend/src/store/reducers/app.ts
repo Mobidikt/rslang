@@ -1,9 +1,5 @@
 import { AppAction, AppState, AppActionTypes } from '../types/app'
 
-interface LanguageState {
-  language: 'en' | 'ru';
-}
-
 let initLang: 'en' | 'ru' = 'ru'
 // eslint-disable-next-line
 const loadLang = () => {

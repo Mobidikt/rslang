@@ -11,6 +11,7 @@ import Statistics from '../Statistics/Statistics'
 import randomArr from '../utils/randomArr'
 import useTypedSelector from '../../../hooks/useTypedSelector'
 import Result from '../Result/Result'
+import WinStrike from '../WinStrike/WinStrike'
 
 type GameSavannahType = {
   words: Array<WordType>,
@@ -33,6 +34,7 @@ const GameSavannah: React.FC<GameSavannahType> = ({ words, onRestart, calcBackgr
   const initialTopWordRef = useRef<number>(190)
   const wrongAnswersArr = useRef<Array<WordType>>([])
   const trueAnswersArr = useRef<Array<WordType>>([])
+  const [strike, setStrike] = useState<number>(0)
 
   const [mixedCurrentWords, setMixedCurrentWords] = useState<Array<WordType>>([])
 
@@ -45,6 +47,7 @@ const GameSavannah: React.FC<GameSavannahType> = ({ words, onRestart, calcBackgr
 
   const handleWrongAnswer = useCallback(() => {
     setHelth((prev) => prev - 1)
+    setStrike(0)
     initialTopWordRef.current = 190
     wrongAnswersArr.current.push(wordsForGame[currentWordIdx].answer)
     if (!isMute) {
@@ -56,6 +59,7 @@ const GameSavannah: React.FC<GameSavannahType> = ({ words, onRestart, calcBackgr
     () => {
       initialTopWordRef.current = 190
       trueAnswersArr.current.push(wordsForGame[currentWordIdx].answer)
+      setStrike((prev) => prev + 1)
       calcBackgroundY(trueAnswersArr.current.length)
       if (!isMute) {
         playSoundSuccess()
@@ -173,6 +177,7 @@ const GameSavannah: React.FC<GameSavannahType> = ({ words, onRestart, calcBackgr
         />
       ) : (
         <div className="game-savannah">
+          <WinStrike strike={strike} />
           <div className="game-savannah-header">
             <div className="game-savannah-header-settings">
               <SoundComponent />
@@ -194,7 +199,7 @@ const GameSavannah: React.FC<GameSavannahType> = ({ words, onRestart, calcBackgr
                 : null}
             </div>
             <div className="game-savannah-field-answers">
-              <div>
+              <div className="game__wrapper-btn">
                 {mixedCurrentWords.map((word, i) => (
                   <Button
                     type="primary"

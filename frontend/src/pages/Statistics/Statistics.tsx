@@ -10,6 +10,7 @@ import StatisticsApi, {
   GetForShortTermStatistics,
 } from '../../services/StatisticsApi'
 import useTypedSelector from '../../hooks/useTypedSelector'
+
 import gameCall from '../../assets/image/gameCallSBG.png'
 import gameOur from '../../assets/image/gameOurSBG.png'
 import gameSavannah from '../../assets/image/gameSavannahSBG.png'
@@ -29,12 +30,12 @@ const Statistics: React.FC = () => {
   const { userId } = useTypedSelector((state) => state.authReducer)
   const { userWords } = useTypedSelector((state) => state.dictionaryReducer)
   const [statistics, setStatistics] = useState<Array<GetStatisticsType>>([])
-  const [shortStatistics, setShortStatistics] = useState<Array<GetForShortTermStatistics>>([])
   const [shortStatisticsForGames, setShortStatisticsForGames] = useState<StatisticsForGames>()
   const [statisticsForSecondChart, setStaticticsForSecontChart] = useState<GetStatisticsType[]>([])
   const [isEpmty, setIsEmpty] = useState<boolean>(false)
   const [countLearnedWordsPerDay, setCountLearnedWordsPerDay] = useState<number>(0)
   const [procentRightWordsPerDay, setProcentRightWordsPerDay] = useState<number>(0)
+
   const [winWidth, setWidth] = useState(window.innerWidth)
   const [font, setFont] = useState('28px')
 
@@ -176,7 +177,9 @@ const Statistics: React.FC = () => {
                   className="statistics__card"
                   cover={<img className="statistics__img" alt="example" src={gameSavannah} />}
                 >
-                  <h4>{intl.formatMessage({ id: 'savannah' })}</h4>
+                  <h4 className="card-statistics__title">
+                    {intl.formatMessage({ id: 'savannah' })}
+                  </h4>
                   <p>
                     {intl.formatMessage({ id: 'Statistics__right_words' })}{' '}
                     <span className="text__big">{shortStatisticsForGames?.savanahh}</span>
@@ -186,7 +189,9 @@ const Statistics: React.FC = () => {
                   className="statistics__card"
                   cover={<img className="statistics__img" alt="example" src={gameCall} />}
                 >
-                  <h4>{intl.formatMessage({ id: 'audiocall' })}</h4>
+                  <h4 className="card-statistics__title">
+                    {intl.formatMessage({ id: 'audiocall' })}
+                  </h4>
                   <p>
                     {intl.formatMessage({ id: 'Statistics__right_words' })}{' '}
                     <span className="text__big">{shortStatisticsForGames?.audioCall}</span>
@@ -196,7 +201,7 @@ const Statistics: React.FC = () => {
                   className="statistics__card"
                   cover={<img className="statistics__img" alt="example" src={gameSprint} />}
                 >
-                  <h4>{intl.formatMessage({ id: 'sprint' })}</h4>
+                  <h4 className="card-statistics__title">{intl.formatMessage({ id: 'sprint' })}</h4>
                   <p>
                     {intl.formatMessage({ id: 'Statistics__right_words' })}{' '}
                     <span className="text__big">{shortStatisticsForGames?.sprint}</span>
@@ -206,7 +211,9 @@ const Statistics: React.FC = () => {
                   className="statistics__card"
                   cover={<img className="statistics__img" alt="example" src={gameOur} />}
                 >
-                  <h4>{intl.formatMessage({ id: 'gameOur' })}</h4>
+                  <h4 className="card-statistics__title">
+                    {intl.formatMessage({ id: 'gameOur' })}
+                  </h4>
                   <p>
                     {intl.formatMessage({ id: 'Statistics__right_words' })}{' '}
                     <span className="text__big">{shortStatisticsForGames?.ourGame}</span>

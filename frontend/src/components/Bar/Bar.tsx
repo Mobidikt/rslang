@@ -145,7 +145,7 @@ const Bar: React.FC = () => {
           {menu()}
         </Sider>
       )}
-      {winWidth < 640 && <div className="bottom_bar">{menu()}</div>}
+      {winWidth <= 640 && <div className="bottom_bar">{menu()}</div>}
     </>
   )
 }

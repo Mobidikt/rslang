@@ -2,7 +2,8 @@
     width: 75vw;
     margin: 1rem auto;
     display: flex;
-    justify-content: space-between;
+    flex-wrap: wrap;
+    justify-content: space-around;
     align-items: center;
 }
 
@@ -21,7 +22,18 @@
     max-width: 22vw;
     align-self: center;
 }
+.description{
+    margin-top: 70px;
+    .description__title {
+        font-style: normal;
+        font-weight: normal;
+        font-size: 48px;
+        line-height: 65px;
+        align-items: center;
+        text-align: center;
+    }
 
+}
 @media (max-width: 640px) {
     .description__card,
     .description .ant-card-body {

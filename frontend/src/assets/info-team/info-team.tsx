@@ -10,35 +10,31 @@ const infoTeam: {
   git: string,
 }[] = [
   {
-    name: 'Krill Metsker',
+    name: 'kirill_name',
     photo: KirillPhoto,
-    profession: 'Teamlead, web-developer',
-    info:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+    profession: 'Teamlead_Web_developer',
+    info: 'info_kirill',
     git: 'https://github.com/Mobidikt',
   },
   {
-    name: 'Andrey Gavrilov',
+    name: 'andrey_name',
     photo: 'https://i.pinimg.com/originals/54/c6/68/54c6680d3a14edf2c20c654b4970fbec.jpg',
-    profession: 'Web-developer',
-    info:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+    profession: 'Web_developer',
+    info: 'info_andrey',
     git: 'https://github.com/IKLOA',
   },
   {
-    name: 'Anzhela Abitova',
+    name: 'anzhela_name',
     photo: AnzhelaPhoto,
-    profession: 'Web-developer, Web-designer',
-    info:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+    profession: 'Web_developer_Web_designer',
+    info: 'info_anzhela',
     git: 'https://github.com/anzhelaAbitova',
   },
   {
-    name: 'Artsem Makarov',
+    name: 'artsem_name',
     photo: ArtsemPhoto,
-    profession: 'Web-developer',
-    info:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+    profession: 'Web_developer',
+    info: 'info_artsem',
     git: 'https://github.com/ArtyomMakarov',
   },
 ]

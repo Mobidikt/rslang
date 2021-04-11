@@ -9,7 +9,6 @@ import { Rate, Button } from 'antd'
 /**
  * components
  */
-import SettingsGame from '../Settings/Settings'
 import Title from '../Title/Title'
 import SoundComponent from '../SoundComponent/SoundComponent'
 import Statistics from '../Statistics/Statistics'
@@ -25,6 +24,7 @@ import { playSoundSuccess, playSoundError } from '../utils/soundEffect'
 import getWordsForGame from '../../../utils/getWordsForGame'
 import randomArr from '../utils/randomArr'
 import { WordType } from '../../../store/types/lesson'
+import WinStrike from '../WinStrike/WinStrike'
 
 const SprintGame: React.FC = () => {
   const { level } = useTypedSelector((state) => state.gameReducer)
@@ -49,6 +49,7 @@ const SprintGame: React.FC = () => {
   const [redHighlight, setRedHighlight] = useState(false)
   const [gameOver, setGameOver] = useState(false)
   const [helth, setHelth] = useState<number>(5)
+  const [strike, setStrike] = useState<number>(0)
 
   const FULL_DASH_ARRAY = 283
   const TIME_LIMIT = 60
@@ -117,7 +118,7 @@ const SprintGame: React.FC = () => {
             : answerWords[0].id !== answerWords[1].id
         ) {
           setSuccessWords((prev) => [...prev, answerWords[0]])
-
+          setStrike((prev) => prev + 1)
           if (!isMute) {
             playSoundSuccess()
           }
@@ -129,6 +130,7 @@ const SprintGame: React.FC = () => {
         } else {
           setErrorWords((prev) => [...prev, answerWords[0]])
           setHelth(helth - 1)
+          setStrike(0)
 
           if (!isMute) {
             playSoundError()
@@ -150,6 +152,7 @@ const SprintGame: React.FC = () => {
   const handleBackClick = useCallback(() => {
     setGameOver(false)
     setHelth(5)
+    setStrike(0)
     setGame(false)
     setErrorWords([])
     setSuccessWords([])
@@ -184,6 +187,7 @@ const SprintGame: React.FC = () => {
     setGame(false)
     initGame()
     setHelth(5)
+    setStrike(0)
     // eslint-disable-next-line
   }, [level])
 
@@ -208,6 +212,7 @@ const SprintGame: React.FC = () => {
       setGameOver(true)
       initGame()
       setHelth(5)
+      setStrike(0)
     }
     // eslint-disable-next-line
   }, [helth, timeSeconds])
@@ -219,6 +224,7 @@ const SprintGame: React.FC = () => {
       setGameOver(true)
       initGame()
       setHelth(5)
+      setStrike(0)
     } else if (gameWords) {
       renderAnswerWords(wordIndex)
     }
@@ -229,6 +235,7 @@ const SprintGame: React.FC = () => {
     <div className="sprint-game">
       {game ? (
         <>
+          <WinStrike strike={strike} />
           <Rate disabled value={helth} character={<HeartFilled />} className="game__health" />
           <div
             className={`sprint-game-start__inner ${greenHighlight ? 'green-highlight' : ''} ${
@@ -267,11 +274,19 @@ const SprintGame: React.FC = () => {
               </p>
             </div>
             <div className="sprint-game-start__buttons">
-              <Button type="primary" className="game__btn" onClick={() => handleAnswerClick(true)}>
+              <Button
+                type="primary"
+                className="game__btn sprint__btn"
+                onClick={() => handleAnswerClick(true)}
+              >
                 <ArrowLeftOutlined className="arrow-icon" />
                 RIGHT
               </Button>
-              <Button type="primary" className="game__btn" onClick={() => handleAnswerClick(false)}>
+              <Button
+                type="primary"
+                className="game__btn sprint__btn"
+                onClick={() => handleAnswerClick(false)}
+              >
                 WRONG
                 <ArrowRightOutlined className="arrow-icon" />
               </Button>
@@ -279,29 +294,24 @@ const SprintGame: React.FC = () => {
           </div>
         </>
       ) : (
-        <div className="sprint-game-start">
+        <>
           {gameOver ? (
-            <div className="sprint-game-start__statistics">
-              <Statistics
-                success={successWords}
-                error={errorWords}
-                currentGame="sprint"
-                back={() => handleBackClick()}
-              />
-            </div>
+            <Statistics
+              success={successWords}
+              error={errorWords}
+              currentGame="sprint"
+              back={() => handleBackClick()}
+            />
           ) : (
-            <div className="sprint-game-rules">
-              <Title
-                title={GAMES_INFO.sprint.title}
-                description={GAMES_INFO.sprint.description}
-                settings={GAMES_INFO.sprint.settings}
-                loading={isloadingGame}
-                startGame={() => startGame()}
-              />
-              <SettingsGame />
-            </div>
+            <Title
+              title={GAMES_INFO.sprint.title}
+              description={GAMES_INFO.sprint.description}
+              settings={GAMES_INFO.sprint.settings}
+              loading={isloadingGame}
+              startGame={() => startGame()}
+            />
           )}
-        </div>
+        </>
       )}
     </div>
   )

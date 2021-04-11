@@ -15,6 +15,7 @@ import renderArrAnswerWords from '../utils/renderArrAnswerWords'
 import { playSoundSuccess, playSoundError } from '../utils/soundEffect'
 import Statistics from '../Statistics/Statistics'
 import Result from '../Result/Result'
+import WinStrike from '../WinStrike/WinStrike'
 
 const GameCall: React.FC = () => {
   const { level, countWordsGame } = useTypedSelector((state) => state.gameReducer)
@@ -29,12 +30,14 @@ const GameCall: React.FC = () => {
   const [errorWords, setErrorWords] = useState<WordType[]>([])
   const [indexWord, setIndexWord] = useState<number>(0)
   const [health, setHealth] = useState<number>(5)
+  const [strike, setStrike] = useState<number>(0)
   const [isloadingGame, setIsloadingGame] = useState<boolean>(true)
 
   const startGame = () => {
     setErrorWords([])
     setSuccessWords([])
     setHealth(5)
+    setStrike(0)
     setGame(true)
   }
   const initGame = () => {
@@ -62,6 +65,7 @@ const GameCall: React.FC = () => {
     setIsloadingGame(true)
     initGame()
     setHealth(5)
+    setStrike(0)
     // eslint-disable-next-line
   }, [level])
 
@@ -85,10 +89,12 @@ const GameCall: React.FC = () => {
         if (currentWord.word === word.word) {
           playSoundSuccess()
           setSuccessWords((prev) => [...prev, currentWord])
+          setStrike((prev) => prev + 1)
         } else {
           playSoundError()
           setErrorWords((prev) => [...prev, currentWord])
           setHealth((prev) => prev - 1)
+          setStrike(0)
         }
     },
     [currentWord],
@@ -98,6 +104,7 @@ const GameCall: React.FC = () => {
     if (currentWord) {
       setErrorWords((prev) => [...prev, currentWord])
       setHealth((prev) => prev - 1)
+      setStrike(0)
     }
   }
 
@@ -132,6 +139,7 @@ const GameCall: React.FC = () => {
       setGame(false)
       setGameOver(true)
       initGame()
+      setStrike(0)
       setHealth(5)
     } else if (gameWords) {
       renderCurrentWord(indexWord)
@@ -159,6 +167,7 @@ const GameCall: React.FC = () => {
             icon={<Icon className="sound-icon" component={volumeOnIcon} />}
             onClick={playWord}
           />
+          <WinStrike strike={strike} />
           <div className="call__wrapper-btn">
             {answerWords.map((word: WordType, i: number) => (
               <Button

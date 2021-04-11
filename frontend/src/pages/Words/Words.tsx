@@ -38,7 +38,6 @@ const Word: React.FC = () => {
   const handleNextGroup = () => {
     setCurrentPage(0)
     setSelectedSection(`Lessons_Lesson_${+groupId + 2}`)
-    console.log(`Lessons_Lesson_${+groupId + 2}`)
     navigate(`/tutorial/${+groupId + 1}`)
   }
 
