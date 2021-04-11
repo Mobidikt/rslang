@@ -47,7 +47,7 @@ const Statistics: React.FC = () => {
       setCountLearnedWordsPerDay(shortStatistic.length)
       const rightAnswers = shortStatistic.filter((el) => el.isRight === true)
       const percent = (rightAnswers.length / shortStatistic.length) * 100
-      setProcentRightWordsPerDay(percent)
+      setProcentRightWordsPerDay(Math.floor(percent))
       setStatistics(statistic)
 
       const statisticsForGames: StatisticsForGames = {
@@ -169,7 +169,7 @@ const Statistics: React.FC = () => {
               </div>
               <div className="statistics__procent">
                 {intl.formatMessage({ id: 'Statistics__procent' })}:
-                <h4>{procentRightWordsPerDay}%</h4>
+                <h4>{procentRightWordsPerDay || 0}%</h4>
               </div>
               <div className="statistics__card_wrapper">
                 <Card
