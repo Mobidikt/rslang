@@ -1,5 +1,5 @@
 .header-main {
-  padding: 1em 0 0;
+  padding: 1em 0 1em;
   width: 100%;
   background-color: #fff;
   box-shadow: 3px 3px 5px rgba(29, 22, 22, 0.15);
@@ -57,10 +57,16 @@
   .nav__item {
     line-height: 20px;
   }
-
+  .header-main__wrapper{
+    height: 100px;
+    width: 95%;
+    flex-direction: column;
+  }
   .header-main__logo {
     flex-direction: row;
+    align-self: start;
     height: 80%;
+    margin-bottom: 10px;
   }
 
   .header-main__logo button,
@@ -69,15 +75,12 @@
   }
 
   .header-main__menu {
-    align-items: center;
-    width: 80vw;
+    align-self: end;
+    width: 100%;
     margin: 0 auto;
   }
 
   .header-main__menu nav {
-    width: 80vw;
-    margin-left: -30vw;
-    align-self: center;
   }
 
   .header-main__menu .header-user {

@@ -1,5 +1,4 @@
 .lead {
-  height: 400px;
   width: 100%;
   padding: 200px 0 0;
   background-image: url(../../assets/image/laedbg.png);
@@ -9,7 +8,6 @@
   
   &__wrapper{
     width: 70%;
-    height: 75px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -64,13 +62,8 @@
     justify-content: flex-start;
     align-content: flex-start;
     &__wrapper {  
-      max-width: 45%;
       margin: 0;
       margin-left: 10%;
-    }
-
-    &__info {
-
     }
   }
 }
@@ -79,7 +72,6 @@
   .lead{
     background-position: right 10% top 0;
     padding: 0;
-    height: calc(460px + 60vh);
     &__wrapper {  
       width: 70%;
       max-width: 70%;
@@ -87,18 +79,7 @@
     }
 
     &__info {
-      height: 60vh;
-      margin-top: 200vh;
+      margin-top: 90%;
     }
-  }
-
-}
-@media (max-width: 500px) {
-  .lead__wrapper {
-    height: 60vh;
-  }
-
-  .lead__info {
-    margin-top: 110vh;
   }
 }
