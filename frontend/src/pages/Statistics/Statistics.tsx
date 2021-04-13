@@ -149,7 +149,7 @@ const Statistics: React.FC = () => {
                 <h2>{intl.formatMessage({ id: 'not_words' })}</h2>
               ) : (
                 <div className="statistics-container">
-                  <ResponsiveContainer width={winWidth > 640 ? '45%' : '80%'} height={400}>
+                  <ResponsiveContainer width={winWidth > 750 ? '45%' : '80%'} height={400}>
                     <BarChart data={statistics}>
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis dataKey="date" />
