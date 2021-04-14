@@ -29,3 +29,11 @@
     }
   }
 }
+
+@media (max-width: 800px) {
+  .video .video__wrapper .video__iframe {
+      margin: 0 auto;
+      padding: 0 0 56.25% 0;
+      height: auto;;
+  }
+}

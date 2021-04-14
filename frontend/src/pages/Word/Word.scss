@@ -1,5 +1,12 @@
 .word {
   padding: 30px;
+  .back_btn {
+    border: 1px solid #70D6FF;
+    &-hover {
+      color: #70D6FF;
+      transition: .3s ease-in-out;
+    }
+  }
   &-link_back {
     margin: 1rem auto;
   }
@@ -32,6 +39,10 @@
         margin-left: 10px;
         font-size: 20px;
         cursor: pointer;
+        &:hover {
+          color: #70D6FF;
+          transition: 0.3s ease-in-out;
+        }
       }
     }
 
@@ -52,10 +63,10 @@
 }
 
 .word-info-games_input {
-  border: 1px solid #1890ff;
+  border: 1px solid #70D6FF;
 
   &:hover {
-    border: 1px solid #1890ff !important;
+    border: 1px solid #70D6FF !important;
   }
 }
 

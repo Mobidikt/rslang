@@ -38,6 +38,16 @@
     color: #FF70A6;
   }
 
+  .ant-select-item.ant-select-item-option.ant-select-item-option-active.ant-select-item-option-selected {
+    background: rgba(255, 112, 166, 0.3);
+  }
+
+  .ant-select:not(.ant-select-disabled):hover .ant-select-selector,
+  .ant-select-focused:not(.ant-select-disabled).ant-select:not(.ant-select-customize-input) .ant-select-selector  {
+    box-shadow: 0 0 0 2px rgba(255, 112, 166, 0.2);
+    border-color: #FF70A6;
+  }
+
   .ant-list-item-action li:first-of-type button:hover,
   .btn__difficult:hover,
   .ant-btn-dangerous:hover {
@@ -56,7 +66,7 @@
   .ant-pagination-jump-prev, 
   .ant-pagination-jump-next,
   .ant-pagination-item-link,
-  .ant-pagination-options {
+  .ant-select:not(.ant-select-customize-input) .ant-select-selector {
     border-radius: 8px;
   }
 }
@@ -87,8 +97,8 @@
   &__sound {
     font-size: 25px;
     &:hover {
-      color: #1890ff;
-      transition: 0.3s all;
+      color: #FF70A6;
+      transition: 0.3s ease-in-out;
     }
   }
   &__subtitle {

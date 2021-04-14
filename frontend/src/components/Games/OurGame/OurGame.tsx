@@ -151,8 +151,12 @@ const OurGame: React.FC = () => {
     }
   }, [handleKeyPress, game])
   useEffect(() => {
-    if (textExampleRef.current) {
-      textExampleRef.current.innerHTML = gameWords[indexWord].textExample || ''
+    try {
+      if (textExampleRef.current) {
+        textExampleRef.current.innerHTML = gameWords[indexWord].textExample || ''
+      }
+    } catch (error) {
+      console.log(error)
     }
     // eslint-disable-next-line
   }, [game, indexWord])
