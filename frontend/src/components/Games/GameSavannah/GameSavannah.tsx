@@ -35,6 +35,7 @@ const GameSavannah: React.FC<GameSavannahType> = ({ words, onRestart, calcBackgr
   const wrongAnswersArr = useRef<Array<WordType>>([])
   const trueAnswersArr = useRef<Array<WordType>>([])
   const [strike, setStrike] = useState<number>(0)
+  const btnRef = useRef<HTMLButtonElement>(null)
 
   const [mixedCurrentWords, setMixedCurrentWords] = useState<Array<WordType>>([])
 
@@ -60,7 +61,9 @@ const GameSavannah: React.FC<GameSavannahType> = ({ words, onRestart, calcBackgr
       initialTopWordRef.current = 190
       trueAnswersArr.current.push(wordsForGame[currentWordIdx].answer)
       setStrike((prev) => prev + 1)
-      calcBackgroundY(trueAnswersArr.current.length)
+
+      calcBackgroundY(10)
+
       if (!isMute) {
         playSoundSuccess()
       }
@@ -127,7 +130,6 @@ const GameSavannah: React.FC<GameSavannahType> = ({ words, onRestart, calcBackgr
   const handleAnswerClick = useCallback(
     (wordText: string) => {
       if (isFinish) return
-
       if (wordText === wordsForGame[currentWordIdx].answer.word) {
         handleTrueAnswer()
       } else {
@@ -206,6 +208,7 @@ const GameSavannah: React.FC<GameSavannahType> = ({ words, onRestart, calcBackgr
                     className="game__btn"
                     key={word.id}
                     onClick={() => handleAnswerClick(word.word)}
+                    ref={btnRef}
                   >
                     {i + 1} {isEN ? word.word : word.wordTranslate}
                   </Button>

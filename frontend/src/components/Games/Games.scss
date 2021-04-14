@@ -31,6 +31,13 @@
         color: white;
     }
 }
+
+.game__btn--hover {
+    border:  2px solid #FF9770;
+    background: #bb6b56;
+    color: white;
+}
+
 .full-screen {
     position: fixed !important;
     z-index: 99;

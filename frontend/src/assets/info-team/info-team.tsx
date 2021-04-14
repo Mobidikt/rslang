@@ -1,6 +1,7 @@
 import KirillPhoto from '../image/kirill.jpg'
 import AnzhelaPhoto from '../image/anzhela.jpg'
 import ArtsemPhoto from '../image/artsem.jpg'
+import AndreyPhoto from '../image/andrey.jpg'
 
 const infoTeam: {
   name: string,
@@ -18,7 +19,7 @@ const infoTeam: {
   },
   {
     name: 'andrey_name',
-    photo: 'https://i.pinimg.com/originals/54/c6/68/54c6680d3a14edf2c20c654b4970fbec.jpg',
+    photo: AndreyPhoto,
     profession: 'Web_developer',
     info: 'info_andrey',
     git: 'https://github.com/IKLOA',
