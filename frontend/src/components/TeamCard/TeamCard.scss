@@ -45,16 +45,18 @@
   } 
 }
 
-@media (max-width: 500px) {
+@media (max-width: 550px) {
     .developer {
         flex-direction: column;
         align-items: center;
         min-width: 90%;
       &__photo {
           margin-right: 0px;
+          margin-bottom: 1rem;
       }
       &__bar {
         justify-content: center;
+        margin-bottom: .5rem;
       }
     }    
 }
