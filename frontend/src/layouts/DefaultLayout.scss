@@ -1,0 +1,10 @@
+.default-layout {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.app-content {
+  min-height: 108vh;
+}
+

@@ -1,0 +1,39 @@
+.video{
+  width: 100%;
+  height: 100%;
+  .video__wrapper{
+    width: 85%;
+    margin: 0px auto;
+    display: flex;
+    flex-direction: column;
+    .video__title{
+      line-height: 65px;
+      align-items: center;
+      text-align: center;
+    }
+    .video__iframe{
+      margin: 0 auto;
+      width: 100%;
+      max-width: 1220px;
+      padding: 0 0 56.25% 0;
+      height: 567px;;
+      overflow:hidden;
+      position:relative;
+    }
+    .video__iframe iframe,.video__iframe object,.video__iframe embed {
+      position:absolute;
+      top:0;
+      left:0;
+      width:100%;
+      height:100%;
+    }
+  }
+}
+
+@media (max-width: 800px) {
+  .video .video__wrapper .video__iframe {
+      margin: 0 auto;
+      padding: 0 0 56.25% 0;
+      height: auto;;
+  }
+}

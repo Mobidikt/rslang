@@ -1,0 +1,27 @@
+.dictionary {
+  margin-top: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  h2 {
+    margin: 0;
+    padding: 5px;
+    font-weight: 900;
+    color: rgb(107, 106, 106);
+  }
+}
+
+
+.dictionary__card {
+  cursor: pointer;
+  width: 240px;
+  margin: 20px;
+  background: transparent;
+  text-align: center;
+
+  &:hover {
+    transform: scale(1.1);
+    transition: all 0.9s;
+  }
+}

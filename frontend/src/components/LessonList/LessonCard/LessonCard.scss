@@ -1,0 +1,18 @@
+.lesson__card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-basis: 33%;
+  height: 170px;
+  margin-top: 7px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+
+@media(max-width: 900px) {
+  .lesson__card {
+    flex-basis: 100%;
+  }
+}

@@ -1,0 +1,62 @@
+.developer {
+    width: 45%;
+    display: flex;
+    min-width: 400px;
+    margin-bottom: 40px;
+    &__bar {
+        display: flex;
+        align-items: center;
+    }
+    &__name {
+        margin: 0 10px 0 0;
+        line-height: 1!important;
+    }
+    &__photo {
+        border-radius: 50%;
+        height: 205px ;
+        width: 205px;
+        min-width: 205px;
+        object-fit: cover;
+        margin-right: 10px;
+        align-self: center;
+    }
+    &__link_git {
+        display: block;
+        height: 20px;
+        width: 20px;
+        background-image: url(../../assets/icons/icon_git.svg);
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+}
+
+@media (max-width: 890px) {
+  .developer {
+    width: 100%;
+    &__photo {
+        margin-right: 30px;
+    }
+    &__info {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+  } 
+}
+
+@media (max-width: 550px) {
+    .developer {
+        flex-direction: column;
+        align-items: center;
+        min-width: 90%;
+      &__photo {
+          margin-right: 0px;
+          margin-bottom: 1rem;
+      }
+      &__bar {
+        justify-content: center;
+        margin-bottom: .5rem;
+      }
+    }    
+}

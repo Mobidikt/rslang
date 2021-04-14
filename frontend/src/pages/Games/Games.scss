@@ -1,0 +1,55 @@
+  
+.games {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    &-container {
+      width: 80%;
+      margin-top: 100px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      align-items: center;
+    }
+}
+  .games__card {
+    cursor: pointer;
+    flex-basis: 23%;
+    background: transparent;
+    text-align: center;
+  
+    &:hover {
+      transform: scale(1.1);
+      transition: all 0.9s;
+    }
+}
+
+.games__meta__title,
+.ant-card-meta-title {
+  font-family: Nunito;
+  font-style: normal;
+  font-weight: normal;
+  font-size: Min(Max(20px, 4vw), 26px);
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+  text-align: center;
+}
+
+@media (max-width: 1120px) {
+  .ant-card.games__card, 
+  .games__card .ant-card-body {
+    flex-basis: 32%;
+    min-width: 210px;
+  }
+}
+
+@media (max-width: 640px) {
+  .games-container {
+    flex-direction: column;
+  }
+
+  .ant-card.games__card, 
+  .games__card .ant-card-body {
+    width: 65vw;
+  }
+}

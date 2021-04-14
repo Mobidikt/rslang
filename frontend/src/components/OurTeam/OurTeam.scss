@@ -1,0 +1,27 @@
+.team {
+    padding: 100px 0;
+    &__wrapper{
+        width: 90%;
+        margin: 0 auto;
+    }
+    .team__title {
+            font-style: normal;
+            font-weight: normal;
+            font-size: 48px;
+            line-height: 65px;
+            align-items: center;
+            text-align: center;
+    }
+    &__developers{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+}
+@media (max-width: 876px) {
+    .team {
+        &__developers{
+            flex-direction: column;
+        }
+    }
+  }

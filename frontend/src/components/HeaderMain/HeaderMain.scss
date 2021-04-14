@@ -1,0 +1,90 @@
+.header-main {
+  padding: 1em 0 1em;
+  width: 100%;
+  background-color: #fff;
+  box-shadow: 3px 3px 5px rgba(29, 22, 22, 0.15);
+  overflow: hidden;
+  &__menu{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+  &__wrapper{
+    width: 90%;
+    height: 75px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 auto;
+  }
+}
+.header-main__logo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  height: 100%;
+  justify-content: space-around;
+}
+
+.logout {
+  margin-left: 10px;
+}
+
+.btn {
+  border-radius: 10px;
+}
+.nav{
+  min-width: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 5px;
+  &__item{
+    font-family: 'Raleway';
+    font-style: normal;
+    font-weight: normal;
+    font-size: Min(Max(20px, 4vw), 24px);
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    outline: none;
+    &:hover {
+      color: #40a9ff;
+    }
+  }
+}
+@media (max-width: 600px) {
+  .nav__item {
+    line-height: 20px;
+  }
+  .header-main__wrapper{
+    height: 100px;
+    width: 95%;
+    flex-direction: column;
+  }
+  .header-main__logo {
+    flex-direction: row;
+    align-self: start;
+    height: 80%;
+    margin-bottom: 10px;
+  }
+
+  .header-main__logo button,
+  .header-user .logout {
+    margin-left: 1rem;
+  }
+
+  .header-main__menu {
+    align-self: end;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .header-main__menu nav {
+  }
+
+  .header-main__menu .header-user {
+    order: -1;
+    width: auto;
+  }
+}

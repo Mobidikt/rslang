@@ -1,0 +1,53 @@
+.App {
+  background-color: #E5E5E5;
+  h1 {
+    font-family: 'Nunito';
+    font-size: Min(Max(36px, 8vw), 56px);
+    line-height: 1.5;
+    letter-spacing: 0.02em;
+  }
+  h2 {
+    font-family: 'Nunito';
+    font-style: normal;
+    font-weight: normal;
+    font-size: Min(Max(28px, 6vw), 48px);
+    line-height: 1.5;
+    letter-spacing: 0.02em;
+  }
+  h3 {
+    font-family: 'Nunito';
+    font-style: normal;
+    font-weight: normal;
+    font-size: Min(Max(24px, 5vw), 36px);
+    line-height: 1.5;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 0.02em;
+  }
+
+  h4 {
+    font-family: 'Nunito';
+    font-style: normal;
+    font-weight: normal;
+    font-size: Min(Max(20px, 4vw), 28px);
+    line-height: 1.5;
+    letter-spacing: 0.02em;
+  }
+}
+.header-user {
+  display: flex;
+  align-items: center;
+  min-height: 35px;
+}
+
+@media (max-width: 640px) {
+  .description__cards_wrapper {
+    flex-direction: column;
+  }
+
+  .ant-card,
+  .ant-card-body {
+    width: 100%;
+  }
+}
